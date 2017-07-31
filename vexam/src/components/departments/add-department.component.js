@@ -3,6 +3,8 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
+import { Redirect } from 'react-router-dom';
+
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
 import { saveDepartment } from '../../actions/departments.action';
@@ -10,15 +12,16 @@ import { saveDepartment } from '../../actions/departments.action';
 
 class AddDepartment extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
-     state = {
+    state = {
         DepartmentCode: '',
         DepartmentName: '',
         errors: {},
-        loading: false
+        loading: false,
+        done: false
     }
 
     handleChange = (e) => {
@@ -64,16 +67,15 @@ class AddDepartment extends React.Component {
 
             this.setState({ loading: true });
 
-            this.props.saveDepartment({ DepartmentCode, DepartmentName });
-            // .then(
-            //     () => { },
-            //     (err) => console.log(err.response).then(({ errors }) => this.setState({ errors, loading: false }))
-            // );
+            this.props.saveDepartment({ DepartmentCode, DepartmentName })
+            .then(() => { this.setState({ done: true }) },
+                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            );
         }
     }
 
 
-     renderForm() {
+    renderForm() {
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
                 <div className={classnames('field', { errors: !!this.state.errors.DepartmentCode })}>
@@ -82,9 +84,9 @@ class AddDepartment extends React.Component {
                         name="DepartmentCode"
                         className="form-control"
                         value={this.state.DepartmentCode}
-                        onChange={this.handleChange} 
+                        onChange={this.handleChange}
                         placeholder="Enter department code"
-                       />
+                    />
 
                     <span className="form-error">{this.state.errors.DepartmentCode}</span>
                 </div>
@@ -95,9 +97,9 @@ class AddDepartment extends React.Component {
                         name="DepartmentName"
                         className="form-control"
                         value={this.state.DepartmentName}
-                        onChange={this.handleChange} 
+                        onChange={this.handleChange}
                         placeholder="Enter department name"
-                       />
+                    />
 
                     <span className="form-error">{this.state.errors.DepartmentName}</span>
                 </div>
@@ -107,10 +109,11 @@ class AddDepartment extends React.Component {
                     <button className="btn btn-danger btn-sm btn-right-margin" type="button">Cancel</button>
                 </div>
             </form>
+
         )
     }
 
-    render(){
+    render() {
 
         return (
             <Panel header={this.props.heading}>
@@ -129,14 +132,14 @@ class AddDepartment extends React.Component {
                 </form>*/}
 
                 {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
-                   
-                {this.renderForm()}
+
+                {this.state.done ? <Redirect to="/admin/departments" /> : this.renderForm()}
 
 
             </Panel>
         )
 
-    } 
+    }
 
 }
 
