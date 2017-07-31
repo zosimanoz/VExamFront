@@ -1,7 +1,7 @@
 export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
 
 
-const URL = 'http://localhost:5780';
+const URL = 'http://localhost:5000';
 
 
 
@@ -26,7 +26,37 @@ export const fetchDepartments = () => {
 
     return dispatch => {
         fetch(`${URL}/api/v1/department/get/all`)
-        .then(res => res.json())
-        .then(data => dispatch(setDepartments(data.Data)))
+            .then(res => res.json())
+            .then(data => dispatch(setDepartments(data.Data)))
     }
+}
+
+
+
+// Save department
+export function saveDepartment(data) {
+    console.log(JSON.stringify(data))
+    return dispatch => {
+        return fetch(`${URL}/api/v1/department/new`, {
+            method: 'post',
+            dataType: 'json',
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+        }).then(handleResponse);
+    }
+}
+
+
+// handle the post response
+function handleResponse(response) {
+  if (response.ok) {
+    return response.json();
+  } else {
+    let error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
 }
