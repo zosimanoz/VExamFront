@@ -1,3 +1,11 @@
+.form-error {
+	color: red;
+}
+
+.btn-form-margin-top{
+	margin-top: 10px; 
+}
+
 .nav-bar-right-border {
 	border-right: 1px solid #ddd;
 }
