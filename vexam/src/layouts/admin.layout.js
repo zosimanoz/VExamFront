@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath
+  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath, match
 } from 'react-router-dom';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
@@ -72,7 +72,14 @@ const Routings = () => (
        <Route exact
         path="/admin/departments/add"
         render={props => (
-          <AddDepartment heading="Add New Department" />
+          <AddDepartment heading="Add New Department" {... props} />
+        )}
+      /> 
+
+        <Route exact
+        path="/admin/department/:id"
+        render={props => (
+          <AddDepartment heading="Edit Department"  {...props}/>
         )}
       /> 
 
