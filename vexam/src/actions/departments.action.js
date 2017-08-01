@@ -1,9 +1,22 @@
 export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
+export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
+export const GET_DEPARTMENTBYID = 'GET_DEPARTMENTBYID'
 
 
 const URL = 'http://localhost:5000';
 
 
+
+// handle the post response
+function handleResponse(response) {
+  if (response.ok) {
+    return response.json();
+  } else {
+    let error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
+}
 
 
 // set games action is dispatched when data is received
@@ -18,6 +31,22 @@ export const setDepartments = (departments) => {
         departments
     }
 }
+
+
+export const addDepartment = (department) => {
+    return {
+        type: ADD_DEPARTMENT,
+        department
+    }
+}
+
+export const setDepartmentById = (department) => {
+    return {
+        type: GET_DEPARTMENTBYID,
+        department
+    }
+}
+
 
 export const fetchDepartments = () => {
     // fetch data from api
@@ -35,7 +64,6 @@ export const fetchDepartments = () => {
 
 // Save department
 export function saveDepartment(data) {
-    console.log(JSON.stringify(data))
     return dispatch => {
         return fetch(`${URL}/api/v1/department/new`, {
             method: 'post',
@@ -45,18 +73,17 @@ export function saveDepartment(data) {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse);
+        }).then(handleResponse)
+        .then(data => dispatch(addDepartment(data.Data)));;
     }
 }
 
 
-// handle the post response
-function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+
+export function fetchDepartmentById(id){
+    return dispatch => {
+        fetch(`${URL}/api/v1/department/get/${id}`)
+            .then(res => res.json())
+            .then(data => dispatch(setDepartmentById(data.Data)))
+    }
 }
