@@ -3,25 +3,43 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, match, matchPath } from 'react-router-dom';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
-import { saveDepartment } from '../../actions/departments.action';
+import { saveDepartment, fetchDepartmentById } from '../../actions/departments.action';
 
 
 class AddDepartment extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     state = {
-        DepartmentCode: '',
-        DepartmentName: '',
+        DepartmentId: this.props.department ? this.props.department.DepartmentId : null,
+        DepartmentCode: this.props.department ? this.props.department.DepartmentCode : '',
+        DepartmentName: this.props.department ? this.props.department.DepartmentName : '',
         errors: {},
         loading: false,
         done: false
+    }
+
+
+    // after new props are received from store, the ui must be aware of the new props 
+    // and show the data into the form using this lifecycle event
+
+    componentWillReceiveProps = (new_props) => {
+        this.setState({
+            DepartmentId: new_props.department.DepartmentId,
+            DepartmentCode: new_props.department.DepartmentCode,
+            DepartmentName: new_props.department.DepartmentName
+        });
+    }
+
+    // this lifecycle event works when we first load component
+    componentDidMount = (props) => {
+        console.log(this.props)
+        if (this.props.match.params.id) {
+            this.props.fetchDepartmentById(this.props.match.params.id);
+        }
     }
 
     handleChange = (e) => {
@@ -63,14 +81,15 @@ class AddDepartment extends React.Component {
         const isValid = Object.keys(errors).length === 0;
 
         if (isValid) {
-            const { DepartmentCode, DepartmentName } = this.state;
+            const { DepartmentId, DepartmentCode, DepartmentName } = this.state;
+
 
             this.setState({ loading: true });
 
-            this.props.saveDepartment({ DepartmentCode, DepartmentName })
-            .then(() => { this.setState({ done: true }) },
+            this.props.saveDepartment({ DepartmentId, DepartmentCode, DepartmentName })
+                .then(() => { this.setState({ done: true }), this.setState({ loading: false }) },
                 (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-            );
+                );
         }
     }
 
@@ -117,24 +136,10 @@ class AddDepartment extends React.Component {
 
         return (
             <Panel header={this.props.heading}>
-                {/*<form>
-                    <div className="form-group">
-                        <label htmlFor="DepartmentCode" className="sr-only">Department Code</label>
-                        <input type="text" name="DepartmentCode" className="form-control" placeholder="Enter department code" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="DepartmentName" className="sr-only">Name</label>
-                        <input type="text" name="DepartmentName" className="form-control" placeholder="Enter department name" />
-                    </div>
-                    
-                    <button className="btn btn-success btn-sm" type="button">Save</button>
-                    <button className="btn btn-danger btn-sm btn-right-margin" type="button">Cancel</button>
-                </form>*/}
 
                 {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
 
                 {this.state.done ? <Redirect to="/admin/departments" /> : this.renderForm()}
-
 
             </Panel>
         )
@@ -144,5 +149,17 @@ class AddDepartment extends React.Component {
 }
 
 
+function mapStateToProps(state, props) {
+    if (props.match.params.id) {
+        return {
+            department: state.departments.find(item => item.DepartmentId == props.match.params.id)
+        }
+    }
 
-export default connect(null, { saveDepartment })(AddDepartment);
+    return {
+        department: null
+    }
+}
+
+
+export default connect(mapStateToProps, { saveDepartment, fetchDepartmentById })(AddDepartment);
