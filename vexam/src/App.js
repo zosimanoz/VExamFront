@@ -76,7 +76,7 @@ class App extends Component {
 
     return (
       <Router>
-        <SomeComponent />
+        <Login />
       </Router>
     )
 
