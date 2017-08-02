@@ -9,6 +9,9 @@ import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem,
 import AddDepartment from '../components/departments/add-department.component';
 import DepartmentIndex from '../components/departments/department-index.component';
 
+import QuestionsIndex from '../components/questions/question-index.component';
+import AddQuestion from '../components/questions/add-question.component';
+
 
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -101,9 +104,23 @@ const Routings = () => (
       <Route exact
         path="/admin/questions"
         render={props => (
-          <Projects heading="Project" />
+          <QuestionsIndex heading="Add Questions" />
         )}
       />
+
+      <Route exact
+        path="/admin/questions/add"
+        render={props => (
+          <AddQuestion heading="Add Questions" {...props} />
+        )}
+      />
+
+       <Route exact
+        path="/admin/question/:id"
+        render={props => (
+          <AddQuestion heading="Edit Question"  {...props}/>
+        )}
+      /> 
 
       <Route exact
         path="/admin/settings"
