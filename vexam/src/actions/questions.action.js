@@ -1,7 +1,7 @@
-export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
-export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
-export const GET_DEPARTMENTBYID = 'GET_DEPARTMENTBYID'
-export const UPDATE_DEPARTMENT = 'UPDATE_DEPARTMENT'
+export const SET_QUESTIONS = 'SET_QUESTIONS'
+export const ADD_QUESTIONS = 'ADD_QUESTIONS'
+export const GET_QUESTIONBYID = 'GET_QUESTIONBYID'
+export const UPDATE_QUESTION = 'UPDATE_QUESTION'
 
 
 const URL = 'http://localhost:5000';
@@ -26,56 +26,56 @@ function handleResponse(response) {
 // the reducer to respond to the change in data and state
 // So, lets jump into the department.reducer
 
-export const setDepartments = (departments) => {
+export const setQuestions = (questions) => {
     return {
-        type: SET_DEPARTMENTS,
-        departments
+        type: SET_QUESTIONS,
+        questions
     }
 }
 
 
-export const addDepartment = (department) => {
+export const addQuestion = (question) => {
     return {
-        type: ADD_DEPARTMENT,
-        department
+        type: ADD_QUESTIONS,
+        question
     }
 }
 
 
-export const setUpdatedDepartment = (department) => {
+export const setUpdatedQuestion = (question) => {
     return {
-        type: UPDATE_DEPARTMENT,
-        department
+        type: UPDATE_QUESTION,
+        question
     }
 }
 
 
-export const setDepartmentById = (department) => {
+export const setQuestionById = (question) => {
     return {
-        type: GET_DEPARTMENTBYID,
-        department
+        type: GET_QUESTIONBYID,
+        question
     }
 }
 
 
-export const fetchDepartments = () => {
+export const fetchQuestions = () => {
     // fetch data from api
     // dispatch a new state on receiving data data.Data
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/department/get/all`)
+        fetch(`${URL}/api/v1/question/get/all`)
             .then(res => res.json())
-            .then(data => dispatch(setDepartments(data.Data)))
+            .then(data => dispatch(setQuestions(data.Data)))
     }
 }
 
 
 
 // Save department
-export function saveDepartment(data) {
+export function saveQuestion(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/department/new`, {
+        return fetch(`${URL}/api/v1/questions/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -84,24 +84,24 @@ export function saveDepartment(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addDepartment(data.Data)));;
+        .then(data => dispatch(addQuestion(data.Data)));;
     }
 }
 
 
 
-export function fetchDepartmentById(id){
+export function fetchQuestionById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/department/get/${id}`)
+        fetch(`${URL}/api/v1/questions/get/${id}`)
             .then(res => res.json())
-            .then(data => dispatch(setDepartmentById(data.Data)))
+            .then(data => dispatch(setQuestionById(data.Data)))
     }
 }
 
 
-export function updateDepartment(data){
+export function updateQuestion(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/department/update`, {
+        return fetch(`${URL}/api/v1/questions/update`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -110,6 +110,6 @@ export function updateDepartment(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdatedDepartment(data.Data)));;
+        .then(data => dispatch(setUpdatedQuestion(data.Data)));;
     }
 }
