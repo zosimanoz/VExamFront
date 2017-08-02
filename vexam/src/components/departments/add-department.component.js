@@ -7,7 +7,7 @@ import { Redirect, match, matchPath } from 'react-router-dom';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
-import { saveDepartment, fetchDepartmentById } from '../../actions/departments.action';
+import { saveDepartment, fetchDepartmentById, updateDepartment } from '../../actions/departments.action';
 
 
 class AddDepartment extends React.Component {
@@ -86,10 +86,23 @@ class AddDepartment extends React.Component {
 
             this.setState({ loading: true });
 
-            this.props.saveDepartment({ DepartmentId, DepartmentCode, DepartmentName })
-                .then(() => { this.setState({ done: true }), this.setState({ loading: false }) },
+            if(DepartmentId) {
+                this.props.updateDepartment({ DepartmentId, DepartmentCode, DepartmentName })
+                .then(()=>{ 
+                    this.setState({ done: true });
+                    this.setState({ loading: false });
+                 },
+                    (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                 );
+            }
+
+            this.props.saveDepartment({ DepartmentCode, DepartmentName })
+                .then(() => { 
+                    this.setState({ done: true }); 
+                    this.setState({ loading: false }) 
+                },
                 (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                );
+            );
         }
     }
 
@@ -162,4 +175,4 @@ function mapStateToProps(state, props) {
 }
 
 
-export default connect(mapStateToProps, { saveDepartment, fetchDepartmentById })(AddDepartment);
+export default connect(mapStateToProps, { saveDepartment, fetchDepartmentById , updateDepartment })(AddDepartment);
