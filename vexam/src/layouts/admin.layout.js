@@ -12,6 +12,12 @@ import DepartmentIndex from '../components/departments/department-index.componen
 import QuestionsIndex from '../components/questions/question-index.component';
 import AddQuestion from '../components/questions/add-question.component';
 
+import QuestionSet from '../components/questionsets/questionset-index.component';
+import AddQuestionSet from '../components/questionsets/add-questionset.component';
+import ExamQuestions from '../components/questionsets/exam-questionset.component';
+
+import TestTable from '../components/questions/testtable.component';
+
 
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -122,6 +128,29 @@ const Routings = () => (
         )}
       /> 
 
+
+      <Route exact
+        path="/admin/questionset"
+        render={props => (
+          <QuestionSet heading="Manage Question Sets"/>
+        )}
+      /> 
+
+      <Route exact
+        path="/admin/questionset/add"
+        render={props => (
+          <AddQuestionSet heading="Add Question Set" {...props} />
+        )}
+      />
+
+      <Route exact
+        path="/admin/questionset/:id/questions"
+        render={props => (
+          <ExamQuestions heading="Add Set Questions" {...props} />
+        )}
+      />
+
+
       <Route exact
         path="/admin/settings"
         render={props => (
@@ -135,6 +164,14 @@ const Routings = () => (
           <Projects heading="Project Items Page" />
         )}
       />
+
+      <Route exact
+        path="/admin/test"
+        render={props => (
+          <TestTable heading="TEst Page" />
+        )}
+      />
+
 
       <Route path="*" component={Missed} />
 

@@ -3,8 +3,6 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
-import TinyMCE from 'react-tinymce';
-
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
@@ -26,22 +24,16 @@ class AddQuestion extends React.Component {
         QuestionId: this.props.question ? this.props.question.QuestionId : null,
         QuestionTypeId: this.props.question ? this.props.question.QuestionTypeId : null,
         QuestionCategoryId: this.props.question ? this.props.question.QuestionCategoryId : null,
-        // QuestionCategoryId
-        // JobTitleId
-        // Question
-        // Attachment
+        Attachment: this.props.question ? this.props.question.Attachment : '',
         QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : null,
-        // Marks
-        // ObjectiveQuestionOptionId
-        // AnswerOption
-        // IsAnswer
         Question: this.props.question ? this.props.question.Question : '',
         Marks: this.props.question ? this.props.question.Marks : '',
         errors: {},
         loading: false,
         done: false,
+        subjectiveAnswer: this.props.question ? this.props.question.SubjectiveAnswer : '',
         defaultQuestionType: '1',
-        options: []
+        options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }]
     }
 
 
@@ -54,8 +46,6 @@ class AddQuestion extends React.Component {
 
     // this lifecycle event works when we first load component
     componentDidMount = (props) => {
-
-
         if (this.props.match.params.id) {
             this.props.fetchQuestionById(this.props.match.params.id);
         }
@@ -151,31 +141,57 @@ class AddQuestion extends React.Component {
     }
 
 
-    addOptions = () => {
-        const options = this.state.options.concat(OptionInputs);
-        console.log(options)
-        this.setState({ options : options });
+    handleOptionValueChange = (idx) => (evt) => {
+        const newOptions = this.state.options.map((option, oidx) => {
+            if (idx !== oidx) return option;
+            return { ...option, value: evt.target.value };
+        })
+        this.setState({ options: newOptions });
     }
+
+
+    handleAddOption = () => {
+        this.setState({ options: this.state.options.concat([{ value: '' }]) });
+    }
+
+
+    handleRemoveOption = (idx) => () => {
+        this.setState({ options: this.state.options.filter((o, oidx) => idx !== oidx) });
+    }
+
 
 
     renderOptions = () => {
 
-        
-
         if (this.state.defaultQuestionType === '1') {
             return (
-                <input type="text" className="form-control" />
+                <input type="text" value={this.state.subjectiveAnswer} className="form-control" />
             )
         } else {
-            const inputs = this.state.options.map((Element, index) => {
-                return <Element key={index} index={index} />
-            });
-            return (
-                <div>
 
-                  <button type="button" className="btn btn-default" onClick={this.addOptions.bind(this)}><i className="glyphicon glyphicon-plus"></i></button>
-                  {inputs} 
-                </div>
+            return (
+                <tbody>
+
+                    {this.state.options.map((option, idx) => (
+                        <tr className="options" key={idx}>
+                            <td><input
+                                type="text"
+                                placeholder={`option #${idx + 1}`}
+                                value={option.value}
+                                className="form-control"
+                                onChange={this.handleOptionValueChange(idx)}
+                            /></td>
+                            <td><input type="checkbox" />Is Answer</td>
+                            <td><button className="btn btn-danger btn-sm" type="button" onClick={this.handleRemoveOption(idx)}>x</button></td>
+                        </tr>
+                    ))}
+
+                    <tr>
+                        <td colSpan="3">
+                            <button type="button" className="btn btn-primary btn-sm" onClick={this.handleAddOption} >Add Option</button>
+                        </td>
+                    </tr>
+                </tbody>
             )
         }
     }
@@ -246,9 +262,9 @@ class AddQuestion extends React.Component {
 
                 <div className="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div className={classnames('field')}>
-
-                        {this.renderOptions()}
-
+                        <table className="table table-responsive table-hover table-bordered">
+                            {this.renderOptions()}
+                        </table>
 
                     </div>
                 </div>
