@@ -19,6 +19,7 @@ class AddQuestionSet extends React.Component {
         QuestionSetId: this.props.questionSet ? this.props.questionSet.QuestionSetId : null,
         Title: this.props.questionSet ? this.props.questionSet.Title : '',
         Description: this.props.questionSet ? this.props.questionSet.Description : '',
+        TotalMarks: this.props.questionSet ? this.props.questionSet.TotalMarks: '',
         errors: {},
         loading: false,
         done: false
@@ -67,6 +68,9 @@ class AddQuestionSet extends React.Component {
         if (this.state.Description === '') {
             errors.Description = 'Description cannot be left empty.';
         }
+        if (this.state.TotalMarks === '') {
+            errors.TotalMarks = 'Total marks cannot be left empty.';
+        }
 
         this.setState({
             errors
@@ -108,6 +112,18 @@ class AddQuestionSet extends React.Component {
                             onChange={this.handleChangeForEditor} />
 
                         <span className="form-error">{this.state.errors.Description}</span>
+                    </div>
+                </div>
+
+                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                    <div className={classnames('field', { errors: !!this.state.errors.TotalMarks })}>
+                        <label>Total Marks</label>
+                        <input
+                            type="text"
+                            value={this.state.TotalMarks}
+                            placeholder="Enter total marks."
+                            className="form-control" />
+                        <span className="form-error">{this.state.errors.TotalMarks}</span>
                     </div>
                 </div>
 
