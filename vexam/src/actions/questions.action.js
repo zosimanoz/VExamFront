@@ -64,7 +64,7 @@ export const fetchQuestions = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/question/get/all`)
+        fetch(`${URL}/api/v1/questionbank/get/all`)
             .then(res => res.json())
             .then(data => dispatch(setQuestions(data.Data)))
     }
@@ -74,8 +74,9 @@ export const fetchQuestions = () => {
 
 // Save department
 export function saveQuestion(data) {
+    console.log(data)
     return dispatch => {
-        return fetch(`${URL}/api/v1/questions/new`, {
+        return fetch(`${URL}/api/v1/questionbank/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),

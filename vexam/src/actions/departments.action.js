@@ -113,3 +113,10 @@ export function updateDepartment(data){
         .then(data => dispatch(setUpdatedDepartment(data.Data)));;
     }
 }
+
+
+// export function deleteDepartment(id){
+//     return dispatch => {
+//         return fetch()
+//     }
+// }

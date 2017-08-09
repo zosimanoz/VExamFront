@@ -10,7 +10,7 @@ import { Redirect, match, matchPath } from 'react-router-dom';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
-import { fetchQuestionById } from '../../actions/questions.action';
+import { fetchQuestionById, saveQuestion } from '../../actions/questions.action';
 import OptionInputs from './add-options.component';
 
 
@@ -22,18 +22,34 @@ class AddQuestion extends React.Component {
 
     state = {
         QuestionId: this.props.question ? this.props.question.QuestionId : null,
-        QuestionTypeId: this.props.question ? this.props.question.QuestionTypeId : null,
-        QuestionCategoryId: this.props.question ? this.props.question.QuestionCategoryId : null,
+        QuestionTypeId: this.props.question ? this.props.question.QuestionTypeId : '1',
+        QuestionCategoryId: this.props.question ? this.props.question.QuestionCategoryId : '',
         Attachment: this.props.question ? this.props.question.Attachment : '',
-        QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : null,
+        QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : '',
         Question: this.props.question ? this.props.question.Question : '',
         Marks: this.props.question ? this.props.question.Marks : '',
+        JobTitleId : 1,
+        PreparedBy : 2,
         errors: {},
         loading: false,
         done: false,
         subjectiveAnswer: this.props.question ? this.props.question.SubjectiveAnswer : '',
         defaultQuestionType: '1',
-        options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }]
+        Options: [
+            {
+            AnswerOption: '',
+            IsAnswer: false
+            }, {
+            AnswerOption: '',
+            IsAnswer: false
+            }, {
+            AnswerOption: '',
+            IsAnswer: false
+            }, {
+            AnswerOption: '',
+            IsAnswer: false
+            }
+       ]
     }
 
 
@@ -85,23 +101,28 @@ class AddQuestion extends React.Component {
         // validate the form here
 
         let errors = {};
-        if (this.state.QuestionTypeId === '') {
+        if (this.state.QuestionTypeId == '') {
             errors.QuestionTypeId = 'Select at least on question type.';
         }
-        if (this.state.QuestionCategoryId === '') {
+        if (this.state.QuestionCategoryId == '') {
+            console.log('hello')
             errors.QuestionCategoryId = 'Select at least on question category.';
         }
 
-        // if (this.state.QuestionComplexityId === '') {
-        //     errors.QuestionComplexityId = 'Select at least on question complexity.';
-        // }
+        if (this.state.QuestionComplexityId === '') {
+            errors.QuestionComplexityId = 'Select at least on question complexity.';
+        }
 
         if (this.state.Question === '') {
             errors.Question = 'Question is required.';
         }
-        // if (this.state.Marks === '') {
-        //     errors.Marks = 'Marks is required.';
-        // }
+
+        // this.state.Options.map((option,idx) => {
+        //     if(option.AnswerOption === ''){
+        //         errors.options[idx] = 'Options cannot be left empty';
+        //     }
+        // })
+
 
         this.setState({
             errors
@@ -115,7 +136,7 @@ class AddQuestion extends React.Component {
 
 
         if (isValid) {
-            const { Question } = this.state;
+            const { QuestionTypeId, QuestionComplexityId, QuestionCategoryId, Question, Options, JobTitleId, PreparedBy } = this.state;
 
 
             this.setState({ loading: true });
@@ -130,40 +151,62 @@ class AddQuestion extends React.Component {
             //      );
             // }
 
-            // this.props.saveDepartment({ DepartmentCode, DepartmentName })
-            //     .then(() => { 
-            //         this.setState({ done: true }); 
-            //         this.setState({ loading: false }) 
-            //     },
-            //     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-            // );
+            var model = {
+                "Question":{
+                    Question: Question,
+                    QuestionCategoryId:QuestionCategoryId,
+                    QuestionComplexityId:QuestionComplexityId,
+                    JobTitleId : JobTitleId,
+                    PreparedBy : PreparedBy,
+                    QuestionTypeId:QuestionTypeId
+                },
+                "Options": Options
+            }
+
+            this.props.saveQuestion(model)
+                .then(() => {
+                    this.setState({ done: true });
+                    this.setState({ loading: false })
+                },
+                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                );
         }
     }
 
 
     handleOptionValueChange = (idx) => (evt) => {
-        const newOptions = this.state.options.map((option, oidx) => {
+        const newOptions = this.state.Options.map((option, oidx) => {
             if (idx !== oidx) return option;
-            return { ...option, value: evt.target.value };
-        })
-        this.setState({ options: newOptions });
+            return { ...option, AnswerOption: evt.target.value };
+        });
+        this.setState({ Options: newOptions });
+    }
+
+
+    handleIsAnswerCheckBox = (idx) => (evt) => {
+        const newOptions = this.state.Options.map((option,oidx)=> {
+            if(idx !== oidx) return option;
+            return { ...option, IsAnswer: evt.target.checked }
+        });
+
+        this.setState({ Options: newOptions });
     }
 
 
     handleAddOption = () => {
-        this.setState({ options: this.state.options.concat([{ value: '' }]) });
+        this.setState({ Options: this.state.Options.concat([{ AnswerOption: '', IsAnswer: false }]) });
     }
 
 
     handleRemoveOption = (idx) => () => {
-        this.setState({ options: this.state.options.filter((o, oidx) => idx !== oidx) });
+        this.setState({ Options: this.state.Options.filter((o, oidx) => idx !== oidx) });
     }
 
 
 
     renderOptions = () => {
 
-        if (this.state.defaultQuestionType === '1') {
+        if (this.state.QuestionTypeId === '1') {
             return (
                 <input type="text" value={this.state.subjectiveAnswer} className="form-control" />
             )
@@ -172,16 +215,21 @@ class AddQuestion extends React.Component {
             return (
                 <tbody>
 
-                    {this.state.options.map((option, idx) => (
+                    {this.state.Options.map((option, idx) => (
                         <tr className="options" key={idx}>
-                            <td><input
+                            <td>
+                                {/*<div className={classnames('field', { errors: !!this.state.errors.options[idx] })}>*/}
+                                <input
                                 type="text"
                                 placeholder={`option #${idx + 1}`}
                                 value={option.value}
                                 className="form-control"
                                 onChange={this.handleOptionValueChange(idx)}
-                            /></td>
-                            <td><input type="checkbox" />Is Answer</td>
+                            />
+                                {/*<span className="form-error">{this.state.errors.options[idx]}</span>
+                                </div>*/}
+                            </td>
+                            <td><input type="checkbox" checked={option.IsAnswer} onChange={this.handleIsAnswerCheckBox(idx)}/>Is Answer</td>
                             <td><button className="btn btn-danger btn-sm" type="button" onClick={this.handleRemoveOption(idx)}>x</button></td>
                         </tr>
                     ))}
@@ -199,7 +247,7 @@ class AddQuestion extends React.Component {
 
     handleOptionTypeEvent = (e) => {
         this.setState({
-            defaultQuestionType: e.target.value
+            QuestionTypeId: e.target.value
         });
     }
 
@@ -250,8 +298,8 @@ class AddQuestion extends React.Component {
                 <div className="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div className={classnames('field', { errors: !!this.state.errors.QuestionTypeId })}>
 
-                        <label className="radio-inline"><input type="radio" value="1" name="QuestionTypeId" checked={this.state.defaultQuestionType === '1' ? true : false} onChange={this.handleOptionTypeEvent} />Subjective</label>
-                        <label className="radio-inline"><input type="radio" value="2" name="QuestionTypeId" checked={this.state.defaultQuestionType === '2' ? true : false} onChange={this.handleOptionTypeEvent} />Objective</label>
+                        <label className="radio-inline"><input type="radio" value="1" name="QuestionTypeId" checked={this.state.QuestionTypeId === '1' ? true : false} onChange={this.handleOptionTypeEvent} />Subjective</label>
+                        <label className="radio-inline"><input type="radio" value="2" name="QuestionTypeId" checked={this.state.QuestionTypeId === '2' ? true : false} onChange={this.handleOptionTypeEvent} />Objective</label>
 
 
                         <span className="form-error">{this.state.errors.QuestionTypeId}</span>
@@ -315,4 +363,4 @@ function mapStateToProps(state, props) {
 }
 
 
-export default connect(mapStateToProps, { fetchQuestionById })(AddQuestion);
+export default connect(mapStateToProps, { fetchQuestionById, saveQuestion })(AddQuestion);

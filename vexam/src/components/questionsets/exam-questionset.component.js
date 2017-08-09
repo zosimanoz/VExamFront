@@ -13,7 +13,7 @@ import theme from 'react-quill/dist/quill.snow.css';
 
 import ListPagination from '../common/pagination.component';
 
-import { fetchQuestions } from '../../actions/questions.action'
+// import { fetchQuestionSet } from '../../actions/questionset.action'
 
 
 
@@ -67,8 +67,7 @@ class ExamQuestions extends React.Component {
     }
 
     onSetPage = (page) => {
-        const promise = this.props.fetchQuestions();
-        this.props.onSetPage(props.tab, page);
+        //this.props.onSetPage(this.props.fetchQuestionSets, page);
     }
 
 
@@ -194,4 +193,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { fetchQuestions })(ExamQuestions);
+export default connect(mapStateToProps)(ExamQuestions);
