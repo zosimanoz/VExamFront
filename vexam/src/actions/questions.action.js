@@ -2,6 +2,8 @@ export const SET_QUESTIONS = 'SET_QUESTIONS'
 export const ADD_QUESTIONS = 'ADD_QUESTIONS'
 export const GET_QUESTIONBYID = 'GET_QUESTIONBYID'
 export const UPDATE_QUESTION = 'UPDATE_QUESTION'
+export const DELETE_QUESTION = 'DELETE_QUESTION'
+export const SET_FILTERED_QUESTION = 'SET_FILTERED_QUESTION'
 
 
 const URL = 'http://localhost:5000';
@@ -57,6 +59,22 @@ export const setQuestionById = (question) => {
     }
 }
 
+export const deleteQuestionById = (question) => {
+    console.log(question)
+    return {
+        type: DELETE_QUESTION,
+        question
+    }
+}
+
+
+export const filteredQuestion = (questions) => {
+    return {
+        type: SET_FILTERED_QUESTION,
+        questions
+    }
+}
+
 
 export const fetchQuestions = () => {
     // fetch data from api
@@ -74,7 +92,6 @@ export const fetchQuestions = () => {
 
 // Save department
 export function saveQuestion(data) {
-    console.log(data)
     return dispatch => {
         return fetch(`${URL}/api/v1/questionbank/new`, {
             method: 'post',
@@ -85,7 +102,7 @@ export function saveQuestion(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addQuestion(data.Data)));;
+        .then(data => dispatch(addQuestion(data.Data)));
     }
 }
 
@@ -93,7 +110,7 @@ export function saveQuestion(data) {
 
 export function fetchQuestionById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/questions/get/${id}`)
+        fetch(`${URL}/api/v1/questionbank/get/${id}`)
             .then(res => res.json())
             .then(data => dispatch(setQuestionById(data.Data)))
     }
@@ -111,6 +128,32 @@ export function updateQuestion(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdatedQuestion(data.Data)));;
+        .then(data => dispatch(setUpdatedQuestion(data.Data)));
+    }
+}
+
+
+export function deleteQuestion(id){
+
+    return dispatch => {
+        return fetch(`${URL}/api/v1/questionbank/delete/${id}`, {
+            method: 'put',
+           dataType: 'json',
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+        }).then(handleResponse)
+        .then(data => dispatch(deleteQuestionById(id)));
+    }
+}
+
+
+export function filterQuestionForExamSet(data){
+    console.log(data)
+    return dispatch => {
+         return fetch(`${URL}/api/v1/questionbank/search?QuestionTypeId=${data.QuestionTypeId}&QuestionCategoryId=${data.QuestionCategoryId}&JobTitleId=${data.JobTitleId}&QuestionComplexityId=${data.QuestionComplexityId}&Question=${data.Question}`)
+         .then(res=>res.json())
+         .then(data => dispatch(filteredQuestion(data.Data)));
     }
 }

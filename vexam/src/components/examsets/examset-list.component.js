@@ -7,14 +7,14 @@ import { Redirect, match, matchPath } from 'react-router-dom';
 
 
 
-const QuestionSetList = (props) => {
+const ExamSetList = (props) => {
 
     const EmptyMessage = (
         <p>There are no question sets added yet. </p>
     )
 
 
-    const RenderQuestionTable = (
+    const RenderExamSetTable = (
         <div className="clearfix">
             <table className="table table-bordered table-condensed table-hover crud-table">
                 <thead>
@@ -28,18 +28,18 @@ const QuestionSetList = (props) => {
                 </thead>
                 <tbody id="form-list-client-body">
                     {
-                        props.questionsets.map((item,i) =>
+                        props.examsets.map((item,i) =>
                             <tr key={i}>
-                                <td>{item.QuestionSetId}</td>
+                                <td>{item.ExamSetId}</td>
                                 <td>{item.Title}</td>
                                 <td>{item.Deleted === false ? 'active' : 'deleted'}</td>
                                 <td>
                                     <a title="View" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-eye-open text-success"></i> </a>
-                                    <NavLink to={`/admin/questionset/${item.QuestionSetId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
+                                    <NavLink to={`/admin/examsets/${item.ExamSetId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
                                     <a title="Delete" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                 </td>
                                 <td>
-                                    <NavLink to={`/admin/questionset/${item.QuestionSetId}/questions`} title="Add questions" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-danger"></i></NavLink>
+                                    <NavLink to={`/admin/examsets/${item.ExamSetId}/questions`} title="Add questions" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-danger"></i></NavLink>
                                 </td>
                             </tr>
                         )
@@ -51,9 +51,9 @@ const QuestionSetList = (props) => {
 
     return (
         <div>
-            {props.questionsets.length === 0 ? EmptyMessage : RenderQuestionTable}
+            {props.examsets.length === 0 ? EmptyMessage : RenderExamSetTable}
         </div>
     )
 }
 
-export default QuestionSetList;
+export default ExamSetList;

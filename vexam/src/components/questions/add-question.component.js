@@ -105,7 +105,6 @@ class AddQuestion extends React.Component {
             errors.QuestionTypeId = 'Select at least on question type.';
         }
         if (this.state.QuestionCategoryId == '') {
-            console.log('hello')
             errors.QuestionCategoryId = 'Select at least on question category.';
         }
 
@@ -206,12 +205,7 @@ class AddQuestion extends React.Component {
 
     renderOptions = () => {
 
-        if (this.state.QuestionTypeId === '1') {
-            return (
-                <input type="text" value={this.state.subjectiveAnswer} className="form-control" />
-            )
-        } else {
-
+        if (this.state.QuestionTypeId !== '1') {
             return (
                 <tbody>
 
@@ -353,7 +347,7 @@ function mapStateToProps(state, props) {
 
     if (props.match.params.id) {
         return {
-            question: state.question.find(item => item.QuestionId == props.match.params.id)
+            question: state.questions.find(item => item.QuestionId == props.match.params.id),
         }
     }
 

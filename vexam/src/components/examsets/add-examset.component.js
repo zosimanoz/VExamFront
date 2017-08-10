@@ -2,24 +2,34 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 import classnames from 'classnames';
 import { Redirect, match, matchPath } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
+import { fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById} from '../../actions/examset.action';
 
 
-class AddQuestionSet extends React.Component {
+
+class AddExamSet extends React.Component {
     constructor(props) {
         super(props);
+    }
 
+    componentDidMount = (props) => {
+        if (this.props.match.params.id) {
+            this.props.fetchExamSetById(this.props.match.params.id);
+        }
     }
 
 
     state = {
-        QuestionSetId: this.props.questionSet ? this.props.questionSet.QuestionSetId : null,
-        Title: this.props.questionSet ? this.props.questionSet.Title : '',
-        Description: this.props.questionSet ? this.props.questionSet.Description : '',
-        TotalMarks: this.props.questionSet ? this.props.questionSet.TotalMarks: '',
+        ExamSetId: this.props.examset ? this.props.examset.ExamSetId : null,
+        Title: this.props.examset ? this.props.examset.Title : '',
+        Description: this.props.examset ? this.props.examset.Description : '',
+        TotalMark: this.props.examset ? this.props.examset.TotalMark: '',
+        JobTitleId : this.props.examset ? this.props.examset.JobTitleId: '',
+        CreatedBy: this.props.examset ? this.props.examset.CreatedBy: 2,
         errors: {},
         loading: false,
         done: false
@@ -48,7 +58,7 @@ class AddQuestionSet extends React.Component {
     
     handleChangeForEditor = (value) => {
         this.setState({
-            Question: value
+            Description: value
         })
     }
 
@@ -68,9 +78,13 @@ class AddQuestionSet extends React.Component {
         if (this.state.Description === '') {
             errors.Description = 'Description cannot be left empty.';
         }
-        if (this.state.TotalMarks === '') {
-            errors.TotalMarks = 'Total marks cannot be left empty.';
+        if (this.state.TotalMark === '') {
+            errors.TotalMark = 'Total marks cannot be left empty.';
         }
+        if (this.state.JobTitleId == '') {
+            errors.JobTitleId = 'Select job title.';
+        }
+
 
         this.setState({
             errors
@@ -80,7 +94,19 @@ class AddQuestionSet extends React.Component {
         const isValid = Object.keys(errors).length === 0;
 
         if (isValid) {
+
+            const { Title, Description, TotalMark, CreatedBy,JobTitleId } = this.state;
+
             this.setState({ loading: true });
+
+            this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId })
+                .then(() => {
+                    this.setState({ done: true });
+                    this.setState({ loading: false })
+                },
+                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                );
+
         }
 
     }
@@ -93,11 +119,13 @@ class AddQuestionSet extends React.Component {
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
 
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.QuestionComplexityId })}>
+                    <div className={classnames('field', { errors: !!this.state.errors.Title })}>
                         <label>Question set name</label>
                         <input
                             type="text"
+                            name="Title"
                             value={this.state.Title}
+                            onChange={this.handleChange}
                             placeholder="Enter question set title."
                             className="form-control" />
                         <span className="form-error">{this.state.errors.Title}</span>
@@ -108,7 +136,7 @@ class AddQuestionSet extends React.Component {
                     <div className={classnames('field', { errors: !!this.state.errors.Description })}>
                         <label>Description</label>
 
-                        <ReactQuill name="Question" value={this.state.Description}
+                        <ReactQuill name="Description" value={this.state.Description}
                             onChange={this.handleChangeForEditor} />
 
                         <span className="form-error">{this.state.errors.Description}</span>
@@ -116,16 +144,32 @@ class AddQuestionSet extends React.Component {
                 </div>
 
                  <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.TotalMarks })}>
+                    <div className={classnames('field', { errors: !!this.state.errors.TotalMark })}>
                         <label>Total Marks</label>
                         <input
                             type="text"
-                            value={this.state.TotalMarks}
+                            name="TotalMark"
+                            value={this.state.TotalMark}
                             placeholder="Enter total marks."
+                            onChange={this.handleChange}
                             className="form-control" />
-                        <span className="form-error">{this.state.errors.TotalMarks}</span>
+                        <span className="form-error">{this.state.errors.TotalMark}</span>
                     </div>
                 </div>
+
+                <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                    <div className={classnames('field', { errors: !!this.state.errors.JobTitleId })}>
+                        <label>Category </label>
+                        <select name="JobTitleId" className="form-control" onChange={this.handleChange}>
+                            <option value="">--Select Job Title--</option>
+                            <option value="1">Java</option>
+                            <option value="2">C#</option>
+                            <option value="3">JS</option>
+                        </select>
+                        <span className="form-error">{this.state.errors.JobTitleId}</span>
+                    </div>
+                </div>
+
 
                 
                 <div className="clearfix"></div>
@@ -148,4 +192,17 @@ class AddQuestionSet extends React.Component {
 }
 
 
-export default AddQuestionSet;
+const mapStateToProps = (state,props) => {
+    if (props.match.params.id) {
+        return {
+            examset: state.examsets.find(item => item.ExamSetId == props.match.params.id),
+        }
+    }
+
+    return {
+        examset: null
+    }
+}
+
+
+export default connect(mapStateToProps,{fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById})(AddExamSet);

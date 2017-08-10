@@ -9,7 +9,7 @@ import AddQuestion from './add-question.component';
 import QustionsList from './question-list.component';
 
 
-import { fetchQuestions } from '../../actions/questions.action';
+import { fetchQuestions, deleteQuestion } from '../../actions/questions.action';
 
 
 class QuestionsIndex extends React.Component {
@@ -31,7 +31,7 @@ class QuestionsIndex extends React.Component {
                         <NavLink exact to="/admin/questions/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Question</NavLink>
                     </div>
 
-                    <QustionsList questions={this.props.questions} />
+                    <QustionsList questions={this.props.questions} deleteQuestion = {this.props.deleteQuestion}/>
 
                 </form>
             </Panel>
@@ -46,4 +46,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchQuestions })(QuestionsIndex);
+export default connect(mapStateToProps, { fetchQuestions, deleteQuestion })(QuestionsIndex);

@@ -11,9 +11,9 @@ import { Pagination } from 'react-bootstrap'
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
-import ListPagination from '../common/pagination.component';
+// import ListPagination from '../common/pagination.component';
 
-// import { fetchQuestionSet } from '../../actions/questionset.action'
+import { filterQuestionForExamSet } from '../../actions/questions.action'
 
 
 
@@ -21,45 +21,38 @@ import ListPagination from '../common/pagination.component';
 class ExamQuestions extends React.Component {
     constructor(props) {
         super(props);
+
+        // this.state = {
+        //     QuestionTypeId: 0,
+        //     QuestionCategoryId: 0,
+        //     JobTitleId: 0,
+        //     QuestionComplexityId: 0,
+        //     Question: '',
+        //     errors: {},
+        //     loading: false,
+        //     done: false
+        // }
     }
 
     state = {
-        errors: {},
-        loading: false,
-        done: false,
-        questionsList: [
-            {
-                QuestionId: 1,
-                Title: 'Some quesiton tittle',
-                QuestionCategoryId: 1,
-                QuestionCategory: 'C#',
-                QuestionComplexityId: 1,
-                QuestionComplexity: 'Basic',
-                QuestionTypeId: 1,
-                QuestionType: 'Subjective'
-            },
-            {
-                QuestionId: 2,
-                Title: 'Second quesiton tittle',
-                QuestionCategoryId: 1,
-                QuestionCategory: 'C#',
-                QuestionComplexityId: 2,
-                QuestionComplexity: 'Intermediate',
-                QuestionTypeId: 2,
-                QuestionType: 'Objective'
-            },
-            {
-                QuestionId: 1,
-                Title: 'java quesiton tittle',
-                QuestionCategoryId: 1,
-                QuestionCategory: 'Java',
-                QuestionComplexityId: 1,
-                QuestionComplexity: 'Basic',
-                QuestionTypeId: 2,
-                QuestionType: 'Objective'
-            }
-        ]
+        QuestionTypeId: 0,
+            QuestionCategoryId: 0,
+            JobTitleId: 0,
+            QuestionComplexityId: 0,
+            Question: '',
+            errors: {},
+            loading: false,
+            done: false
     }
+
+
+
+
+    componentDidMount() {
+        const { QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question } = this.state;
+        this.props.filterQuestionForExamSet({ QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question });
+    }
+
 
 
     handleQuestionSelectChange = (idx) => (evt) => {
@@ -70,6 +63,44 @@ class ExamQuestions extends React.Component {
         //this.props.onSetPage(this.props.fetchQuestionSets, page);
     }
 
+    EmptyMessage() {
+        return(
+            <tr>
+                <td colSpan="5">No records found</td>
+            </tr>
+        )
+    }
+
+
+    RenderQuestionList() {
+        return (
+        this.props.questionsList.map((question, idx) => (
+                    <tr className="options" key={idx}>
+                        <td>
+                            <input
+                                type="checkbox"
+                                onChange={this.handleQuestionSelectChange(idx)} />
+                        </td>
+                        <td>{question.Question}</td>
+                        <td>{question.QuestionCategoryName}</td>
+                        <td>{question.QuestionComplexityName}</td>
+                        <td>{question.QuestionTypeName}</td>
+                    </tr>
+
+                ))
+        )
+    }
+
+    handleChange = (e) => {
+
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+
+        const { QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question } = this.state;
+        this.props.filterQuestionForExamSet({ QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question });
+        
+    }
 
     renderQuestionList() {
 
@@ -121,24 +152,28 @@ class ExamQuestions extends React.Component {
                         </select>
                     </td>
                 </tr>
-                {this.state.questionsList.map((question, idx) => (
 
+                { this.props.questionsList.length === 0 ? this.EmptyMessage() : this.RenderQuestionList()}
+
+                {/*{this.props.questionsList.map((question, idx) => (
                     <tr className="options" key={idx}>
                         <td>
                             <input
                                 type="checkbox"
                                 onChange={this.handleQuestionSelectChange(idx)} />
                         </td>
-                        <td>{question.Title}</td>
-                        <td>{question.QuestionCategory}</td>
-                        <td>{question.QuestionComplexity}</td>
-                        <td>{question.QuestionType}</td>
+                        <td>{question.Question}</td>
+                        <td>{question.QuestionCategoryName}</td>
+                        <td>{question.QuestionComplexityName}</td>
+                        <td>{question.QuestionTypeName}</td>
                     </tr>
 
-                ))}
+                ))}*/}
             </tbody>
         )
     }
+
+
 
 
     renderForm() {
@@ -150,11 +185,11 @@ class ExamQuestions extends React.Component {
                         <table className="table table-responsive table-hover table-bordered">
                             {this.renderQuestionList()}
                         </table>
-                        
 
-                        <ListPagination recordCount={this.state.questionsList.length}
+
+                        {/*<ListPagination recordCount={this.state.questionsList.length}
                             currentPage = {this.currentPage}
-                            onSetPage = {this.onSetPage} />
+                            onSetPage = {this.onSetPage} />*/}
                     </div>
                 </div>
 
@@ -187,10 +222,12 @@ class ExamQuestions extends React.Component {
 const mapStateToProps = (state) => {
     return ({
         questionsList: state.questions,
-        page: Number(state.routing.locationBeforeTransitions.query.page) || 1
+        categoryList: state.questionCategory,
+        complexityList: state.questionComplexity,
+        questionTypeList : state.questionTypes
     })
 }
 
 
 
-export default connect(mapStateToProps)(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet })(ExamQuestions);

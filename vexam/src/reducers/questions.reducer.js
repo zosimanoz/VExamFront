@@ -1,4 +1,4 @@
-import { SET_QUESTIONS, ADD_QUESTIONS, GET_QUESTIONBYID, UPDATE_QUESTION } from '../actions/questions.action';
+import { SET_QUESTIONS, ADD_QUESTIONS, GET_QUESTIONBYID, UPDATE_QUESTION, DELETE_QUESTION, SET_FILTERED_QUESTION } from '../actions/questions.action';
 
 
 export default function questions(state = [], action = {}) {
@@ -22,6 +22,16 @@ export default function questions(state = [], action = {}) {
                 ...state,
                 action.question
             ]
+            break;
+        }
+
+        case SET_FILTERED_QUESTION: {
+            return action.questions
+            break;
+        }
+
+        case DELETE_QUESTION: {
+            return state.filter(item => item.QuestionId != action.question.QuestionId)
             break;
         }
 

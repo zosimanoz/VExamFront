@@ -12,9 +12,9 @@ import DepartmentIndex from '../components/departments/department-index.componen
 import QuestionsIndex from '../components/questions/question-index.component';
 import AddQuestion from '../components/questions/add-question.component';
 
-import QuestionSet from '../components/questionsets/questionset-index.component';
-import AddQuestionSet from '../components/questionsets/add-questionset.component';
-import ExamQuestions from '../components/questionsets/exam-questionset.component';
+import ExamSet from '../components/examsets/examset-index.component';
+import AddExamSet from '../components/examsets/add-examset.component';
+import ExamQuestions from '../components/examsets/exam-questionset.component';
 
 import TestTable from '../components/questions/testtable.component';
 
@@ -53,6 +53,7 @@ const SideBar = () => (
           <li><NavLink to="/admin/departments" activeClassName="active"><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavLink></li>
           <li><NavLink to='/admin/categories' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavLink></li>
           <li><NavLink to='/admin/questions' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Questions</span></NavLink></li>
+          <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
           <li><NavLink to='/admin/users' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span></NavLink></li>
           <li><NavLink to='/admin/settings' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span></NavLink></li>
           <li><NavLink to='/admin/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
@@ -130,21 +131,21 @@ const Routings = () => (
 
 
       <Route exact
-        path="/admin/questionset"
+        path="/admin/examsets"
         render={props => (
-          <QuestionSet heading="Manage Question Sets"/>
+          <ExamSet heading="Manage Exam Sets"/>
         )}
       /> 
 
       <Route exact
-        path="/admin/questionset/add"
+        path="/admin/examsets/add"
         render={props => (
-          <AddQuestionSet heading="Add Question Set" {...props} />
+          <AddExamSet heading="Add Question Set" {...props} />
         )}
       />
 
       <Route exact
-        path="/admin/questionset/:id/questions"
+        path="/admin/examsets/:id/questions"
         render={props => (
           <ExamQuestions heading="Add Set Questions" {...props} />
         )}
