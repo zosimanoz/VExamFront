@@ -1,9 +1,8 @@
-
-export const SET_QUESTION_CATEGORY = 'SET_QUESTION_CATEGORY'
-export const ADD_QUESTION_CATEGORY = 'ADD_QUESTION_CATEGORY'
-export const GET_QUESTION_CATEGORY_BYID = 'GET_QUESTION_CATEGORY_BYID'
-export const UPDATE_QUESTION_CATEGORY = 'UPDATE_QUESTION_CATEGORY'
-export const DELETE_QUESTION_CATEGORY = 'DELETE_QUESTION_CATEGORY'
+export const SET_INTERVIEW_SESSION = 'SET_INTERVIEW_SESSION'
+export const ADD_INTERVIEW_SESSION = 'ADD_INTERVIEW_SESSION'
+export const GET_INTERVIEW_SESSION_BYID = 'GET_INTERVIEW_SESSION_BYID'
+export const UPDATE_INTERVIEW_SESSION = 'UPDATE_INTERVIEW_SESSION'
+export const DELETE_INTERVIEW_SESSION = 'DELETE_INTERVIEW_SESSION'
 
 
 const URL = 'http://localhost:5000';
@@ -28,63 +27,63 @@ function handleResponse(response) {
 // the reducer to respond to the change in data and state
 // So, lets jump into the department.reducer
 
-export const setQuestionCategories = (questionCategories) => {
+export const setInterviewSessions = (interviewSessions) => {
     return {
-        type: SET_QUESTION_CATEGORY,
-        questionCategories
+        type: SET_INTERVIEW_SESSION,
+        interviewSessions
     }
 }
 
 
-export const addQuestionCategory = (questionCategory) => {
+export const addInterviewSession = (interviewSession) => {
     return {
-        type: ADD_QUESTION_CATEGORY,
-        questionCategory
+        type: ADD_INTERVIEW_SESSION,
+        interviewSession
     }
 }
 
 
-export const setUpdateQuestionCategory = (questionCategory) => {
+export const setUpdatedInterviewSession = (interviewSessions) => {
     return {
-        type: UPDATE_QUESTION_CATEGORY,
-        questionCategory
+        type: UPDATE_INTERVIEW_SESSION,
+        interviewSessions
     }
 }
 
 
-export const setQuestionCategoryById = (questionCategory) => {
+export const setInterviewSessionById = (interviewSessions) => {
     return {
-        type: GET_QUESTION_CATEGORY_BYID,
-        questionCategory
+        type: GET_INTERVIEW_SESSION_BYID,
+        interviewSessions
     }
 }
 
-export const deleteQuestionCategoryById = (questionCategory) => {
+export const deleteInterviewSessionById = (interviewSessions) => {
     return {
-        type: DELETE_QUESTION_CATEGORY,
-        questionCategory
+        type: DELETE_INTERVIEW_SESSION,
+        interviewSessions
     }
 }
 
 
-export const fetchQuestionCategoryList = () => {
+export const fetchInterviewSessions = () => {
     // fetch data from api
     // dispatch a new state on receiving data data.Data
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/question/category/get/all`)
+        fetch(`${URL}/api/v1/interviewsession/active`)
             .then(res => res.json())
-            .then(data => dispatch(setQuestionCategories(data.Data)))
+            .then(data => dispatch(setInterviewSessions(data.Data)))
     }
 }
 
 
 
 // Save department
-export function saveQuestionCategory(data) {
+export function saveInterviewSession(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/new`, {
+        return fetch(`${URL}/api/v1/interviewsession/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -93,24 +92,24 @@ export function saveQuestionCategory(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addQuestionCategory(data.Data)));;
+        .then(data => dispatch(addInterviewSession(data.Data)));;
     }
 }
 
 
 
-export function fetchQuestionCategoryById(id){
+export function fetchInterviewSessionById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/question/category/get/${id}`)
+        fetch(`${URL}/api/v1/interviewsession/get/${id}`)
             .then(res => res.json())
-            .then(data => dispatch(setQuestionCategoryById(data.Data)))
+            .then(data => dispatch(setInterviewSessionById(data.Data)))
     }
 }
 
 
-export function updateQuestionCategory(data){
+export function updateInterviewSession(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/update`, {
+        return fetch(`${URL}/api/v1/interviewsession/update`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -119,15 +118,15 @@ export function updateQuestionCategory(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdateQuestionCategory(data.Data)));
+        .then(data => dispatch(setUpdatedInterviewSession(data.Data)));
     }
 }
 
 
-export function deleteQuestionCategory(id){
+export function deleteInterviewSession(id){
 
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/delete/${id}`, {
+        return fetch(`${URL}/api/v1/interviewsession/delete/${id}`, {
             method: 'put',
            dataType: 'json',
             headers: {
@@ -135,6 +134,6 @@ export function deleteQuestionCategory(id){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(deleteQuestionCategoryById(id)));
+        .then(data => dispatch(deleteInterviewSessionById(id)));
     }
 }

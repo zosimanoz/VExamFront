@@ -1,9 +1,8 @@
-
-export const SET_QUESTION_CATEGORY = 'SET_QUESTION_CATEGORY'
-export const ADD_QUESTION_CATEGORY = 'ADD_QUESTION_CATEGORY'
-export const GET_QUESTION_CATEGORY_BYID = 'GET_QUESTION_CATEGORY_BYID'
-export const UPDATE_QUESTION_CATEGORY = 'UPDATE_QUESTION_CATEGORY'
-export const DELETE_QUESTION_CATEGORY = 'DELETE_QUESTION_CATEGORY'
+export const SET_INTERVIEWEE = 'SET_INTERVIEWEE'
+export const ADD_INTERVIEWEE = 'ADD_INTERVIEWEE'
+export const GET_INTERVIEWEE_BYID = 'GET_INTERVIEWEE_BYID'
+export const UPDATE_INTERVIEWEE = 'UPDATE_INTERVIEWEE'
+export const DELETE_INTERVIEWEE = 'DELETE_INTERVIEWEE'
 
 
 const URL = 'http://localhost:5000';
@@ -28,63 +27,63 @@ function handleResponse(response) {
 // the reducer to respond to the change in data and state
 // So, lets jump into the department.reducer
 
-export const setQuestionCategories = (questionCategories) => {
+export const setInterviewees = (interviewees) => {
     return {
-        type: SET_QUESTION_CATEGORY,
-        questionCategories
+        type: SET_INTERVIEWEE,
+        interviewees
     }
 }
 
 
-export const addQuestionCategory = (questionCategory) => {
+export const addInterviewee = (interviewee) => {
     return {
-        type: ADD_QUESTION_CATEGORY,
-        questionCategory
+        type: ADD_INTERVIEWEE,
+        interviewee
     }
 }
 
 
-export const setUpdateQuestionCategory = (questionCategory) => {
+export const setUpdatedInterviewee = (interviewee) => {
     return {
-        type: UPDATE_QUESTION_CATEGORY,
-        questionCategory
+        type: UPDATE_INTERVIEWEE,
+        interviewee
     }
 }
 
 
-export const setQuestionCategoryById = (questionCategory) => {
+export const setIntervieweeById = (interviewee) => {
     return {
-        type: GET_QUESTION_CATEGORY_BYID,
-        questionCategory
+        type: GET_INTERVIEWEE_BYID,
+        interviewee
     }
 }
 
-export const deleteQuestionCategoryById = (questionCategory) => {
+export const deleteIntervieweeById = (interviewee) => {
     return {
-        type: DELETE_QUESTION_CATEGORY,
-        questionCategory
+        type: DELETE_INTERVIEWEE,
+        interviewee
     }
 }
 
 
-export const fetchQuestionCategoryList = () => {
+export const fetchInterviewees = () => {
     // fetch data from api
     // dispatch a new state on receiving data data.Data
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/question/category/get/all`)
+        fetch(`${URL}/api/v1/interviewee/get/all`)
             .then(res => res.json())
-            .then(data => dispatch(setQuestionCategories(data.Data)))
+            .then(data => dispatch(setInterviewees(data.Data)))
     }
 }
 
 
 
 // Save department
-export function saveQuestionCategory(data) {
+export function saveInterviewee(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/new`, {
+        return fetch(`${URL}/api/v1/interviewee/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -93,24 +92,24 @@ export function saveQuestionCategory(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addQuestionCategory(data.Data)));;
+        .then(data => dispatch(addInterviewee(data.Data)));;
     }
 }
 
 
 
-export function fetchQuestionCategoryById(id){
+export function fetchIntervieweeById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/question/category/get/${id}`)
+        fetch(`${URL}/api/v1/interviewee/get/${id}`)
             .then(res => res.json())
-            .then(data => dispatch(setQuestionCategoryById(data.Data)))
+            .then(data => dispatch(setIntervieweeById(data.Data)))
     }
 }
 
 
-export function updateQuestionCategory(data){
+export function updateInterviewee(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/update`, {
+        return fetch(`${URL}/api/v1/interviewee/update`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -119,15 +118,15 @@ export function updateQuestionCategory(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdateQuestionCategory(data.Data)));
+        .then(data => dispatch(setUpdatedInterviewee(data.Data)));
     }
 }
 
 
-export function deleteQuestionCategory(id){
+export function deleteInterviewee(id){
 
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/delete/${id}`, {
+        return fetch(`${URL}/api/v1/interviewee/delete/${id}`, {
             method: 'put',
            dataType: 'json',
             headers: {
@@ -135,6 +134,6 @@ export function deleteQuestionCategory(id){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(deleteQuestionCategoryById(id)));
+        .then(data => dispatch(deleteIntervieweeById(id)));
     }
 }

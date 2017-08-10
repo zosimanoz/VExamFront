@@ -104,15 +104,6 @@ class ExamQuestions extends React.Component {
 
     renderQuestionList() {
 
-        const per_page = 10;
-        const pages = Math.ceil(this.props.questionsList.length / per_page);
-        const current_page = this.props.questionsList;
-        const start_offset = (current_page - 1) * per_page;
-
-        let start_count = 0;
-
-
-
         return (
             <tbody>
                 <tr>
@@ -222,8 +213,8 @@ class ExamQuestions extends React.Component {
 const mapStateToProps = (state) => {
     return ({
         questionsList: state.questions,
-        categoryList: state.questionCategory,
-        complexityList: state.questionComplexity,
+        categoryList: state.questionCategories,
+        complexityList: state.questionComplexities,
         questionTypeList : state.questionTypes
     })
 }

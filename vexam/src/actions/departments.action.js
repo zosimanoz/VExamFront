@@ -114,9 +114,3 @@ export function updateDepartment(data){
     }
 }
 
-
-// export function deleteDepartment(id){
-//     return dispatch => {
-//         return fetch()
-//     }
-// }
