@@ -15,91 +15,99 @@ import theme from 'react-quill/dist/quill.snow.css';
 
 import { filterQuestionForExamSet } from '../../actions/questions.action'
 
+import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
+import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
+
 
 
 
 class ExamQuestions extends React.Component {
     constructor(props) {
         super(props);
-
-        // this.state = {
-        //     QuestionTypeId: 0,
-        //     QuestionCategoryId: 0,
-        //     JobTitleId: 0,
-        //     QuestionComplexityId: 0,
-        //     Question: '',
-        //     errors: {},
-        //     loading: false,
-        //     done: false
-        // }
     }
 
     state = {
-        QuestionTypeId: 0,
-            QuestionCategoryId: 0,
-            JobTitleId: 0,
-            QuestionComplexityId: 0,
-            Question: '',
-            errors: {},
-            loading: false,
-            done: false
+        QuestionTypeId: '0',
+        QuestionCategoryId: '0',
+        JobTitleId: '0',
+        QuestionComplexityId: '0',
+        Question: '',
+        errors: {},
+        loading: false,
+        done: false,
+        selectedQuestions : [],
+        checked: []
     }
-
-
 
 
     componentDidMount() {
         const { QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question } = this.state;
         this.props.filterQuestionForExamSet({ QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question });
+        this.props.fetchQuestionCategoryList();
+        this.props.fetchQuestionComplexityList();
     }
 
 
-
-    handleQuestionSelectChange = (idx) => (evt) => {
-        evt.preventDefault();
-    }
 
     onSetPage = (page) => {
         //this.props.onSetPage(this.props.fetchQuestionSets, page);
     }
 
     EmptyMessage() {
-        return(
+        return (
             <tr>
                 <td colSpan="5">No records found</td>
             </tr>
         )
     }
 
+    handleAddButtonClick = (idx,e) => {
+        let question = {
+            QuestionId : idx
+        };
+
+        this.setState({
+            selectedQuestions: this.state.selectedQuestions.concat([question])
+        });
+
+        console.log(this.state)
+    }
+
 
     RenderQuestionList() {
         return (
-        this.props.questionsList.map((question, idx) => (
-                    <tr className="options" key={idx}>
-                        <td>
-                            <input
-                                type="checkbox"
-                                onChange={this.handleQuestionSelectChange(idx)} />
-                        </td>
-                        <td>{question.Question}</td>
-                        <td>{question.QuestionCategoryName}</td>
-                        <td>{question.QuestionComplexityName}</td>
-                        <td>{question.QuestionTypeName}</td>
-                    </tr>
+            this.props.questionsList.map((question, idx) => (
+                <tr className="options" key={idx}>
+                    {/*<td>
+                        <input
+                            type="checkbox"
+                            name={`option-`+ idx}
+                            onChange={this.handleQuestionSelectChange(question.QuestionId)} />
+                    </td>*/}
+                    <td>{question.Question}</td>
+                    <td>{question.QuestionCategoryName}</td>
+                    <td>{question.QuestionComplexityName}</td>
+                    <td>{question.QuestionTypeName}</td>
+                    <td><button type="button" onClick={this.handleAddButtonClick.bind(question.QuestionId,this)}>+</button></td>
+                </tr>
 
-                ))
+            ))
         )
     }
 
+
     handleChange = (e) => {
 
-        this.setState({
-            [e.target.name]: e.target.value
+        this.setState({ [e.target.name]: e.target.value }, function () {
+            const { QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question } = this.state;
+            this.props.filterQuestionForExamSet({ QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question });
         });
 
-        const { QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question } = this.state;
-        this.props.filterQuestionForExamSet({ QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question });
-        
+    }
+
+
+    handleCheckBoxChange = (e) => {
+        console.log(e)
     }
 
     renderQuestionList() {
@@ -120,46 +128,33 @@ class ExamQuestions extends React.Component {
                             className="form-control" />
                     </td>
                     <td>
-                        <select name="QuestionCategoryId" className="form-control" onChange={this.handleChange}>
-                            <option value="">--Select Category--</option>
-                            <option value="1">Java</option>
-                            <option value="2">C#</option>
-                            <option value="3">JS</option>
+                        <select name="QuestionCategoryId" className="form-control" onChange={this.handleChange.bind(this)}>
+                            <option value="0">--Select Category--</option>
+                            {this.props.categoryList.map((category, idx) => (
+                                <option value={category.QuestionCategoryId}>{category.CategoryName}</option>
+                            ))}
+
                         </select>
                     </td>
                     <td>
-                        <select name="QuestionComplexityId" className="form-control" onChange={this.handleChange}>
-                            <option value="">--Select Complexity--</option>
-                            <option value="1">Basic</option>
-                            <option value="2">Intermediate</option>
-                            <option value="3">Advanced</option>
+                        <select name="QuestionComplexityId" className="form-control" onChange={this.handleChange.bind(this)}>
+                            <option value="0">--Select Complexity--</option>
+                            {this.props.complexityList.map((complexity, idx) => (
+                                <option value={complexity.QuestionComplexityId}>{complexity.ComplexityTitle}</option>
+                            ))}
                         </select>
                     </td>
                     <td>
                         <select name="QuestionTypeId" className="form-control" onChange={this.handleChange}>
-                            <option value="">--Select Type--</option>
+                            <option value="0">--Select Type--</option>
                             <option value="1">Subjective</option>
                             <option value="2">Objective</option>
                         </select>
                     </td>
                 </tr>
 
-                { this.props.questionsList.length === 0 ? this.EmptyMessage() : this.RenderQuestionList()}
-
-                {/*{this.props.questionsList.map((question, idx) => (
-                    <tr className="options" key={idx}>
-                        <td>
-                            <input
-                                type="checkbox"
-                                onChange={this.handleQuestionSelectChange(idx)} />
-                        </td>
-                        <td>{question.Question}</td>
-                        <td>{question.QuestionCategoryName}</td>
-                        <td>{question.QuestionComplexityName}</td>
-                        <td>{question.QuestionTypeName}</td>
-                    </tr>
-
-                ))}*/}
+                {this.props.questionsList.length === 0 ? this.EmptyMessage() : this.RenderQuestionList()}
+          
             </tbody>
         )
     }
@@ -215,10 +210,10 @@ const mapStateToProps = (state) => {
         questionsList: state.questions,
         categoryList: state.questionCategories,
         complexityList: state.questionComplexities,
-        questionTypeList : state.questionTypes
+        questionTypeList: state.questionTypes
     })
 }
 
 
 
-export default connect(mapStateToProps, { filterQuestionForExamSet })(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList })(ExamQuestions);
