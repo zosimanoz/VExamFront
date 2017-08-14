@@ -24,6 +24,9 @@ class ExamSet extends React.Component {
         //     Title : 'Question set one',
         //     Deleted: false 
         // }]
+
+        console.log(this.props)
+        
          return (
             <Panel header={this.props.heading}>
                     <div className="pull-right">
@@ -40,7 +43,7 @@ class ExamSet extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        examsets: state.examsets
+        examsets: state.examsets.examsetList
     }
 }
 

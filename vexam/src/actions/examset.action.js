@@ -4,6 +4,9 @@ export const GET_EXAMSETBYID = 'GET_EXAMSETBYID'
 export const UPDATE_EXAMSET = 'UPDATE_EXAMSET'
 export const DELETE_EXAMSET = 'DELETE_EXAMSET'
 
+export const ADD_QUESTION_TO_SET = 'ADD_QUESTION_TO_SET' 
+export const DELETE_QUESTION_FROM_SET = 'DELETE_QUESTION_FROM_SET'
+
 
 const URL = 'http://localhost:5000';
 
@@ -30,7 +33,9 @@ function handleResponse(response) {
 export const setExamSets = (examsets) => {
     return {
         type: SET_EXAMSETS,
-        examsets
+        payload: {
+            examsets
+        }
     }
 }
 
@@ -38,7 +43,9 @@ export const setExamSets = (examsets) => {
 export const addExamSet = (examset) => {
     return {
         type: ADD_EXAMSET,
-        examset
+        payload: {
+            examset
+        }
     }
 }
 
@@ -54,7 +61,9 @@ export const setUpdatedExamSet = (examset) => {
 export const setExamSetById = (examset) => {
     return {
         type: GET_EXAMSETBYID,
-        examset
+        payload: {
+            examset
+        }
     }
 }
 
@@ -62,6 +71,25 @@ export const deleteExamSetById = (examset) => {
     return {
         type: DELETE_EXAMSET,
         examset
+    }
+}
+
+
+export function addQuestionToExamSet(questionId) {
+    return {
+        type: ADD_QUESTION_TO_SET,
+        payload: {
+            questionId
+        }
+    }
+}
+
+export function deleteQuestionFromExamSet(questionId) {
+    return {
+        type: DELETE_QUESTION_FROM_SET,
+        payload: {
+            questionId
+        }
     }
 }
 
@@ -137,4 +165,18 @@ export function deleteExamSet(id){
         }).then(handleResponse)
         .then(data => dispatch(deleteExamSetById(id)));
     }
+}
+
+
+export function isInExamSet(state, props) {
+    console.log("state",state.examsets.setQuestions)
+    return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
+}
+
+export function getQuestionFromExamSet(state, props) {
+    return state.examsets.setQuestions.map(id => getQuestion(state, { id }));
+}
+
+export function getQuestion(state,props) {
+    //
 }

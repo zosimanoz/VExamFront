@@ -18,6 +18,8 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
+import QuestionList from './questionList.component'
+
 
 
 
@@ -70,26 +72,21 @@ class ExamQuestions extends React.Component {
             selectedQuestions: this.state.selectedQuestions.concat([question])
         });
 
-        console.log(this.state)
     }
 
 
     RenderQuestionList() {
         return (
             this.props.questionsList.map((question, idx) => (
-                <tr className="options" key={idx}>
-                    {/*<td>
-                        <input
-                            type="checkbox"
-                            name={`option-`+ idx}
-                            onChange={this.handleQuestionSelectChange(question.QuestionId)} />
-                    </td>*/}
-                    <td>{question.Question}</td>
-                    <td>{question.QuestionCategoryName}</td>
-                    <td>{question.QuestionComplexityName}</td>
-                    <td>{question.QuestionTypeName}</td>
-                    <td><button type="button" onClick={this.handleAddButtonClick.bind(question.QuestionId,this)}>+</button></td>
-                </tr>
+                // <tr className="options" key={question.QuestionId}>
+
+                    <QuestionList {...question} />
+                    // <td>{question.Question}</td>
+                    // <td>{question.QuestionCategoryName}</td>
+                    // <td>{question.QuestionComplexityName}</td>
+                    // <td>{question.QuestionTypeName}</td>
+                    // <td><button type="button" onClick={this.handleAddButtonClick.bind(question.QuestionId,this)}>+</button></td>
+                // </tr>
 
             ))
         )
@@ -107,7 +104,7 @@ class ExamQuestions extends React.Component {
 
 
     handleCheckBoxChange = (e) => {
-        console.log(e)
+       
     }
 
     renderQuestionList() {
@@ -120,6 +117,7 @@ class ExamQuestions extends React.Component {
                     <th>Category</th>
                     <th>Complexity</th>
                     <th>Question Type</th>
+                    <th>Action</th>
                 </tr>
                 <tr>
                     <td></td>
@@ -151,6 +149,9 @@ class ExamQuestions extends React.Component {
                             <option value="2">Objective</option>
                         </select>
                     </td>
+                    <td>
+                       
+                    </td>
                 </tr>
 
                 {this.props.questionsList.length === 0 ? this.EmptyMessage() : this.RenderQuestionList()}
@@ -171,11 +172,6 @@ class ExamQuestions extends React.Component {
                         <table className="table table-responsive table-hover table-bordered">
                             {this.renderQuestionList()}
                         </table>
-
-
-                        {/*<ListPagination recordCount={this.state.questionsList.length}
-                            currentPage = {this.currentPage}
-                            onSetPage = {this.onSetPage} />*/}
                     </div>
                 </div>
 

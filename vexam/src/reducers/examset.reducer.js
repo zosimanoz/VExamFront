@@ -1,20 +1,30 @@
 
-import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, UPDATE_EXAMSET } from '../actions/examset.action';
+import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET } from '../actions/examset.action';
 
 
-export default function examsets(state = [], action = {}) {
+
+const initialState = {
+    setQuestions: [], // array of product ids
+    examsetList: [],
+    examset: {}
+};
+
+
+export default function examsets(state = initialState, action = {}) {
     switch (action.type) {
 
         case SET_EXAMSETS: {
-            return action.examsets;
+            return {
+                examsetList: action.payload.examsets
+            }
             break;
         }
 
         case ADD_EXAMSET: {
-            return [
+            return {
                 ...state,
-                action.examset
-            ]
+                examset:[...state.examsets.examset, action.payload.examset]
+            }
             break;
         }
 
@@ -31,17 +41,35 @@ export default function examsets(state = [], action = {}) {
             if (index > -1) {
                 return state.map(item => {
                     if (item.ExamSetId === action.examset.ExamSetId) {
-                        return action.examset;
+                        return {
+                            examset: [...state.examset,action.payload.examset]
+                        }
                     } else {
                         return item;
                     }
                 })
             } else {
-                return [
+                return {
                     ...state,
-                    action.examset
-                ]
+                    examset: [...state.examset,action.payload.examset]
+                }
             }
+            break;
+        }
+
+        case ADD_QUESTION_TO_SET: {
+            return {
+                ...state,
+                setQuestions: [ ...state.setQuestions, action.payload.questionId ]
+            };
+            break;
+        }
+
+         case DELETE_QUESTION_FROM_SET: {
+            return {
+                ...state,
+                setQuestions: state.setQuestions.filter(id => id !== action.payload.questionId)
+            };
             break;
         }
 
