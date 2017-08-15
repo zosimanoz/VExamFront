@@ -18,6 +18,8 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
+import { allAddedInExamSet } from '../../actions/examset.action'
+
 import QuestionList from './questionList.component'
 
 
@@ -78,16 +80,7 @@ class ExamQuestions extends React.Component {
     RenderQuestionList() {
         return (
             this.props.questionsList.map((question, idx) => (
-                // <tr className="options" key={question.QuestionId}>
-
-                    <QuestionList {...question} />
-                    // <td>{question.Question}</td>
-                    // <td>{question.QuestionCategoryName}</td>
-                    // <td>{question.QuestionComplexityName}</td>
-                    // <td>{question.QuestionTypeName}</td>
-                    // <td><button type="button" onClick={this.handleAddButtonClick.bind(question.QuestionId,this)}>+</button></td>
-                // </tr>
-
+                <QuestionList {...question} />
             ))
         )
     }
@@ -103,24 +96,37 @@ class ExamQuestions extends React.Component {
     }
 
 
-    handleCheckBoxChange = (e) => {
-       
+    handleSelectAll = () => {
+        const { questionList, addAllQuestionsToExamSet, deleteAllQuestionsFromExamSet, isInExamSet } = this.props;
+
+
+        console.log(this.props)
+
+        if (allAddedInExamSet) {
+            deleteQuestionFromExamSet(QuestionId);
+        } else {
+            addQuestionToExamSet(QuestionId);
+        }
     }
+
+
 
     renderQuestionList() {
 
         return (
             <tbody>
                 <tr>
-                    <th>S.N</th>
+                    <th></th>
                     <th>Title</th>
                     <th>Category</th>
                     <th>Complexity</th>
                     <th>Question Type</th>
-                    <th>Action</th>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td>
+                        {console.log('allitemtest',allAddedInExamSet ? '1' : '0')}
+                          <td><button className={allAddedInExamSet ? 'btn btn-primary btn-xs' : 'btn btn-danger btn-xs' } type="button" onClick={this.handleSelectAll}>{allAddedInExamSet ? '+': 'x'}</button></td>
+                    </td>
                     <td>
                         <input type="text"
                             className="form-control" />
@@ -148,9 +154,6 @@ class ExamQuestions extends React.Component {
                             <option value="1">Subjective</option>
                             <option value="2">Objective</option>
                         </select>
-                    </td>
-                    <td>
-                       
                     </td>
                 </tr>
 
@@ -201,12 +204,13 @@ class ExamQuestions extends React.Component {
 
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,props) => {
     return ({
         questionsList: state.questions,
         categoryList: state.questionCategories,
         complexityList: state.questionComplexities,
-        questionTypeList: state.questionTypes
+        questionTypeList: state.questionTypes,
+        allAddedInExamSet: allAddedInExamSet(state, props)
     })
 }
 

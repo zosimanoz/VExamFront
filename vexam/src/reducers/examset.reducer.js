@@ -15,6 +15,7 @@ export default function examsets(state = initialState, action = {}) {
 
         case SET_EXAMSETS: {
             return {
+                ...state,
                 examsetList: action.payload.examsets
             }
             break;
@@ -23,7 +24,7 @@ export default function examsets(state = initialState, action = {}) {
         case ADD_EXAMSET: {
             return {
                 ...state,
-                examset:[...state.examsets.examset, action.payload.examset]
+                examset:[...state.examset, action.payload.examset]
             }
             break;
         }
@@ -37,7 +38,7 @@ export default function examsets(state = initialState, action = {}) {
         }
 
         case GET_EXAMSETBYID: {
-            const index = state.findIndex(item => item.ExamSetId === action.examset.ExamSetId);
+            const index = state.examsets.findIndex(item => item.ExamSetId === action.examset.ExamSetId);
             if (index > -1) {
                 return state.map(item => {
                     if (item.ExamSetId === action.examset.ExamSetId) {

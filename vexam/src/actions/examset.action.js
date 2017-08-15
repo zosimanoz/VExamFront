@@ -153,7 +153,7 @@ export function updateExamSet(data){
 
 
 export function deleteExamSet(id){
-
+;
     return dispatch => {
         return fetch(`${URL}/api/v1/examset/delete/${id}`, {
             method: 'put',
@@ -169,9 +169,20 @@ export function deleteExamSet(id){
 
 
 export function isInExamSet(state, props) {
-    console.log("state",state.examsets.setQuestions)
     return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
 }
+
+export function allAddedInExamSet(state,props){
+     var result = state.questions.filter(function(fs) {
+        return state.examsets.setQuestions.some(function(ff) { 
+            let setQuestionArray = [];
+            setQuestionArray.push(fs.QuestionId)
+            return setQuestionArray.indexOf(ff) > -1 });
+     });
+   
+}
+
+
 
 export function getQuestionFromExamSet(state, props) {
     return state.examsets.setQuestions.map(id => getQuestion(state, { id }));
@@ -180,3 +191,4 @@ export function getQuestionFromExamSet(state, props) {
 export function getQuestion(state,props) {
     //
 }
+
