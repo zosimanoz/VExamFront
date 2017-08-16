@@ -97,16 +97,15 @@ class ExamQuestions extends React.Component {
 
 
     handleSelectAll = () => {
-        const { questionList, addAllQuestionsToExamSet, deleteAllQuestionsFromExamSet, isInExamSet } = this.props;
+        const { questionList, isInExamSet } = this.props;
 
+        // console.log(this.props)
 
-        console.log(this.props)
-
-        if (allAddedInExamSet) {
-            deleteQuestionFromExamSet(QuestionId);
-        } else {
-            addQuestionToExamSet(QuestionId);
-        }
+        // if (allAddedInExamSet) {
+        //     deleteQuestionFromExamSet(QuestionId);
+        // } else {
+        //     addQuestionToExamSet(QuestionId);
+        // }
     }
 
 
@@ -124,8 +123,8 @@ class ExamQuestions extends React.Component {
                 </tr>
                 <tr>
                     <td>
-                        {console.log('allitemtest',allAddedInExamSet ? '1' : '0')}
-                          <td><button className={allAddedInExamSet ? 'btn btn-primary btn-xs' : 'btn btn-danger btn-xs' } type="button" onClick={this.handleSelectAll}>{allAddedInExamSet ? '+': 'x'}</button></td>
+                        {/*{console.log('allitemtest',allAddedInExamSet ? '1' : '0')}
+                          <td><button className={allAddedInExamSet ? 'btn btn-primary btn-xs' : 'btn btn-danger btn-xs' } type="button" onClick={this.handleSelectAll}>{allAddedInExamSet ? '+': 'x'}</button></td>*/}
                     </td>
                     <td>
                         <input type="text"
@@ -164,6 +163,34 @@ class ExamQuestions extends React.Component {
     }
 
 
+    handleSaveBtnClick = (e) => {
+        e.preventDefault();
+        const { setQuestions } = this.props.examsets;
+
+        let model = [];
+        setQuestions.map((questionId,idx)=> {
+            let data = {
+                QuestionId: questionId,
+                ExamSetId: this.props.match.params.id,
+                CreatedBy: 2
+            }
+
+            model.push(data);
+        })
+
+
+        console.log(model)
+            
+        // this.props.saveExamSetQuestions({ DepartmentCode, DepartmentName })
+        //         .then(() => { 
+        //             this.setState({ done: true }); 
+        //             this.setState({ loading: false }) 
+        //         },
+        //         (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+        //     );
+    }
+
+
 
 
     renderForm() {
@@ -183,7 +210,7 @@ class ExamQuestions extends React.Component {
                 <div className="clearfix"></div>
 
                 <div className="btn-form-margin-top div-add-question">
-                    <button className="btn btn-success btn-sm">Save</button>
+                    <button className="btn btn-success btn-sm" onClick={this.handleSaveBtnClick}>Save</button>
                     <button className="btn btn-danger btn-sm btn-right-margin" type="button">Cancel</button>
                 </div>
             </form>
@@ -210,7 +237,8 @@ const mapStateToProps = (state,props) => {
         categoryList: state.questionCategories,
         complexityList: state.questionComplexities,
         questionTypeList: state.questionTypes,
-        allAddedInExamSet: allAddedInExamSet(state, props)
+        allAddedInExamSet: allAddedInExamSet(state, props),
+        examsets: state.examsets
     })
 }
 
