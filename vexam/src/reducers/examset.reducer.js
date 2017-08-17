@@ -1,5 +1,5 @@
 
-import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET } from '../actions/examset.action';
+import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET, SAVE_EXAM_QUESTION } from '../actions/examset.action';
 
 
 
@@ -35,6 +35,13 @@ export default function examsets(state = initialState, action = {}) {
                 action.examset
             ]
             break;
+        }
+
+        case SAVE_EXAM_QUESTION: {
+            return [
+                ...state,
+                action.payload.data
+            ]
         }
 
         case GET_EXAMSETBYID: {

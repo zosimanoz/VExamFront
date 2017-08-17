@@ -18,7 +18,7 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
-import { allAddedInExamSet } from '../../actions/examset.action'
+import { allAddedInExamSet,saveExamSetQuestions } from '../../actions/examset.action'
 
 import QuestionList from './questionList.component'
 
@@ -167,7 +167,7 @@ class ExamQuestions extends React.Component {
         e.preventDefault();
         const { setQuestions } = this.props.examsets;
 
-        let model = [];
+        let QuestionsForSet = [];
         setQuestions.map((questionId,idx)=> {
             let data = {
                 QuestionId: questionId,
@@ -175,19 +175,17 @@ class ExamQuestions extends React.Component {
                 CreatedBy: 2
             }
 
-            model.push(data);
+            QuestionsForSet.push(data);
         })
 
-
-        console.log(model)
             
-        // this.props.saveExamSetQuestions({ DepartmentCode, DepartmentName })
-        //         .then(() => { 
-        //             this.setState({ done: true }); 
-        //             this.setState({ loading: false }) 
-        //         },
-        //         (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-        //     );
+        this.props.saveExamSetQuestions( { QuestionsForSet } )
+                .then(() => { 
+                    this.setState({ done: true }); 
+                    this.setState({ loading: false }) 
+                },
+                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            );
     }
 
 
@@ -244,4 +242,4 @@ const mapStateToProps = (state,props) => {
 
 
 
-export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList })(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList,saveExamSetQuestions })(ExamQuestions);

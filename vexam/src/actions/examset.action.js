@@ -6,6 +6,7 @@ export const DELETE_EXAMSET = 'DELETE_EXAMSET'
 
 export const ADD_QUESTION_TO_SET = 'ADD_QUESTION_TO_SET' 
 export const DELETE_QUESTION_FROM_SET = 'DELETE_QUESTION_FROM_SET'
+export const SAVE_EXAM_QUESTION = 'SAVE_EXAM_QUESTION'
 
 
 const URL = 'http://localhost:5000';
@@ -94,6 +95,16 @@ export function deleteQuestionFromExamSet(questionId) {
 }
 
 
+export function saveExamQuestionForSet(data){
+    return {
+        type: SAVE_EXAM_QUESTION,
+        payload: {
+            data
+        }
+    }
+}
+
+
 export const fetchExamSets = () => {
     // fetch data from api
     // dispatch a new state on receiving data data.Data
@@ -153,7 +164,6 @@ export function updateExamSet(data){
 
 
 export function deleteExamSet(id){
-;
     return dispatch => {
         return fetch(`${URL}/api/v1/examset/delete/${id}`, {
             method: 'put',
@@ -164,6 +174,22 @@ export function deleteExamSet(id){
             }
         }).then(handleResponse)
         .then(data => dispatch(deleteExamSetById(id)));
+    }
+}
+
+export function saveExamSetQuestions(data){
+    console.log(JSON.stringify(data))
+    return dispatch => {
+        return fetch(`${URL}/api/v1/examset/question/add`, {
+            method: 'post',
+            dataType: 'json',
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+        }).then(handleResponse)
+        .then(data=> dispatch(saveExamQuestionForSet(data.Data)))
     }
 }
 
