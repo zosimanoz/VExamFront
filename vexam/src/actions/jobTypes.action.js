@@ -83,7 +83,7 @@ export const fetchJobTypes = () => {
 // Save department
 export function saveJobType(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/job/new`, {
+        return fetch(`${URL}/api/v1/jobs/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -100,7 +100,7 @@ export function saveJobType(data) {
 
 export function fetchJobTypeById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/job/get/${id}`)
+        fetch(`${URL}/api/v1/jobs/get/${id}`)
             .then(res => res.json())
             .then(data => dispatch(setJobTypeById(data.Data)))
     }
@@ -109,8 +109,8 @@ export function fetchJobTypeById(id){
 
 export function updateJobType(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/job/update`, {
-            method: 'post',
+        return fetch(`${URL}/api/v1/jobs/update`, {
+            method: 'put',
             dataType: 'json',
             body: JSON.stringify(data),
             headers: {
@@ -126,7 +126,7 @@ export function updateJobType(data){
 export function deleteJobType(id){
 
     return dispatch => {
-        return fetch(`${URL}/api/v1/job/delete/${id}`, {
+        return fetch(`${URL}/api/v1/jobs/delete/${id}`, {
             method: 'put',
            dataType: 'json',
             headers: {
