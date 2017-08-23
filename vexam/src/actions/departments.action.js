@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
 export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
 export const GET_DEPARTMENTBYID = 'GET_DEPARTMENTBYID'
@@ -72,21 +74,41 @@ export const fetchDepartments = () => {
 
 
 
-// Save department
+// Save departmenty
 export function saveDepartment(data) {
     return dispatch => {
         return fetch(`${URL}/api/v1/department/new`, {
             method: 'post',
-            dataType: 'json',
             body: JSON.stringify(data),
             headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "application/json"
+              'Accept': 'application/json',
+               'Content-Type': 'application/json'
+               //"Content-Type" : "text/plain"
             }
-        }).then(handleResponse)
+        })
+        .then(data => console.log(data))
+        .then(handleResponse)
         .then(data => dispatch(addDepartment(data.Data)));;
     }
 }
+
+
+
+// export function saveDepartment(data){
+//     return axios({
+//         method:'post',
+//         url:`${URL}/api/v1/department/new`,
+//         data: JSON.stringify(data),
+//         headers: {
+//             "Content-Type": "application/json; charset=UTF-8",
+//             "Accept": "application/json"
+//         }
+
+//     })
+//     .then(function(response) {
+//         console.log(response)
+//     });
+// }
 
 
 

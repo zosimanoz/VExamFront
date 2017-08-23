@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 
 
+import { connect } from 'react-redux';
+
 import {
   BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath
 } from 'react-router-dom';
@@ -53,14 +55,15 @@ const SomeComponentTwo = (props) => {
 class App extends Component {
 
   state = {
-    authenticated: true,
-    role: 'admin'
+    role: 'anonymous'
   }
 
   render() {
 
+    console.log('auth')
+    console.log('authreducers',this.props.authReducer);
 
-    if (this.state.authenticated && this.state.role === 'admin') {
+    if (this.props.authReducer.isAuthenticated && this.state.role === 'admin') {
       return (
         <Router>
           <Admin />
@@ -68,7 +71,7 @@ class App extends Component {
       )
     }
 
-    if (this.state.authenticated && this.state.role === 'user') {
+    if (this.props.authReducer.isAuthenticated && this.state.role === 'user') {
       return (
         <h1>Hello</h1>
       )
@@ -76,7 +79,7 @@ class App extends Component {
 
     return (
       <Router>
-        <Login />
+        <DefaultLayout />
       </Router>
     )
 
@@ -85,4 +88,11 @@ class App extends Component {
 
 
 
-export default App;
+function mapStateToProps(state, props) {
+    return {
+        authReducer: state.authReducer
+    }
+}
+
+
+export default connect(mapStateToProps, null)(App);

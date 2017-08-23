@@ -16,9 +16,12 @@ const URL = 'http://localhost:5000';
 // handle the post response
 function handleResponse(response) {
   if (response.ok) {
+      console.log('success')
     return response.json();
   } else {
     let error = new Error(response.statusText);
+      console.log(error)
+    
     error.response = response;
     throw error;
   }
@@ -96,6 +99,7 @@ export function deleteQuestionFromExamSet(questionId) {
 
 
 export function saveExamQuestionForSet(data){
+    console.log('data',data)
     return {
         type: SAVE_EXAM_QUESTION,
         payload: {
@@ -178,7 +182,6 @@ export function deleteExamSet(id){
 }
 
 export function saveExamSetQuestions(data){
-    console.log(JSON.stringify(data))
     return dispatch => {
         return fetch(`${URL}/api/v1/examset/question/add`, {
             method: 'post',
@@ -188,25 +191,30 @@ export function saveExamSetQuestions(data){
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
+        })
+        .then(handleResponse)
         .then(data=> dispatch(saveExamQuestionForSet(data.Data)))
     }
 }
 
 
 export function isInExamSet(state, props) {
-    return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
+
+    console.log('state',state);
+    console.log('PROPS',props);
+
+   return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
 }
 
-export function allAddedInExamSet(state,props){
-     var result = state.questions.filter(function(fs) {
-        return state.examsets.setQuestions.some(function(ff) { 
-            let setQuestionArray = [];
-            setQuestionArray.push(fs.QuestionId)
-            return setQuestionArray.indexOf(ff) > -1 });
-     });
+// export function allAddedInExamSet(state,props){
+//      var result = state.questions.filter(function(fs) {
+//         return state.examsets.setQuestions.some(function(ff) { 
+//             let setQuestionArray = [];
+//             setQuestionArray.push(fs.QuestionId)
+//             return setQuestionArray.indexOf(ff) > -1 });
+//      });
    
-}
+// }
 
 
 

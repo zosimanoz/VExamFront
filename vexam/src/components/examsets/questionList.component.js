@@ -8,6 +8,7 @@ class QuestionList extends Component {
         const { QuestionId, addQuestionToExamSet, deleteQuestionFromExamSet, isInExamSet } = this.props;
 
 
+
         if (isInExamSet) {
             deleteQuestionFromExamSet(QuestionId);
         } else {
@@ -18,7 +19,7 @@ class QuestionList extends Component {
     render() {
         const { QuestionId,Question,QuestionCategoryName,QuestionComplexityName, QuestionTypeName,isInExamSet } = this.props;
 
-        console.log('props', this.props)
+        console.log('props in question list', this.props)
 
         return (
            <tr className="options" key={QuestionId}>

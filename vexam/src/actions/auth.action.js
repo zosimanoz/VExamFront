@@ -14,6 +14,7 @@ const URL = 'http://localhost:5000';
 // handle the post response
 function handleResponse(response) {
   if (response.ok) {
+      console.log(response)
     return response.json();
   } else {
     let error = new Error(response.statusText);
@@ -81,10 +82,16 @@ export const receiveLogout = () => {
 
 
 export const login = (creds) => {
+
     let config = {
         method: 'POST',
-        headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-        body: `username=${creds.username}&password=${creds.password}`
+        dataType: 'json',
+        mode: "no-cors",
+        headers: {  
+            "Accept": "application/json",
+            'Content-Type':'application/x-www-form-urlencoded' 
+        },
+        body: `emailAddress=${creds.Email}&password=${creds.Password}`
     }
 
     return dispatch => {
@@ -92,14 +99,23 @@ export const login = (creds) => {
         dispatch(requestLogin(creds));
 
         // call api
-        return fetch(`${URL}/api/v1/interviewee/new`, config)
+        return fetch(`${URL}/api/v1/token/interviewee`, {
+                method: 'POST',
+                dataType: 'json',
+                mode: "no-cors",
+                headers: {  
+                    "Accept": "application/json",
+                    'Content-Type':'application/x-www-form-urlencoded' 
+                },
+                body: `emailAddress=${creds.Email}&password=${creds.Password}`
+            })
                .then(handleResponse)
                .then((data) => {
                    console.log(data);
                    // If login was successful, set the token in local storage
-                   localStorage.setItem('access_token', data.Data.access_token)
+                   localStorage.setItem('access_token', data.access_token)
                })
-               .then(data => dispatch(receiveLogin(data.Data)));;
+               .then(data => dispatch(receiveLogin(data.access_token)));;
     }
 }
 
@@ -116,3 +132,12 @@ export const logout = () => {
         dispatch(receiveLogout())
     }
 }
+
+// export const loadUserFromToken = () => {
+//     let token = localStorage.getItem('access_token');
+//     if(!token || token === ''){
+//         return;
+//     }
+
+//     dispatch(meFromToken(token));
+// }
