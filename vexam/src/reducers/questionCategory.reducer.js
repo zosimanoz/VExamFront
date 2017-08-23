@@ -1,4 +1,10 @@
-import { SET_QUESTION_CATEGORY, ADD_QUESTION_CATEGORY, GET_QUESTION_CATEGORY_BYID, UPDATE_QUESTION_CATEGORY, DELETE_QUESTION_CATEGORY } from '../actions/questionCategory.action';
+import {
+        SET_QUESTION_CATEGORY,
+        ADD_QUESTION_CATEGORY, 
+        GET_QUESTION_CATEGORY_BYID, 
+        UPDATE_QUESTION_CATEGORY, 
+        DELETE_QUESTION_CATEGORY 
+    } from '../actions/questionCategory.action';
 
 
 export default function questionCategories(state = [], action = {}) {
