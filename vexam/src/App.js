@@ -55,7 +55,7 @@ const SomeComponentTwo = (props) => {
 class App extends Component {
 
   state = {
-    role: 'anonymous'
+    role: 'admin'
   }
 
   render() {

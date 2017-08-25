@@ -12,14 +12,19 @@ import { saveDepartment, fetchDepartmentById, updateDepartment } from '../../act
 
 class AddDepartment extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            DepartmentId: this.props.department ? this.props.department.DepartmentId : null,
+            DepartmentCode: this.props.department ? this.props.department.DepartmentCode : '',
+            DepartmentName: this.props.department ? this.props.department.DepartmentName : '',
+            errors: {},
+            loading: false,
+            done: false
+        }
 
-    state = {
-        DepartmentId: this.props.department ? this.props.department.DepartmentId : null,
-        DepartmentCode: this.props.department ? this.props.department.DepartmentCode : '',
-        DepartmentName: this.props.department ? this.props.department.DepartmentName : '',
-        errors: {},
-        loading: false,
-        done: false
+        this.handleChange = this.handleChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
 
@@ -36,7 +41,6 @@ class AddDepartment extends React.Component {
 
     // this lifecycle event works when we first load component
     componentDidMount = (props) => {
-        console.log(this.props)
         if (this.props.match.params.id) {
             this.props.fetchDepartmentById(this.props.match.params.id);
         }
@@ -88,21 +92,21 @@ class AddDepartment extends React.Component {
 
             if(DepartmentId) {
                 this.props.updateDepartment({ DepartmentId, DepartmentCode, DepartmentName })
-                .then(()=>{ 
-                    this.setState({ done: true });
+                .then((res)=>{ 
                     this.setState({ loading: false });
+                    this.setState({ done: true });
                  },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                  );
-            }
-
-            this.props.saveDepartment({ DepartmentCode, DepartmentName })
-                .then(() => { 
+            }else {
+                this.props.saveDepartment({ DepartmentCode, DepartmentName })
+                .then((res) => { 
+                    this.setState({ loading: false });                    
                     this.setState({ done: true }); 
-                    this.setState({ loading: false }) 
                 },
                 (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
             );
+            }
         }
     }
 

@@ -12,14 +12,23 @@ import { login } from '../../actions/auth.action';
 
 class Login extends Component {
 
-    
-    state = {
-        Email: '',
-        Password: '',
-        errors: {},
-        loading: false,
-        done: false
+    constructor(props){
+        super(props);
+
+        this.state = {
+            Email: '',
+            Password: '',
+            errors: {},
+            loading: false,
+            done: false
+        }
+
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
+    
+    
 
 
      handleChange = (e) => {

@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "history": "^4.3.0",
+    "jsonwebtoken": "^7.4.3",
+    "jwt-decode": "^2.2.0",
+    "qs": "^6.5.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.1",
     "react-bootstrap-tooltip-button": "^1.0.5",
@@ -20,7 +24,8 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.71.3"
+    "semantic-ui-react": "^0.71.3",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
