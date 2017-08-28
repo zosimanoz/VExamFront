@@ -23,6 +23,16 @@ export default function authReducer(state = initialState, action = {}) {
             return { ...state, user: null, status:'signin', authenticated: false, errors:action.payload.error };
 
 
+        
+        case ME_FROM_TOKEN:// loading currentUser("me") from jwttoken in local/session storage storage,
+            return { ...state, user: null, status:'storage', errors:null }; 
+        case ME_FROM_TOKEN_SUCCESS://return user, status = authenticated and make loading = false
+            return { ...state, user: action.payload.data.user, status:'authenticated', errors:null }; //<-- authenticated
+        case ME_FROM_TOKEN_FAILURE:// return error and make loading = false
+            return { ...state, user: null, status:'storage', errors:action.payload.error };
+        case RESET_TOKEN:// remove token from storage make loading = false
+            return { ...state, user: null, status:'storage', errors:null };
+
         default: return state;
     }
 }

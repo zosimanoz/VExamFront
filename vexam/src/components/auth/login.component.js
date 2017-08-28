@@ -21,7 +21,8 @@ class Login extends Component {
             Password: '',
             errors: {},
             loading: false,
-            done: false
+            done: false,
+            showAlerts: false
         }
 
 
@@ -49,7 +50,6 @@ class Login extends Component {
         }
 
     }
-
 
     handleFormSubmit = (e) => {
         e.preventDefault();
@@ -87,7 +87,7 @@ class Login extends Component {
                     this.props.addFlashMessage({
                         type : 'success',
                         text : 'You have successfully logged in. Thank you !'
-                    })
+                    });
                 }
             ); 
         }
@@ -103,14 +103,14 @@ class Login extends Component {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="form-wrap">
-                                    
-                                        
-                                 
+
                                     <h1>Log In</h1>
 
                                     { this.props.authReducer.errors ?
-                                                 <div className="alert alert-danger">{this.props.authReducer.errors}</div>
-                                                 : '' }
+                                                 <div className="alert alert-danger">
+                                                     {this.props.authReducer.errors}
+                                                 </div>
+                                    : '' }
 
                                     
                                       <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
