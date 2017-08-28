@@ -38,10 +38,12 @@ export default function examsets(state = initialState, action = {}) {
         }
 
         case SAVE_EXAM_QUESTION: {
-            return [
-                ...state,
-                action.payload.data
-            ]
+            // return [
+            //     ...state,
+            //     action.payload.data
+            // ]
+            console.log('current state',state)
+            return state;
         }
 
         case GET_EXAMSETBYID: {

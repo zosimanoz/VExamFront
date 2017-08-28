@@ -18,7 +18,7 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
-import { allAddedInExamSet,saveExamSetQuestions } from '../../actions/examset.action'
+import { saveExamSetQuestions } from '../../actions/examset.action'
 
 import QuestionList from './questionList.component'
 
@@ -97,7 +97,7 @@ class ExamQuestions extends React.Component {
 
 
     handleSelectAll = () => {
-        const { questionList, isInExamSet } = this.props;
+        // const { questionList, isInExamSet } = this.props;
 
         // console.log(this.props)
 
@@ -179,13 +179,16 @@ class ExamQuestions extends React.Component {
         })
 
             
-        this.props.saveExamSetQuestions( { QuestionsForSet } )
+        this.props.saveExamSetQuestions({ QuestionsForSet })
                 .then(() => { 
+                    console.log('ajax success')
                     this.setState({ done: true }); 
                     this.setState({ loading: false }) 
                 },
-                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-            );
+                (err) => { console.log(err); 
+                    //err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                 }
+                );
     }
 
 
@@ -221,7 +224,7 @@ class ExamQuestions extends React.Component {
 
         return (
             <Panel header={this.props.heading}>
-                {this.renderForm()}
+                {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
             </Panel>
         )
     }
@@ -235,7 +238,7 @@ const mapStateToProps = (state,props) => {
         categoryList: state.questionCategories,
         complexityList: state.questionComplexities,
         questionTypeList: state.questionTypes,
-        allAddedInExamSet: allAddedInExamSet(state, props),
+        //allAddedInExamSet: allAddedInExamSet(state, props),
         examsets: state.examsets
     })
 }

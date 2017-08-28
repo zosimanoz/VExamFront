@@ -1,37 +1,23 @@
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_REQUEST,LOGOUT_FAILURE, LOGOUT_SUCCESS } from '../actions/auth.action';
+import { SET_CURRENT_USER } from '../actions/auth.action';
 
 
-export default function authReducer(state = [], action = {}) {
+const initialState = {
+    isAuthenticated: false,
+    user: {}
+};
+
+
+
+export default function authReducer(state = initialState, action = {}) {
     switch (action.type) {
 
-        case LOGIN_REQUEST: {
-            return [
-                ...state,
-                action.isFetching,
-                action.isAuthenticated,
-                action.credentials
-            ];
+        case SET_CURRENT_USER: {
+            return {
+                isAuthenticated: true,
+                user: action.user
+            };
             break;
         }
-
-        case LOGIN_SUCCESS: {
-            return [
-                ...state,
-                action.isFetching,
-                action.isAuthenticated
-            ]
-            break;
-        }
-
-        case LOGOUT_SUCCESS: {
-            return [
-                ...state,
-                action.isFetching,
-                action.isAuthenticated
-            ]
-            break;
-        }
-
 
         default: return state;
     }

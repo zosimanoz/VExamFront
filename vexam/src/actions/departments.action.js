@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
 export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
 export const GET_DEPARTMENTBYID = 'GET_DEPARTMENTBYID'
@@ -62,56 +64,40 @@ export const fetchDepartments = () => {
     // fetch data from api
     // dispatch a new state on receiving data data.Data
     // thunk middle ware help in calling actions as funcitons
-
     return dispatch => {
-        fetch(`${URL}/api/v1/department/get/all`)
-            .then(res => res.json())
-            .then(data => dispatch(setDepartments(data.Data)))
+        return axios.get(`${URL}/api/v1/department/get/all`)
+                    .then(res => dispatch(setDepartments(res.data.Data)))
     }
 }
 
 
 
-// Save department
+// Save departmenty
 export function saveDepartment(data) {
-    debugger;
-    return dispatch => {
-        return fetch(`${URL}/api/v1/department/new`, {
-            method: 'post',
-             dataType: 'json',
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "application/json"
-            }
+      return dispatch => {
+        return axios.post(`${URL}/api/v1/department/new`,JSON.stringify(data),{
         }).then(handleResponse)
             .then(data => dispatch(addDepartment(data.Data)));;
     }
 }
 
-
-
-export function fetchDepartmentById(id) {
+export function fetchDepartmentById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/department/get/${id}`)
-            .then(res => res.json())
-            .then(data => dispatch(setDepartmentById(data.Data)))
+        return axios.get(`${URL}/api/v1/department/get/${id}`)
+                .then(res => dispatch(setDepartmentById(res.data.Data)));
     }
 }
 
 
-export function updateDepartment(data) {
-    return dispatch => {
-        return fetch(`${URL}/api/v1/department/update`, {
-            method: 'post',
-            dataType: 'json',
-            body: JSON.stringify(data),
+export function updateDepartment(data){
+     return dispatch => {
+         return axios.post(`${URL}/api/v1/department/update`,JSON.stringify(data),{
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
-            }
-        }).then(handleResponse)
-            .then(data => dispatch(setUpdatedDepartment(data.Data)));;
+            } 
+         }).then(res => dispatch(setUpdatedDepartment(res.data.Data)))
+
     }
 }
 
