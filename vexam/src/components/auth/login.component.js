@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 
 import { login } from '../../actions/auth.action';
+import { addFlashMessage } from '../../actions/flashMessage.action';
 
 
 
@@ -77,22 +78,24 @@ class Login extends Component {
             this.setState({ loading: true });
 
 
-            this.props.login({ Email, Password })
-                .then(() => { 
+            this.props.login({ Email, Password }).then(
+                () => { 
+
                     this.setState({ done: true }); 
                     this.setState({ loading: false });
-                },
-                (err) => {
 
-                    //err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                    this.props.addFlashMessage({
+                        type : 'success',
+                        text : 'You have successfully logged in. Thank you !'
+                    })
                 }
-            );
+            ); 
         }
     }
 
 
-
     render() {
+
         return (
             <div>
                 <section id="login">
@@ -100,7 +103,16 @@ class Login extends Component {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="form-wrap">
-                                    <h1>Log in with your email and password</h1>
+                                    
+                                        
+                                 
+                                    <h1>Log In</h1>
+
+                                    { this.props.authReducer.errors ?
+                                                 <div className="alert alert-danger">{this.props.authReducer.errors}</div>
+                                                 : '' }
+
+                                    
                                       <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
                                         
                                         <div className={classnames('field', { errors: !!this.state.errors.Email })} >
@@ -151,11 +163,11 @@ class Login extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        authReducer: state.authReducer
+        authReducer: state.authReducer,
     }
 }
 
 
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, addFlashMessage })(Login);
 

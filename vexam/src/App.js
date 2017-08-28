@@ -59,11 +59,7 @@ class App extends Component {
   }
 
   render() {
-
-    console.log('auth')
-    console.log('authreducers',this.props.authReducer);
-
-    if (this.props.authReducer.isAuthenticated && this.state.role === 'admin') {
+    if (this.props.authReducer.authenticated && this.state.role === 'admin') {
       return (
         <Router>
           <Admin />
@@ -71,7 +67,7 @@ class App extends Component {
       )
     }
 
-    if (this.props.authReducer.isAuthenticated && this.state.role === 'user') {
+    if (this.props.authReducer.authenticated && this.state.role === 'user') {
       return (
         <h1>Hello</h1>
       )
