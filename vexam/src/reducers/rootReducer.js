@@ -9,6 +9,7 @@ import jobTypes from './jobTypes.reducer'
 import interviewSessions from './interviewSessions.reducer'
 import interviewees from './interviewee.reducer'
 import authReducer from './auth.reducer'
+import flashMessage from './flashMessage.reducer'
 
 export default combineReducers({
     departments,
@@ -19,5 +20,6 @@ export default combineReducers({
     jobTypes,
     interviewSessions,
     interviewees,
-    authReducer
+    authReducer,
+    flashMessage
 });
