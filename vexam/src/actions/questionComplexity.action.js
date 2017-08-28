@@ -111,7 +111,7 @@ export function fetchQuestionComplexityById(id){
 export function updateQuestionComplexity(data){
      return dispatch => {
         return fetch(`${URL}/api/v1/question/complexity/update`, {
-            method: 'post',
+            method: 'put',
             dataType: 'json',
             body: JSON.stringify(data),
             headers: {

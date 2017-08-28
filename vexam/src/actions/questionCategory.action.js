@@ -52,10 +52,10 @@ export const setUpdateQuestionCategory = (questionCategory) => {
 }
 
 
-export const setQuestionCategoryById = (questionCategory) => {
+export const setQuestionCategoryById = (questionCategories) => {
     return {
         type: GET_QUESTION_CATEGORY_BYID,
-        questionCategory
+        questionCategories
     }
 }
 
@@ -111,7 +111,7 @@ export function fetchQuestionCategoryById(id){
 export function updateQuestionCategory(data){
      return dispatch => {
         return fetch(`${URL}/api/v1/question/category/update`, {
-            method: 'post',
+            method: 'put',
             dataType: 'json',
             body: JSON.stringify(data),
             headers: {

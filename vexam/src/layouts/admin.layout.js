@@ -18,6 +18,14 @@ import ExamQuestions from '../components/examsets/exam-questionset.component';
 
 import TestTable from '../components/questions/testtable.component';
 
+import QuestionCategoryIndex from '../components/questionCategories/questionCategories-index.component';
+import AddQuestionCategory from '../components/questionCategories/add-questionCategory.component';
+
+import QuestionComplexityIndex from '../components/questionComplexities/questionComplexity-index.component';
+import AddQuestionComplexity from '../components/questionComplexities/add-questionComplexity.component';
+
+import JobIndex from '../components/jobs/job-index.component';
+import AddJob from '../components/jobs/add-jobs.component';
 
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -43,6 +51,42 @@ const HeaderNavBar = () => (
   </Navbar>
 );
 
+const SideBar2 = () => (
+  <Row>
+    <div className="absolute-wrapper"></div>
+    <div className="side-menu">
+      <div className="side-menu-container">
+
+        <Nav className="side-menu-container">
+          <NavItem>
+            <span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Questions</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span>
+          </NavItem>
+          <NavDropdown title="Settings">
+            <NavItem><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavItem>
+            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavItem>
+            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Question Complexity</span></NavItem>
+            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Jobs</span></NavItem>
+          </NavDropdown>
+        </Nav>
+      </div>
+    </div>
+  </Row>
+);
+
+
+
 const SideBar = () => (
   <Row>
     <div className="absolute-wrapper"></div>
@@ -52,12 +96,21 @@ const SideBar = () => (
           <li><NavLink exact to="/" activeClassName="active"><span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span></NavLink></li>
           <li><NavLink to="/admin/departments" activeClassName="active"><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavLink></li>
           <li><NavLink to='/admin/categories' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavLink></li>
+          <li><NavLink to='/admin/complexities' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Question Complexity</span></NavLink></li>
+          <li><NavLink to='/admin/jobs' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Jobs</span></NavLink></li>
           <li><NavLink to='/admin/questions' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Questions</span></NavLink></li>
           <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
           <li><NavLink to='/admin/users' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span></NavLink></li>
           <li><NavLink to='/admin/settings' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span></NavLink></li>
           <li><NavLink to='/admin/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
+          {/*<li  data-toggle="collapse" data-target="#settings" className="collapsed" ><NavLink to='/admin/settings' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down"></span></NavLink></li>
+           <ul className="" id="settings">
+                <li>New Service 1</li>
+                <li>New Service 2</li>
+                <li>New Service 3</li>
+            </ul>*/}
         </ul>
+
       </div>
     </div>
   </Row>
@@ -79,28 +132,78 @@ const Routings = () => (
         )}
       />
 
-       <Route exact
+      <Route exact
         path="/admin/departments/add"
         render={props => (
-          <AddDepartment heading="Add New Department" {... props} />
+          <AddDepartment heading="Add New Department" {...props} />
         )}
-      /> 
+      />
 
-        <Route exact
+      <Route exact
         path="/admin/department/:id"
         render={props => (
-          <AddDepartment heading="Edit Department"  {...props}/>
+          <AddDepartment heading="Edit Department"  {...props} />
         )}
-      /> 
+      />
 
       <Route exact
         path="/admin/categories"
         render={props => (
-          <ProjectItem heading="Project" />
+          <QuestionCategoryIndex heading="Question Categories" />
+        )}
+      />
+      <Route exact
+        path="/admin/categories/add"
+        render={props => (
+          <AddQuestionCategory heading="Add Question Category" {...props} />
+        )}
+      />
+      <Route exact
+        path="/admin/categories/:id"
+        render={props => (
+          <AddQuestionCategory heading="Edit Question Category"  {...props} />
         )}
       />
 
-
+      {/*Question Complexity*/}
+      <Route exact
+        path="/admin/complexities"
+        render={props => (
+          <QuestionComplexityIndex heading="Question Complexities" />
+        )}
+      />
+      <Route exact
+        path="/admin/complexity/add"
+        render={props => (
+          <AddQuestionComplexity heading="Add Question Complexity" {...props} />
+        )}
+      />
+      <Route exact
+        path="/admin/complexity/:id"
+        render={props => (
+          <AddQuestionComplexity heading="Edit Question Complexity"  {...props} />
+        )}
+      />
+      {/*Jobs*/}
+      <Route exact
+        path="/admin/jobs"
+        render={props => (
+          <JobIndex heading="Jobs" />
+        )}
+      />
+      <Route exact
+        path="/admin/job/add"
+        render={props => (
+          <AddJob heading="Add Job" {...props} />
+        )}
+      />
+      <Route exact
+        path="/admin/job/:id"
+        render={props => (
+          <AddJob heading="Edit job"  {...props} />
+        )}
+      />
+      {/*Exam*/}
       <Route exact
         path="/admin/exam"
         render={props => (
@@ -122,20 +225,20 @@ const Routings = () => (
         )}
       />
 
-       <Route exact
+      <Route exact
         path="/admin/question/:id"
         render={props => (
-          <AddQuestion heading="Edit Question"  {...props}/>
+          <AddQuestion heading="Edit Question"  {...props} />
         )}
-      /> 
+      />
 
 
       <Route exact
         path="/admin/examsets"
         render={props => (
-          <ExamSet heading="Manage Exam Sets"/>
+          <ExamSet heading="Manage Exam Sets" />
         )}
-      /> 
+      />
 
       <Route exact
         path="/admin/examsets/add"
@@ -223,8 +326,9 @@ const Home = (props) => {
 class Admin extends React.Component {
   constructor(props) {
     super(props);
+     document.title = "VExam";
   }
-
+  
   render() {
     return (
       <div>
@@ -233,9 +337,10 @@ class Admin extends React.Component {
         <Grid bsClass="container main-container">
           <Col xs={2} md={2} className="sidebar">
             <SideBar />
+           
           </Col>
 
-          <Col xs={10} md={10}>
+          <Col xs={10} md={10} >
             <Routings />
           </Col>
         </Grid>
