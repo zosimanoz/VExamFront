@@ -51,6 +51,42 @@ const HeaderNavBar = () => (
   </Navbar>
 );
 
+const SideBar2 = () => (
+  <Row>
+    <div className="absolute-wrapper"></div>
+    <div className="side-menu">
+      <div className="side-menu-container">
+
+        <Nav className="side-menu-container">
+          <NavItem>
+            <span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Questions</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span>
+          </NavItem>
+          <NavItem>
+            <span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span>
+          </NavItem>
+          <NavDropdown title="Settings">
+            <NavItem><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavItem>
+            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavItem>
+            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Question Complexity</span></NavItem>
+            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Jobs</span></NavItem>
+          </NavDropdown>
+        </Nav>
+      </div>
+    </div>
+  </Row>
+);
+
+
+
 const SideBar = () => (
   <Row>
     <div className="absolute-wrapper"></div>
@@ -290,8 +326,9 @@ const Home = (props) => {
 class Admin extends React.Component {
   constructor(props) {
     super(props);
+     document.title = "VExam";
   }
-
+  
   render() {
     return (
       <div>
@@ -300,9 +337,10 @@ class Admin extends React.Component {
         <Grid bsClass="container main-container">
           <Col xs={2} md={2} className="sidebar">
             <SideBar />
+           
           </Col>
 
-          <Col xs={10} md={10}>
+          <Col xs={10} md={10} >
             <Routings />
           </Col>
         </Grid>

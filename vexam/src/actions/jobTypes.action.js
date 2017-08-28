@@ -87,6 +87,7 @@ export function saveJobType(data) {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
+            credentials:true,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

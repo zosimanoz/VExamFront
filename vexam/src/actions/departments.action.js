@@ -10,13 +10,13 @@ const URL = 'http://localhost:5000';
 
 // handle the post response
 function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+    if (response.ok) {
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
 }
 
 
@@ -74,23 +74,24 @@ export const fetchDepartments = () => {
 
 // Save department
 export function saveDepartment(data) {
+    debugger;
     return dispatch => {
         return fetch(`${URL}/api/v1/department/new`, {
             method: 'post',
-            dataType: 'json',
+             dataType: 'json',
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addDepartment(data.Data)));;
+            .then(data => dispatch(addDepartment(data.Data)));;
     }
 }
 
 
 
-export function fetchDepartmentById(id){
+export function fetchDepartmentById(id) {
     return dispatch => {
         fetch(`${URL}/api/v1/department/get/${id}`)
             .then(res => res.json())
@@ -99,8 +100,8 @@ export function fetchDepartmentById(id){
 }
 
 
-export function updateDepartment(data){
-     return dispatch => {
+export function updateDepartment(data) {
+    return dispatch => {
         return fetch(`${URL}/api/v1/department/update`, {
             method: 'post',
             dataType: 'json',
@@ -110,7 +111,7 @@ export function updateDepartment(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdatedDepartment(data.Data)));;
+            .then(data => dispatch(setUpdatedDepartment(data.Data)));;
     }
 }
 
