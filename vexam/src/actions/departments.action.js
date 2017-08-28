@@ -76,7 +76,11 @@ export const fetchDepartments = () => {
 export function saveDepartment(data) {
       return dispatch => {
         return axios.post(`${URL}/api/v1/department/new`,JSON.stringify(data),{
-        }).then(res => dispatch(addDepartment(res.data.Data)));;
+             headers: {
+              'Accept': 'application/json',
+               'Content-Type': 'application/json'
+            }
+         }).then(res => dispatch(addDepartment(res.data.Data)));;
     }
 }
 

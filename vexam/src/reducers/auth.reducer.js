@@ -2,7 +2,7 @@ import { SET_CURRENT_USER } from '../actions/auth.action';
 
 
 const initialState = {
-    isAuthenticated: false,
+    isAuthenticated: true,
     user: {}
 };
 
