@@ -4,10 +4,15 @@ SIGNIN_USER_FAILURE,LOGOUT_USER,ME_FROM_TOKEN,ME_FROM_TOKEN_SUCCESS,ME_FROM_TOKE
 
 
 const initialState = {
-    authenticated: false,
-    status: null,
-    user: {},
-    errors: null
+
+    isAuthenticated: true,
+    user: {}
+
+    // authenticated: false,
+    // status: null,
+    // user: {},
+    // errors: null
+
 };
 
 

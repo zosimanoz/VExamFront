@@ -12,13 +12,13 @@ const URL = 'http://localhost:5000';
 
 // handle the post response
 function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+    if (response.ok) {
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
 }
 
 
@@ -76,12 +76,12 @@ export const fetchDepartments = () => {
 export function saveDepartment(data) {
       return dispatch => {
         return axios.post(`${URL}/api/v1/department/new`,JSON.stringify(data),{
-            headers: {
+             headers: {
               'Accept': 'application/json',
                'Content-Type': 'application/json'
             }
-        }).then(res => dispatch(addDepartment(res.data.Data)));
-    } 
+         }).then(res => dispatch(addDepartment(res.data.Data)));;
+    }
 }
 
 export function fetchDepartmentById(id){
@@ -100,6 +100,7 @@ export function updateDepartment(data){
                 "Accept": "application/json"
             } 
          }).then(res => dispatch(setUpdatedDepartment(res.data.Data)))
+
     }
 }
 
