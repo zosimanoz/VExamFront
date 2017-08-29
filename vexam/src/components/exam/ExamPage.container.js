@@ -8,6 +8,7 @@ import Quiz from './quiz.component'
 import Pager from './pager.component'
 import QuizQuestionIndex from './quiz-question-index.component'
 import Timer from './timer.component'
+import CountDownTimer from '../timer/timer.component'
 
 
 class ExamPage extends React.Component {
@@ -163,7 +164,7 @@ class ExamPage extends React.Component {
                             <h2>Verscend Quiz</h2>
                     </div>
 
-                    <Timer />
+                    <CountDownTimer />
                 </div>
                 
                 <div className="row">
