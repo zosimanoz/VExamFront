@@ -20,36 +20,10 @@ import TestLayout from './layouts/test.layout';
 import Login from './components/auth/login.component';
 import Dashboard from './components/dashboard/dashboard.container';
 import AddDepartment from './components/departments/add-department.component';
+import ExamPage from './components/exam/ExamPage.container';
 
 // import Register from './components/auth/component.register';
 // import Admin from './components/admin/admin.container';
-
-
-const Users = (props) => {
-  return (
-    <h1>User Management</h1>
-  );
-}
-
-
-const SomeComponent = (props) => {
-  return (
-    <h1>SomeComponent</h1>
-  );
-}
-
-const SomeComponentOne = (props) => {
-  return (
-    <h1>SomeComponentOne</h1>
-  );
-}
-
-const SomeComponentTwo = (props) => {
-  return (
-    <h1>SomeComponentTwo</h1>
-  );
-}
-
 
 
 class App extends Component {
@@ -59,7 +33,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.authReducer.authenticated && this.state.role === 'admin') {
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
       return (
         <Router>
           <Admin />
@@ -67,9 +41,9 @@ class App extends Component {
       )
     }
 
-    if (this.props.authReducer.authenticated && this.state.role === 'user') {
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User') {
       return (
-        <h1>Hello</h1>
+        <ExamPage />
       )
     }
 

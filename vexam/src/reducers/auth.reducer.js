@@ -4,15 +4,11 @@ SIGNIN_USER_FAILURE,LOGOUT_USER,ME_FROM_TOKEN,ME_FROM_TOKEN_SUCCESS,ME_FROM_TOKE
 
 
 const initialState = {
-
-    isAuthenticated: true,
-    user: {}
-
-    // authenticated: false,
-    // status: null,
-    // user: {},
-    // errors: null
-
+    authenticated: false,
+    status: null,
+    user: {},
+    errors: null,
+    role: null
 };
 
 
@@ -21,22 +17,22 @@ export default function authReducer(state = initialState, action = {}) {
     switch (action.type) {
 
         case SIGNIN_USER:// sign in user,  set loading = true and status = signin
-            return { ...state, user: null, authenticated: false, status:'signin', errors:null }; 
+            return { ...state, user: null, authenticated: false, status:'signin', errors:null, role: null }; 
         case SIGNIN_USER_SUCCESS://return authenticated user,  make loading = false and status = authenticated
-            return { ...state, user: action.payload.user, authenticated: true, status:'authenticated', errors:null }; //<-- authenticated
+            return { ...state, user: action.payload.user, authenticated: true, status:'authenticated', errors:null, role: null }; //<-- authenticated
         case SIGNIN_USER_FAILURE:// return error and make loading = false
-            return { ...state, user: null, status:'signin', authenticated: false, errors:action.payload.error };
+            return { ...state, user: null, status:'signin', authenticated: false, errors:action.payload.error, role: null };
 
 
         
         case ME_FROM_TOKEN:// loading currentUser("me") from jwttoken in local/session storage storage,
-            return { ...state, user: null, status:'storage', errors:null }; 
+            return { ...state, user: null, status:'storage', errors:null, authenticated: false, role: null }; 
         case ME_FROM_TOKEN_SUCCESS://return user, status = authenticated and make loading = false
-            return { ...state, user: action.payload.data.user, status:'authenticated', errors:null }; //<-- authenticated
+            return { ...state, user: action.payload.user, status:'authenticated', authenticated: true, errors:null, role: null }; //<-- authenticated
         case ME_FROM_TOKEN_FAILURE:// return error and make loading = false
-            return { ...state, user: null, status:'storage', errors:action.payload.error };
+            return { ...state, user: null, status:'storage', authenticated: false, errors:action.payload.error, role: null };
         case RESET_TOKEN:// remove token from storage make loading = false
-            return { ...state, user: null, status:'storage', errors:null };
+            return { ...state, user: null, status:'storage', errors:null, authenticated: false, role: null };
 
         default: return state;
     }

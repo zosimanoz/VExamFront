@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 
 export const SET_QUESTION_CATEGORY = 'SET_QUESTION_CATEGORY'
 export const ADD_QUESTION_CATEGORY = 'ADD_QUESTION_CATEGORY'
@@ -8,25 +10,6 @@ export const DELETE_QUESTION_CATEGORY = 'DELETE_QUESTION_CATEGORY'
 
 const URL = 'http://localhost:5000';
 
-
-
-// handle the post response
-function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
-}
-
-
-// set games action is dispatched when data is received
-// this action sets a new state with type and dispatch data 
-// to the store. After it recives the new state, we need to implement
-// the reducer to respond to the change in data and state
-// So, lets jump into the department.reducer
 
 export const setQuestionCategories = (questionCategories) => {
     return {
@@ -73,9 +56,8 @@ export const fetchQuestionCategoryList = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/question/category/get/all`)
-            .then(res => res.json())
-            .then(data => dispatch(setQuestionCategories(data.Data)))
+        axios.get(`${URL}/api/v1/question/category/get/all`)
+            .then(res => dispatch(setQuestionCategories(res.data.Data)))
     }
 }
 
@@ -84,16 +66,17 @@ export const fetchQuestionCategoryList = () => {
 // Save department
 export function saveQuestionCategory(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/new`, {
+        return axios({
+            url: `${URL}/api/v1/question/category/new`,
             method: 'post',
             dataType: 'json',
-            body: JSON.stringify(data),
+            data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-        .then(data => dispatch(addQuestionCategory(data.Data)));;
+        })
+        .then(res => dispatch(addQuestionCategory(res.data.Data)));;
     }
 }
 
@@ -101,24 +84,24 @@ export function saveQuestionCategory(data) {
 
 export function fetchQuestionCategoryById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/question/category/get/${id}`)
-            .then(res => res.json())
-            .then(data => dispatch(setQuestionCategoryById(data.Data)))
+        axios.get(`${URL}/api/v1/question/category/get/${id}`)
+            .then(res => dispatch(setQuestionCategoryById(res.data.Data)))
     }
 }
 
 
 export function updateQuestionCategory(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/update`, {
+        return axios({ 
+            url: `${URL}/api/v1/question/category/update`, 
             method: 'put',
             dataType: 'json',
-            body: JSON.stringify(data),
+            data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
+        })
         .then(data => dispatch(setUpdateQuestionCategory(data.Data)));
     }
 }
@@ -127,14 +110,15 @@ export function updateQuestionCategory(data){
 export function deleteQuestionCategory(id){
 
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/category/delete/${id}`, {
+        return axios({
+            url: `${URL}/api/v1/question/category/delete/${id}`,
             method: 'put',
-           dataType: 'json',
+            dataType: 'json',
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-        .then(data => dispatch(deleteQuestionCategoryById(id)));
+        })
+        .then(res => dispatch(deleteQuestionCategoryById(id)));
     }
 }

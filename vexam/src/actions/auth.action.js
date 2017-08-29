@@ -67,11 +67,10 @@ export function login(creds) {
     dispatch(signInStart());
     return axios.post(`${URL}/api/v1/token/interviewee`,data)
           .then((res)=>{ 
-              console.log(res)
               const token = res.data.access_token;
               localStorage.setItem('access_token', token);
               setAuthorizationToken(token);
-              dispatch(signInSuccess({ user: creds.Email }));
+              dispatch(loadUserFromToken());
           }).catch((err) => {
               dispatch(signInFailure(err.response.data))
           });
@@ -122,10 +121,7 @@ export const loadUserFromToken = () => {
 
         return axios({
           method: 'get',
-          url: `some url`,
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+          url: `${URL}/api/token/decode/${token}`
         }).then((res) => {
           dispatch(meFromTokenSuccess(res.data.Data));
         }).catch(error => {

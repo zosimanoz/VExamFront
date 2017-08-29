@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 
-import {setCurrentUser} from './actions/auth.action';
+import {setCurrentUser, loadUserFromToken} from './actions/auth.action';
 
 import store from './store/index.store';
 
@@ -17,6 +17,7 @@ import setAuthorizationToken from './utils/setAuthorizationToken';
 
 if(localStorage.access_token){
     setAuthorizationToken(localStorage.access_token);
+    store.dispatch(loadUserFromToken());
     // dispatch an action to get the current user
     // set the authenticated user into the store
 }
