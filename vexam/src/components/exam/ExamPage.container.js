@@ -3,12 +3,17 @@ import update from 'react-addons-update'
 
 import { connect } from 'react-redux'
 
+
+import { getExamQuestions } from '../../actions/examQuiz.action'
+
 import quizQuestions from '../../api/quizQuestions.api';
 import Quiz from './quiz.component'
 import Pager from './pager.component'
 import QuizQuestionIndex from './quiz-question-index.component'
 import Timer from './timer.component'
 import CountDownTimer from '../timer/timer.component'
+
+import './exam.css'
 
 
 class ExamPage extends React.Component {
@@ -55,6 +60,10 @@ class ExamPage extends React.Component {
             question: quizQuestions[0].question,
             answerOptions: shuffledAnswerOptions[0]
         });
+    }
+
+    componentDidMount() {
+        this.props.getExamQuestions();
     }
 
 
@@ -116,7 +125,7 @@ class ExamPage extends React.Component {
                 question: quizQuestions[counter].question,
                 answerOptions: quizQuestions[counter].answers,
                 answer: '',
-                disableBtnPrev : true
+                disableBtnPrev: true
             });
         }
         this.setState({
@@ -142,9 +151,9 @@ class ExamPage extends React.Component {
     }
 
     handlePrevQuestion(event) {
-    
-            setTimeout(() => this.setPrevQuestion(), 300);
-       
+
+        setTimeout(() => this.setPrevQuestion(), 300);
+
     }
 
     handleNextQuestion(event) {
@@ -157,36 +166,59 @@ class ExamPage extends React.Component {
     }
 
     render() {
+
+        { console.log('quiz questions', this.props.quizQuestions) }
         return (
-            <div className="App container">
-                <div className="row">
-                    <div className="App-header">
-                            <h2>Verscend Quiz</h2>
-                    </div>
+            <div>
+                <CountDownTimer />
 
-                    <CountDownTimer />
-                </div>
-                
-                <div className="row">
-                    <div className="col-md-8">
-                        <Quiz
-                            answer={this.state.answer}
-                            answerOptions={this.state.answerOptions}
-                            questionId={this.state.questionId}
-                            question={this.state.question}
-                            questionTotal={quizQuestions.length}
-                            onAnswerSelected={this.handleAnswerSelected}
-                            />
+                <div className="container quiz-container">
+                    <div className="row clearfix">
+                        <div className="col-md-8">
+                            <div className="panel panel-default">
+                                <div className="panel-heading">
+                                    <p>Exam Set for Software Engineer</p>
+                                </div>
+                                <div className="panel-body">
+                                    
+                                    <Quiz
+                                        answer={this.state.answer}
+                                        answerOptions={this.state.answerOptions}
+                                        questionId={this.state.questionId}
+                                        question={this.state.question}
+                                        questionTotal={quizQuestions.length}
+                                        onAnswerSelected={this.handleAnswerSelected}
+                                    />
 
-                        <div className="pager">
-                            <Pager disableBtnPrev={this.state.disableBtnPrev} onPrevClick={this.handlePrevQuestion} onNextClick={this.handleNextQuestion} />
+                                    <div className="pager">
+                                        <Pager disableBtnPrev={this.state.disableBtnPrev} onPrevClick={this.handlePrevQuestion} onNextClick={this.handleNextQuestion} />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <QuizQuestionIndex />
+                        <div className="col-md-4">
+                            <div id="scorecard" className="menu">
+                                <ul>
+                                    <li className="">1</li>
+                                    <li className="">2</li>
+                                    <li className="">3</li>
+                                    <li className="">4</li>
+                                    <li className="currQue">5</li>
+                                    <li className="currQue">6</li>
+                                    <li className="currQue">7</li>
+                                    <li className="currQue">8</li>
+                                    <li className="">1</li>
+                                    <li className="">2</li>
+                                    <li className="">3</li>
+                                    <li className="">4</li>
+                                </ul>
+                            </div>
+                            {/*<QuizQuestionIndex />*/}
+                        </div>
                     </div>
                 </div>
             </div>
+
         )
     }
 
@@ -196,10 +228,10 @@ class ExamPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        
+        quizQuestions: state.quizReducer.questions
     }
 }
 
 
 
-export default connect(mapStateToProps,null)(ExamPage);
+export default connect(mapStateToProps, { getExamQuestions })(ExamPage);
