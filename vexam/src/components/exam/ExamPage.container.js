@@ -34,7 +34,8 @@ class ExamPage extends React.Component {
                 sony: 0
             },
             result: '',
-            disableBtnPrev: false
+            disableBtnPrev: false,
+            questions: null
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -59,6 +60,13 @@ class ExamPage extends React.Component {
         this.setState({
             question: quizQuestions[0].question,
             answerOptions: shuffledAnswerOptions[0]
+        });
+    }
+
+    
+    componentWillReceiveProps = (new_props) => {
+        this.setState({
+            questions: new_props.quizQuestions
         });
     }
 
@@ -165,9 +173,18 @@ class ExamPage extends React.Component {
         }
     }
 
+    renderQuiz() {
+        
+        if(this.props.quizQuestions){
+            this.props.quizQuestions.map((question,idx) => {
+                console.log(question)
+            });
+        }
+      
+    }
+
     render() {
 
-        { console.log('quiz questions', this.props.quizQuestions) }
         return (
             <div>
                 <CountDownTimer />
@@ -181,6 +198,7 @@ class ExamPage extends React.Component {
                                 </div>
                                 <div className="panel-body">
                                     
+                                    { this.renderQuiz() }
                                     <Quiz
                                         answer={this.state.answer}
                                         answerOptions={this.state.answerOptions}
