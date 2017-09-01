@@ -20,6 +20,13 @@
     border-radius: 0px;
 }
 
+/*#scorecard {
+    position: fixed;
+    top: 10px;
+    bottom: 20px;
+    overflow-y: auto;
+}*/
+
 #scorecard ul {
     background: #fff;
     overflow: hidden;
@@ -49,4 +56,23 @@
     color: #fff !important;
 }
 
+
+li.answerOption {
+    list-style-type: none;
+}
+
+.quizcheckBox {
+    margin: 4px 4px 0 !important;
+}
+
+.quiz-question-detail {
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-top: 15px;
+    box-shadow: 6px 7px 5px #ccc;
+}
+
+.subjectiveAnswer {
+    margin: 5px;
+}
 

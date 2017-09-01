@@ -9,45 +9,47 @@ import AnswerOption from './answer-options.component'
 
 const Quiz = (props) => {
 
+/* 
     const renderAnswerOptions = (key) => {
         return (
             <AnswerOption
                 key={key.content}
                 answerContent={key.content}
                 answerType={key.type}
-                answer={props.answer}
                 questionId={props.questionId}
                 onAnswerSelected={props.onAnswerSelected}
                 />
         );
-    }
+    }*/
+
 
     return (
+
+
         <div className="quiz">
-            <QuestionCount
+            {/*<QuestionCount
                 counter={props.questionId}
-                total={props.questionTotal} />
+                total={props.questionTotal} />*/}
 
 
             <Question content={props.question} />
 
-            <ul className="answerOptions">
+            {/*<ul className="answerOptions">
                 {props.answerOptions.map(renderAnswerOptions)}
-            </ul>
+            </ul>*/}
         </div>
     )
 }
 
 
-Quiz.propTypes = {
-    answer: React.PropTypes.string.isRequired,
-    answerOptions: React.PropTypes.array.isRequired,
-    counter: React.PropTypes.number.isRequired,
-    question: React.PropTypes.string.isRequired,
-    questionId: React.PropTypes.number.isRequired,
-    questionTotal: React.PropTypes.number.isRequired,
-    onAnswerSelected: React.PropTypes.func.isRequired
-};
+// Quiz.propTypes = {
+//     answerOptions: React.PropTypes.array.isRequired,
+//   //  counter: React.PropTypes.number.isRequired,
+//     question: React.PropTypes.string.isRequired,
+//     questionId: React.PropTypes.number.isRequired,
+//     questionTotal: React.PropTypes.number.isRequired,
+//     onAnswerSelected: React.PropTypes.func.isRequired
+// };
 
 export default Quiz;
 

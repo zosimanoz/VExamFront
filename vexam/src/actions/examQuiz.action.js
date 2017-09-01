@@ -8,6 +8,8 @@ export const FETCH_EXAM_QUESTIONS_SUCCESS = 'FETCH_EXAM_QUESTIONS_SUCCESS';
 export const FETCH_EXAM_QUESTIONS_FAILURE = 'FETCH_EXAM_QUESTIONS_FAILURE';
 
 
+const URL = 'http://localhost:5000';
+
 export function fetchExamQuestionStart() {
   return {
     type: FETCH_EXAM_QUESTIONS_START
@@ -35,23 +37,24 @@ export function fetchExamQuestionsFailure(data) {
 
 
 
-// export function getExamQuestions() {
-//   return dispatch => {
-//     dispatch(fetchExamQuestionStart());
-//     return axios.get(`quizQuestions.json`)
-//           .then((res)=>{ 
-//               console.log(res.data.Data)
-//               dispatch(fetchExamQuestionsSuccess(res.data.Data));
-//           }).catch((err) => {
-//               dispatch(fetchExamQuestionsFailure(err.response.data))
-//           });
-//   }
-// }
-
-
 export function getExamQuestions() {
   return dispatch => {
-      dispatch(fetchExamQuestionStart());
-      dispatch(fetchExamQuestionsSuccess(quizQuestions));
+    dispatch(fetchExamQuestionStart());
+    axios.get(`${URL}/api/v1/interviewee/interview/questions/3`)
+          .then((res)=>{ 
+              console.log(res.data.Data)
+              dispatch(fetchExamQuestionsSuccess(res.data.Data));
+          }).catch((err) => {
+              console.log(err)
+              dispatch(fetchExamQuestionsFailure(err.response.data))
+          });
   }
 }
+
+
+// export function getExamQuestions() {
+//   return dispatch => {
+//       dispatch(fetchExamQuestionStart());
+//       dispatch(fetchExamQuestionsSuccess(quizQuestions));
+//   }
+// }

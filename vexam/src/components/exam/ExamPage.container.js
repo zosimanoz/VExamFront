@@ -12,6 +12,7 @@ import Pager from './pager.component'
 import QuizQuestionIndex from './quiz-question-index.component'
 import Timer from './timer.component'
 import CountDownTimer from '../timer/timer.component'
+import QuizQuestionList from './quiz-question-list.component'
 
 import './exam.css'
 
@@ -122,8 +123,7 @@ class ExamPage extends React.Component {
         let counter = this.state.counter - 1;
         let questionId = this.state.questionId - 1;
 
-        console.log('cunter', counter)
-
+     
         if (counter <= 1) {
             counter = 1;
             questionId = 1;
@@ -173,15 +173,12 @@ class ExamPage extends React.Component {
         }
     }
 
-    renderQuiz() {
-        
-        if(this.props.quizQuestions){
-            this.props.quizQuestions.map((question,idx) => {
-                console.log(question)
-            });
-        }
-      
-    }
+    renderQuestionJumpIndex = () => (
+        this.props.quizQuestions.map((question,idx) => {
+            return <li>{question.Question.QuestionId}</li>
+        })
+    )
+
 
     render() {
 
@@ -198,16 +195,9 @@ class ExamPage extends React.Component {
                                 </div>
                                 <div className="panel-body">
                                     
-                                    { this.renderQuiz() }
-                                    <Quiz
-                                        answer={this.state.answer}
-                                        answerOptions={this.state.answerOptions}
-                                        questionId={this.state.questionId}
-                                        question={this.state.question}
-                                        questionTotal={quizQuestions.length}
-                                        onAnswerSelected={this.handleAnswerSelected}
-                                    />
-
+                                    
+                                   <QuizQuestionList questions={this.props.quizQuestions} />
+                                   
                                     <div className="pager">
                                         <Pager disableBtnPrev={this.state.disableBtnPrev} onPrevClick={this.handlePrevQuestion} onNextClick={this.handleNextQuestion} />
                                     </div>
@@ -217,7 +207,9 @@ class ExamPage extends React.Component {
                         <div className="col-md-4">
                             <div id="scorecard" className="menu">
                                 <ul>
-                                    <li className="">1</li>
+                                    { this.renderQuestionJumpIndex() }
+
+                                    {/*<li className="">1</li>
                                     <li className="">2</li>
                                     <li className="">3</li>
                                     <li className="">4</li>
@@ -228,7 +220,7 @@ class ExamPage extends React.Component {
                                     <li className="">1</li>
                                     <li className="">2</li>
                                     <li className="">3</li>
-                                    <li className="">4</li>
+                                    <li className="">4</li>*/}
                                 </ul>
                             </div>
                             {/*<QuizQuestionIndex />*/}
