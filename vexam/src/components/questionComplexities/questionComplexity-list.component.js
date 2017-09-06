@@ -2,26 +2,12 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { deleteQuestionComplexity } from '../../actions/questionComplexity.action';
-
 const QuestionComplexityList = (props) => {
 
     const EmptyMessage = (
         <p>There are no Question Complexities added yet. </p>
     )
-
-    const handleComplexityDelete = (id) => {
-       
-        this.props.deleteQuestionComplexity(id)
-                .then(() => {
-                    this.setState({ done: true });
-                    this.setState({ loading: false })
-                },
-                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                );
-    }
-
-
+   
     const RenderQuestionComplexityTable = (
         <div className="clearfix">
             <table className="table table-bordered table-condensed table-hover crud-table">

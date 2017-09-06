@@ -30,6 +30,7 @@ class ExamQuestions extends React.Component {
         super(props);
     }
 
+   
     state = {
         QuestionTypeId: '0',
         QuestionCategoryId: '0',
@@ -39,7 +40,7 @@ class ExamQuestions extends React.Component {
         errors: {},
         loading: false,
         done: false,
-        selectedQuestions : [],
+        selectedQuestions: [],
         checked: []
     }
 
@@ -65,9 +66,9 @@ class ExamQuestions extends React.Component {
         )
     }
 
-    handleAddButtonClick = (idx,e) => {
+    handleAddButtonClick = (idx, e) => {
         let question = {
-            QuestionId : idx
+            QuestionId: idx
         };
 
         this.setState({
@@ -157,7 +158,7 @@ class ExamQuestions extends React.Component {
                 </tr>
 
                 {this.props.questionsList.length === 0 ? this.EmptyMessage() : this.RenderQuestionList()}
-          
+
             </tbody>
         )
     }
@@ -168,7 +169,7 @@ class ExamQuestions extends React.Component {
         const { setQuestions } = this.props.examsets;
 
         let QuestionsForSet = [];
-        setQuestions.map((questionId,idx)=> {
+        setQuestions.map((questionId, idx) => {
             let data = {
                 QuestionId: questionId,
                 ExamSetId: this.props.match.params.id,
@@ -178,17 +179,18 @@ class ExamQuestions extends React.Component {
             QuestionsForSet.push(data);
         })
 
-            
+
         this.props.saveExamSetQuestions({ QuestionsForSet })
-                .then(() => { 
-                    console.log('ajax success')
-                    this.setState({ done: true }); 
-                    this.setState({ loading: false }) 
-                },
-                (err) => { console.log(err); 
-                    //err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                 }
-                );
+            .then(() => {
+                console.log('ajax success')
+                this.setState({ done: true });
+                this.setState({ loading: false })
+            },
+            (err) => {
+                console.log(err);
+                //err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            }
+            );
     }
 
 
@@ -219,9 +221,6 @@ class ExamQuestions extends React.Component {
     }
 
     render() {
-
-
-
         return (
             <Panel header={this.props.heading}>
                 {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
@@ -232,7 +231,7 @@ class ExamQuestions extends React.Component {
 
 
 
-const mapStateToProps = (state,props) => {
+const mapStateToProps = (state, props) => {
     return ({
         questionsList: state.questions,
         categoryList: state.questionCategories,
@@ -245,4 +244,4 @@ const mapStateToProps = (state,props) => {
 
 
 
-export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList,saveExamSetQuestions })(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, saveExamSetQuestions })(ExamQuestions);

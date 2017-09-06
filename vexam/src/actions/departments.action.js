@@ -72,6 +72,7 @@ export const fetchDepartments = () => {
 
 
 
+
 // Save departmenty
 export function saveDepartment(data) {
       return dispatch => {

@@ -11,6 +11,7 @@ export default function questionCategories(state = [], action = {}) {
     switch (action.type) {
 
         case SET_QUESTION_CATEGORY: {
+            console.log('categories ',action.questionCategories)
             return action.questionCategories;
             break;
         }

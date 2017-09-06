@@ -102,7 +102,7 @@ const SideBar = () => (
           <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
           <li><NavLink to='/admin/users' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span></NavLink></li>
           <li><NavLink to='/admin/settings' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span></NavLink></li>
-          <li><NavLink to='/admin/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
+          <li><NavLink to='/interviewee/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
           {/*<li  data-toggle="collapse" data-target="#settings" className="collapsed" ><NavLink to='/admin/settings' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down"></span></NavLink></li>
            <ul className="" id="settings">
                 <li>New Service 1</li>

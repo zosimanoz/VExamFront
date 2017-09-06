@@ -1,55 +1,63 @@
 import { SET_QUESTIONS, ADD_QUESTIONS, GET_QUESTIONBYID, UPDATE_QUESTION, DELETE_QUESTION, SET_FILTERED_QUESTION } from '../actions/questions.action';
 
+const initialState = {
 
-export default function questions(state = [], action = {}) {
+    QuestionWithOptions: {},
+    QuestionList: [],
+    Question: null
+
+}
+
+export default function questions(state = initialState, action = {}) {
     switch (action.type) {
 
         case SET_QUESTIONS: {
-            return action.questions;
+            return {
+                ...state,
+                QuestionList: action.payload.questions
+            }
             break;
         }
 
         case ADD_QUESTIONS: {
-            return [
+            return {
                 ...state,
-                action.question
-            ]
+                Question: action.payload.question
+            }
             break;
         }
 
-         case UPDATE_QUESTION: {
-            return [
+        case UPDATE_QUESTION: {
+            return {
                 ...state,
-                action.question
-            ]
+                Question: action.payload.question
+            }
             break;
         }
 
         case SET_FILTERED_QUESTION: {
-            return action.questions
+            return {
+                ...state,
+                QuestionList: action.payload.questions
+            }
             break;
         }
 
         case DELETE_QUESTION: {
-            return state.filter(item => item.QuestionId != action.question.QuestionId)
+           
+            return {
+                ...state,
+                QuestionList: state.QuestionList.filter(item => item.QuestionId !== action.payload.questionId)
+            }
+
             break;
         }
 
         case GET_QUESTIONBYID: {
-            const index = state.findIndex(item => item.QuestionId === action.question.QuestionId);
-            if (index > -1) {
-                return state.map(item => {
-                    if (item.QuestionId === action.question.QuestionId) {
-                        return action.question;
-                    } else {
-                        return item;
-                    }
-                })
-            } else {
-                return [
-                    ...state,
-                    action.question
-                ]
+
+            return {
+                ...state,
+                QuestionWithOptions: action.payload.question
             }
             break;
         }

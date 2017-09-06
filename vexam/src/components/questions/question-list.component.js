@@ -17,10 +17,10 @@ const QustionsList = (props) => {
             <table className="table table-bordered table-condensed table-hover crud-table">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>S.N</th>
                         <th>Title</th>
                         <th>Marks</th>
-                        <th>IsActive</th>
+                        <th>Question Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -28,15 +28,14 @@ const QustionsList = (props) => {
                     {
                         props.questions.map((item,i) =>
                             <tr key={i}>
-                                <td>{item.QuestionId}</td>
+                                <td>{i+1}</td>
                                 <td>{item.Question}</td>
                                 <td>{item.Marks}</td>
-                                <td>{item.Deleted === false ? 'active' : 'deleted'}</td>
+                                <td>{item.QuestionTypeName}</td>
                                 <td>
-                                    <a title="View" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-eye-open text-success"></i> </a>
+                                    {/*<a title="View" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-eye-open text-success"></i> </a>*/}
                                     <NavLink to={`/admin/question/${item.QuestionId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
-                                    {/*<a href="#" title="Edit" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-edit text-primary"></i> </a>*/}
-                                    <a title="Delete" className="btn btn-default btn-sm " onClick={()=>props.deleteQuestion(item.QuestionId)}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
+                                    <a title="Delete" className="btn btn-default btn-sm " onClick={()=> props.deleteQuestion(item.QuestionId)}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                 </td>
                             </tr>
                         )

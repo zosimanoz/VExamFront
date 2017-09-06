@@ -42,7 +42,7 @@ class QuestionsIndex extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        questions: state.questions
+        questions: state.questions.QuestionList
     }
 }
 

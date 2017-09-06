@@ -1,0 +1,38 @@
+import axios from 'axios'
+
+const URL = 'http://localhost:5000';
+
+export function uploadSuccess({ filepath }) {
+  return {
+    type: 'UPLOAD_DOCUMENT_SUCCESS',
+    payload: {
+      filepath: filepath
+    }
+  };
+}
+
+export function uploadFail(error) {
+  return {
+    type: 'UPLOAD_DOCUMENT_FAIL',
+    payload: {
+      error: error
+    }
+  };
+}
+
+export function uploadDocumentRequest(file) {
+  let data = new FormData();
+  data.append('files', file);
+  return dispatch => {
+    return axios({
+      method: 'POST',
+      url: `${URL}/api/v1/file/upload`,
+      data: data
+    })
+      // .then(res => dispatch(uploadSuccess(res.data.relativeFilePath)))
+      // .catch((err) => {
+      //   dispatch(uploadFail(err.response))
+      // });
+  }
+
+}
