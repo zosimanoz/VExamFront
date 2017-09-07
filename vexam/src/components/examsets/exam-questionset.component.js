@@ -232,8 +232,9 @@ class ExamQuestions extends React.Component {
 
 
 const mapStateToProps = (state, props) => {
+    console.log(state);
     return ({
-        questionsList: state.questions,
+        questionsList: state.questions.QuestionList,
         categoryList: state.questionCategories,
         complexityList: state.questionComplexities,
         questionTypeList: state.questionTypes,

@@ -166,10 +166,10 @@ export function deleteQuestion(id) {
 
 export function filterQuestionForExamSet(data) {
     return dispatch => {
-        return axios(`${URL}/api/v1/questionbank/search?QuestionTypeId=${data.QuestionTypeId}&QuestionCategoryId=${data.QuestionCategoryId}&JobTitleId=${data.JobTitleId}&QuestionComplexityId=${data.QuestionComplexityId}&Question=${data.Question}`)
+        return axios(`${URL}/api/v1/questionbank/search?QuestionTypeId=${data.QuestionTypeId}&QuestionCategoryId=${data.QuestionCategoryId}&QuestionComplexityId=${data.QuestionComplexityId}&Question=${data.Question}`)
             .then(res => dispatch(filteredQuestion(res.data.Data)))
             .catch((err) => {
-                dispatch(questionBankError(err.response.data))
+                dispatch(questionBankError(err))
             });
     }
 }

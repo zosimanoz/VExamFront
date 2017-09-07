@@ -28,11 +28,6 @@ function handleResponse(response) {
 }
 
 
-// set games action is dispatched when data is received
-// this action sets a new state with type and dispatch data 
-// to the store. After it recives the new state, we need to implement
-// the reducer to respond to the change in data and state
-// So, lets jump into the department.reducer
 
 export const setExamSets = (examsets) => {
     return {
