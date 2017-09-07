@@ -1,21 +1,61 @@
 import React from 'react'
 
+URL = 'http://localhost:5000';
 
-const AnswerOption = (props) => {
-    return (
-        <li className="answerOption">
-            <input
-                type="checkbox"
-                className="quizcheckBox"
-                name="checkBoxGroup"
-                id={props.answerType}
-                value={props.answerType}
-                disabled={props.answer}
-                onChange={props.onAnswerSelected}
+class AnswerOption extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            answers : []
+        }
+        this.onAnswerSelected = this.onAnswerSelected.bind(this);
+    }
+
+    onAnswerSelected = (e) => {
+        console.log('selected',e.target.value)
+        console.log('question',e.target.getAttribute('data-questionId'))
+        
+        this.setState({ 
+            answers: this.state.answers.concat([ { questionId:e.target.getAttribute('data-questionId'), optionId: e.target.value }]) 
+        });
+
+        console.log(this.state)
+    }
+
+ 
+
+    renderAttachment = () => {
+        return (<div className="option-img">
+            <img src={URL + this.props.attachment} />
+        </div>)
+    }
+
+    render() {
+        return (
+            <li className="answerOption">
+                <input
+                    type="checkbox"
+                    className="quizcheckBox"
+                    name="checkBoxGroup"
+                    id={this.props.answerType}
+                    data-optionId = {this.props.optionId}
+                    data-questionId={this.props.questionId}
+                    value={this.props.optionId}
+                    disabled={this.props.answer}
+                    onChange={this.onAnswerSelected}
                 />
-               {props.answerContent}
-        </li>
-    )
+
+                {this.props.answerContent ? this.props.answerContent : ''}
+                {this.props.attachment ? this.renderAttachment() : ''}
+            </li>
+        )
+    }
+
+
+
+
 }
 
 

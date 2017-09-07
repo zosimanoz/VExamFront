@@ -12,7 +12,7 @@ import quizQuestions from '../../api/quizQuestions.api';
 import Quiz from './quiz.component'
 import Pager from './pager.component'
 import QuizQuestionIndex from './quiz-question-index.component'
-import Timer from './timer.component'
+import CustomTimer from '../timer/custom-timer.component'
 import CountDownTimer from '../timer/timer.component'
 import QuizQuestionList from './quiz-question-list.component'
 
@@ -41,7 +41,7 @@ class ExamPage extends React.Component {
             questions: null,
             exampleItems: null,
             pageOfItems: [],
-            start_time: Date.now() + 7200000
+            start_time: Date.now() 
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -99,8 +99,12 @@ class ExamPage extends React.Component {
      onChangePage(pageOfItems) {
         // update state with new page of items
         this.setState({ pageOfItems: pageOfItems });
+
+
         let new_time =  Date.now() + 7200000 - this.state.start_time;
         console.log('new time',this.state.start_time) 
+
+
         this.setState({ start_time: new_time });
     }
  
@@ -121,9 +125,9 @@ class ExamPage extends React.Component {
 
         return (
             <div>
-                {/*<CountDownTimer time={ this.state.start_time } /> */}
-                {/*Date.now() + 7200000}/>*/}
-
+              
+                {/*<CustomTimer start={this.state.start_time} />*/}
+                <CountDownTimer />
                 <div className="container quiz-container">
                     <div className="row clearfix">
                         <div className="col-md-8">
