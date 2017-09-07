@@ -10,6 +10,7 @@ import interviewSessions from './interviewSessions.reducer'
 import interviewees from './interviewee.reducer'
 import authReducer from './auth.reducer'
 import flashMessage from './flashMessage.reducer'
+import quizReducer from './examQuiz.reducer'
 
 export default combineReducers({
     departments,
@@ -21,5 +22,6 @@ export default combineReducers({
     interviewSessions,
     interviewees,
     authReducer,
-    flashMessage
+    flashMessage,
+    quizReducer
 });

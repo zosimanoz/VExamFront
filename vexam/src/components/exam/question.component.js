@@ -1,6 +1,6 @@
 import React from 'react'
 
-
+import striptags from 'striptags'
 
 // we didn't use class because this is a presentational stateless component
 
@@ -10,16 +10,10 @@ import React from 'react'
 
 
 const Question = (props) => {
-
-    console.log(props)
-
     return (
-        <h2 className="question">{props.content}</h2>
+        <p className="question"> {props.index}.{striptags(props.content)}</p>
     )
 }
 
-Question.propTypes = {
-    content: React.PropTypes.string.isRequired
-};
 
 export default Question;

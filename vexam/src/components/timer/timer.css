@@ -1,0 +1,23 @@
+
+.timer-div span {
+    font-size: 32px;
+    color: green;
+    font-weight: bold;
+}
+
+span.Timeleft {
+    float: left;
+    margin: 15px 8px 0px 0;
+    font: bold 14px Arial, Helvetica, sans-serif;
+}
+
+.btnLogout {
+    margin-left: 15px;
+}
+
+.btnSubmitScore, .btnCancelExam, .btnLogout {
+    margin-top: 8px;
+    border-radius: 0px;
+}
+
+

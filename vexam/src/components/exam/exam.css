@@ -1,0 +1,78 @@
+.exam-navbar {
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+
+.quiz-container {
+    margin-top: 100px;
+}
+
+.quiz-container .panel-heading p{
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 20px;
+    opacity: 0.8;
+    color: purple;
+}
+
+.quiz-container .panel {
+    border-radius: 0px;
+}
+
+/*#scorecard {
+    position: fixed;
+    top: 10px;
+    bottom: 20px;
+    overflow-y: auto;
+}*/
+
+#scorecard ul {
+    background: #fff;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0;
+}
+
+#scorecard li {
+    list-style: none;
+    background: none repeat scroll 0 0 #EEEEEE;
+    color: teal;
+    cursor: pointer;
+    float: left;
+    height: 40px;
+    margin: 1px;
+    padding: 10px;
+    text-align: center;
+    width: 23.8%;
+}
+
+#scorecard li:hover {
+    background: #ccc;
+}
+
+#scorecard li.currQue {
+    background: #19C5C5 !important;
+    color: #fff !important;
+}
+
+
+li.answerOption {
+    list-style-type: none;
+}
+
+.quizcheckBox {
+    margin: 4px 4px 0 !important;
+}
+
+.quiz-question-detail {
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-top: 15px;
+    box-shadow: 6px 7px 5px #ccc;
+}
+
+.subjectiveAnswer {
+    margin: 5px;
+}
+

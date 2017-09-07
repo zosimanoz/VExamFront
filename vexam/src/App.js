@@ -11,8 +11,6 @@ import {
 
 
 
-
-
 import Admin from './layouts/admin.layout';
 import DefaultLayout from './layouts/default.layout';
 import TestLayout from './layouts/test.layout';
@@ -33,7 +31,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Admin') {
       return (
         <Router>
           <Admin />
@@ -41,7 +39,7 @@ class App extends Component {
       )
     }
 
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User') {
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
       return (
         <ExamPage />
       )

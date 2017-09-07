@@ -3,11 +3,20 @@ import update from 'react-addons-update'
 
 import { connect } from 'react-redux'
 
+
+import { getExamQuestions } from '../../actions/examQuiz.action'
+
+import Pagination from '../common/pagination.component'
+
 import quizQuestions from '../../api/quizQuestions.api';
 import Quiz from './quiz.component'
 import Pager from './pager.component'
 import QuizQuestionIndex from './quiz-question-index.component'
 import Timer from './timer.component'
+import CountDownTimer from '../timer/timer.component'
+import QuizQuestionList from './quiz-question-list.component'
+
+import './exam.css'
 
 
 class ExamPage extends React.Component {
@@ -28,14 +37,19 @@ class ExamPage extends React.Component {
                 sony: 0
             },
             result: '',
-            disableBtnPrev: false
+            disableBtnPrev: false,
+            questions: null,
+            exampleItems: null,
+            pageOfItems: [],
+            start_time: Date.now() + 7200000
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
 
-        this.handlePrevQuestion = this.handlePrevQuestion.bind(this);
+     
+        // this.handleJumpIndexClick = this.handleJumpIndexClick.bind(this);
 
-        this.handleNextQuestion = this.handleNextQuestion.bind(this);
+         this.onChangePage = this.onChangePage.bind(this);
 
     }
 
@@ -48,34 +62,18 @@ class ExamPage extends React.Component {
 
     componentWillMount() {
 
-        const shuffledAnswerOptions = quizQuestions.map((question) => this.shuffleArray(question.answers));
+    }
 
+    
+    componentWillReceiveProps = (new_props) => {
         this.setState({
-            question: quizQuestions[0].question,
-            answerOptions: shuffledAnswerOptions[0]
+            questions: new_props.quizQuestions
         });
     }
 
-
-    shuffleArray(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    };
-
+    componentDidMount() {
+        this.props.getExamQuestions();
+    }
 
     setUserAnswer(answer) {
         const updatedAnswersCount = update(this.state.answersCount, {
@@ -87,50 +85,6 @@ class ExamPage extends React.Component {
         });
     }
 
-
-    setNextQuestion() {
-        let counter = this.state.counter + 1;
-        let questionId = this.state.questionId + 1;
-        this.setState({
-            counter: counter,
-            questionId: questionId,
-            question: quizQuestions[counter].question,
-            answerOptions: quizQuestions[counter].answers,
-            answer: ''
-        });
-    }
-
-    setPrevQuestion() {
-        let counter = this.state.counter - 1;
-        let questionId = this.state.questionId - 1;
-
-        console.log('cunter', counter)
-
-        if (counter <= 1) {
-            counter = 1;
-            questionId = 1;
-            this.setState({
-                counter: counter,
-                questionId: questionId,
-                question: quizQuestions[counter].question,
-                answerOptions: quizQuestions[counter].answers,
-                answer: '',
-                disableBtnPrev : true
-            });
-        }
-        this.setState({
-            counter: counter,
-            questionId: questionId,
-            question: quizQuestions[counter].question,
-            answerOptions: quizQuestions[counter].answers,
-            answer: '',
-            disableBtnPrev: false
-        });
-
-
-    }
-
-
     handleAnswerSelected(event) {
         this.setUserAnswer(event.currentTarget.value);
         if (this.state.questionId <= quizQuestions.length) {
@@ -140,52 +94,81 @@ class ExamPage extends React.Component {
         }
     }
 
-    handlePrevQuestion(event) {
-    
-            setTimeout(() => this.setPrevQuestion(), 300);
-       
+
+
+     onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems });
+        let new_time =  Date.now() + 7200000 - this.state.start_time;
+        console.log('new time',this.state.start_time) 
+        this.setState({ start_time: new_time });
+    }
+ 
+
+
+    handleJumpIndexClick(id) {
+        alert(id)
     }
 
-    handleNextQuestion(event) {
+    renderQuestionJumpIndex = () => (
+        this.props.quizQuestions.map((question,idx) => {
+            return <li onClick={this.handleJumpIndexClick.bind(this,question.Question.QuestionId)} className=''><span>{idx + 1}</span></li>
+        })
+    )
 
-        if (this.state.questionId < quizQuestions.length) {
-            setTimeout(() => this.setNextQuestion(), 300);
-        } else {
-
-        }
-    }
 
     render() {
+
         return (
-            <div className="App container">
-                <div className="row">
-                    <div className="App-header">
-                            <h2>Verscend Quiz</h2>
-                    </div>
+            <div>
+                {/*<CountDownTimer time={ this.state.start_time } /> */}
+                {/*Date.now() + 7200000}/>*/}
 
-                    <Timer />
-                </div>
-                
-                <div className="row">
-                    <div className="col-md-8">
-                        <Quiz
-                            answer={this.state.answer}
-                            answerOptions={this.state.answerOptions}
-                            questionId={this.state.questionId}
-                            question={this.state.question}
-                            questionTotal={quizQuestions.length}
-                            onAnswerSelected={this.handleAnswerSelected}
-                            />
+                <div className="container quiz-container">
+                    <div className="row clearfix">
+                        <div className="col-md-8">
+                            <div className="panel panel-default">
+                                <div className="panel-heading">
+                                    <p>Exam Set for Software Engineer</p>
+                                </div>
+                                <div className="panel-body">
+                                    
+                                   {
+                                        this.state.pageOfItems ?
+                                        <QuizQuestionList questions={this.state.pageOfItems} /> :
+                                        <p>No questions found</p>
+                                   }
 
-                        <div className="pager">
-                            <Pager disableBtnPrev={this.state.disableBtnPrev} onPrevClick={this.handlePrevQuestion} onNextClick={this.handleNextQuestion} />
+                                    <div className="pager">
+                                        <Pagination items={this.props.quizQuestions} onChangePage={this.onChangePage} />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <QuizQuestionIndex />
+                        <div className="col-md-4">
+                            <div id="scorecard" className="menu">
+                                <ul>
+                                    { this.renderQuestionJumpIndex() }
+
+                                    {/*<li className="">1</li>
+                                    <li className="">2</li>
+                                    <li className="">3</li>
+                                    <li className="">4</li>
+                                    <li className="currQue">5</li>
+                                    <li className="currQue">6</li>
+                                    <li className="currQue">7</li>
+                                    <li className="currQue">8</li>
+                                    <li className="">1</li>
+                                    <li className="">2</li>
+                                    <li className="">3</li>
+                                    <li className="">4</li>*/}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         )
     }
 
@@ -195,10 +178,10 @@ class ExamPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        
+        quizQuestions: state.quizReducer.questions
     }
 }
 
 
 
-export default connect(mapStateToProps,null)(ExamPage);
+export default connect(mapStateToProps, { getExamQuestions })(ExamPage);
