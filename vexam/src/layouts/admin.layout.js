@@ -32,7 +32,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
 import '../css/AdminStyle.css';
-
+import './menu.css';
 
 const HeaderNavBar = () => (
   <Navbar>
@@ -51,43 +51,8 @@ const HeaderNavBar = () => (
   </Navbar>
 );
 
-const SideBar2 = () => (
-  <Row>
-    <div className="absolute-wrapper"></div>
-    <div className="side-menu">
-      <div className="side-menu-container">
 
-        <Nav className="side-menu-container">
-          <NavItem>
-            <span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span>
-          </NavItem>
-          <NavItem>
-            <span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Questions</span>
-          </NavItem>
-          <NavItem>
-            <span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span>
-          </NavItem>
-          <NavItem>
-            <span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span>
-          </NavItem>
-          <NavItem>
-            <span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span>
-          </NavItem>
-          <NavDropdown title="Settings">
-            <NavItem><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavItem>
-            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavItem>
-            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Question Complexity</span></NavItem>
-            <NavItem><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Jobs</span></NavItem>
-          </NavDropdown>
-        </Nav>
-      </div>
-    </div>
-  </Row>
-);
-
-
-
-const SideBar = () => (
+const SideBar1 = () => (
   <Row>
     <div className="absolute-wrapper"></div>
     <div className="side-menu">
@@ -116,6 +81,26 @@ const SideBar = () => (
   </Row>
 )
 
+const SideBar = () => (
+  <nav className="navigation">
+    <ul className="mainmenu">
+       <li><NavLink exact to="/" activeClassName="active"><span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span></NavLink></li>
+      <li><NavLink to='/admin/questions' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Question Bank</span></NavLink></li>
+      <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
+      <li><NavLink to='/admin/users' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span></NavLink></li>
+      <li><NavLink to='/interviewee/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
+      <li><NavLink to='' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
+        <ul className="submenu">
+          <li><NavLink to="/admin/departments" activeClassName="active"><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavLink></li>
+          <li><NavLink to='/admin/categories' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavLink></li>
+          <li><NavLink to='/admin/complexities' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Question Complexity</span></NavLink></li>
+          <li><NavLink to='/admin/jobs' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Jobs</span></NavLink></li>
+        </ul>
+      </li>
+
+    </ul>
+  </nav>
+)
 
 const Routings = () => (
 
@@ -326,9 +311,9 @@ const Home = (props) => {
 class Admin extends React.Component {
   constructor(props) {
     super(props);
-     document.title = "VExam";
+    document.title = "VExam";
   }
-  
+
   render() {
     return (
       <div>
@@ -337,7 +322,7 @@ class Admin extends React.Component {
         <Grid bsClass="container main-container">
           <Col xs={2} md={2} className="sidebar">
             <SideBar />
-           
+
           </Col>
 
           <Col xs={10} md={10} >
