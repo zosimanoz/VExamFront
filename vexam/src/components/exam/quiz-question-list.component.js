@@ -13,9 +13,32 @@ class QuizQuestionList extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            answers : []
+        }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
         this.handleChangeForEditor = this.handleChangeForEditor.bind(this);
+    }
+
+
+    
+     onAnswerSelected = (e) => {
+        console.log('selected',e.target.value)
+        console.log('question',e.target.getAttribute('data-questionId'))
+ 
+        e.preventDefault();
+        var newItem = {
+            questionId: e.target.getAttribute('data-questionId'),
+            optionId: e.target.value
+        };
+
+        this.setState((prevState) => ({
+            answers: prevState.answers.concat([newItem]),
+        }));
+       
+ console.log(this.state)
+        
     }
 
 
@@ -28,6 +51,7 @@ class QuizQuestionList extends React.Component {
                 answerType={option.QuestionId}
                 questionId={option.QuestionId}
                 attachment={option.Attachment}
+                onAnswerSelected = {this.onAnswerSelected}
             />
         );
     }

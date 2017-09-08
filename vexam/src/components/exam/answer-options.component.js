@@ -7,22 +7,44 @@ class AnswerOption extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            answers : []
-        }
-        this.onAnswerSelected = this.onAnswerSelected.bind(this);
-    }
-
-    onAnswerSelected = (e) => {
-        console.log('selected',e.target.value)
-        console.log('question',e.target.getAttribute('data-questionId'))
         
-        this.setState({ 
-            answers: this.state.answers.concat([ { questionId:e.target.getAttribute('data-questionId'), optionId: e.target.value }]) 
-        });
-
-        console.log(this.state)
+     //   this.onAnswerSelected = this.onAnswerSelected.bind(this);
     }
+
+    state = {
+            answers : []
+    }
+
+//     onAnswerSelected = (e) => {
+//           console.log('selected nnnn',e.target.value)
+//         console.log('question',e.target.getAttribute('data-questionId'))
+ 
+//         e.preventDefault();
+//         var newItem = {
+//             questionId: e.target.getAttribute('data-questionId'),
+//             optionId: e.target.value
+//         };
+
+//         console.log(newItem)
+//         this.state.answers.push(newItem)
+//         // this.setState({
+//         //     answers: this.state.answers
+//         // });
+       
+//  console.log(this.state)
+        
+//     }
+
+ onAnswerSelected = (e) => {
+         console.log('selected nnnn',e.target.value)
+         console.log('question',e.target.getAttribute('data-questionId'));
+                 e.preventDefault();
+        var newItem = {
+            questionId: e.target.getAttribute('data-questionId'),
+            optionId: e.target.value
+        };
+        this.setState({ answers: this.state.answers.concat([newItem]) }); 
+ }
 
  
 
@@ -33,6 +55,7 @@ class AnswerOption extends React.Component {
     }
 
     render() {
+         console.log('hhhh',this.state)
         return (
             <li className="answerOption">
                 <input
