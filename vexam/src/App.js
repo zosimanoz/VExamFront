@@ -20,6 +20,8 @@ import Dashboard from './components/dashboard/dashboard.container';
 import AddDepartment from './components/departments/add-department.component';
 import ExamPage from './components/exam/ExamPage.container';
 
+import ExamMain from './components/exam/ExamMain.container'
+
 // import Register from './components/auth/component.register';
 // import Admin from './components/admin/admin.container';
 
@@ -41,7 +43,7 @@ class App extends Component {
 
     if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
       return (
-        <ExamPage />
+        <ExamMain />
       )
     }
 

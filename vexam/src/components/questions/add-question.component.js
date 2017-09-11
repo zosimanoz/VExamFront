@@ -252,7 +252,7 @@ class AddQuestion extends React.Component {
 
 
     handleAddOption = () => {
-        this.setState({ Options: this.state.Options.concat([{ AnswerOption: '', IsAnswer: false }]) });
+        this.setState({ Options: this.state.Options.concat([{ AnswerOption: '', IsAnswer: false }]) }); 
     }
 
 
