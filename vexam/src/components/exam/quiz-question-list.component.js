@@ -9,51 +9,88 @@ import AnswerOption from './answer-options.component'
 import Quiz from './quiz.component'
 
 
-const QuizQuestionList = (props) => {
+class QuizQuestionList extends React.Component {
 
-    const renderQuestionOptionsList = (key) => {
+    constructor(props) {
+        super(props);
+        this.state = {
+            answers : []
+        }
+        this.renderQuestionsList = this.renderQuestionsList.bind(this);
+        this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
+        this.handleChangeForEditor = this.handleChangeForEditor.bind(this);
+    }
+
+
+    
+     onAnswerSelected = (e) => {
+        console.log('selected',e.target.value)
+        console.log('question',e.target.getAttribute('data-questionId'))
+ 
+        e.preventDefault();
+        var newItem = {
+            questionId: e.target.getAttribute('data-questionId'),
+            optionId: e.target.value
+        };
+
+        this.setState((prevState) => ({
+            answers: prevState.answers.concat([newItem]),
+        }));
+       
+ console.log(this.state)
+        
+    }
+
+
+    renderQuestionOptionsList = (option) => {
         return (
             <AnswerOption
-                key={key.ObjectiveQuestionOptionId}
-                answerContent={key.AnswerOption}
-                answerType={key.QuestionId}
-                questionId={key.QuestionId}
-                />
+                key={option.ObjectiveQuestionOptionId}
+                optionId = {option.ObjectiveQuestionOptionId}
+                answerContent={option.AnswerOption}
+                answerType={option.QuestionId}
+                questionId={option.QuestionId}
+                attachment={option.Attachment}
+                onAnswerSelected = {this.onAnswerSelected}
+            />
         );
     }
 
-    const handleChangeForEditor = (value) => {
-     
+    handleChangeForEditor = (value) => {
+
     }
 
-    const renderSubjectiveField = () => {
+    renderSubjectiveField = () => {
         return (
             <div className="subjectiveAnswer">
-              <ReactQuill name="SubjectiveAnswer" value=''
-                            onChange={this.handleChangeForEditor} />
+                <ReactQuill name="SubjectiveAnswer" value=''
+                    onChange={this.handleChangeForEditor} />
             </div>
         )
     }
 
-    let i = 0;
 
-    const renderQuestionsList = (key) => {
-        return(
+    renderQuestionsList = (key) => {
+        let i = 0;
+        return (
             <div className="quiz-question-detail">
-                <Question content={key.Question.Question} index={++i}/>
-                
+                <Question content={key.Question.Question} index={++i} />
+
                 <div className="options">
-                    { key.Question.QuestionTypeId === 2 ? key.Options.map(renderQuestionOptionsList) : renderSubjectiveField() }
+                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField()}
                 </div>
             </div>
         );
     }
 
-    return (
-        <div className="quiz-question-list">
-            {props.questions.map(renderQuestionsList)}
-        </div>
-    )
+    render() {
+        return (
+            <div className="quiz-question-list">
+                {this.props.questions.map(this.renderQuestionsList)}
+            </div>
+        )
+    }
+
 }
 
 
