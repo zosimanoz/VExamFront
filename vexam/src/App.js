@@ -27,11 +27,11 @@ import ExamPage from './components/exam/ExamPage.container';
 class App extends Component {
 
   state = {
-    role: 'admin'
+    role: 'Interviewee'
   }
 
   render() {
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Admin') {
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
       return (
         <Router>
           <Admin />
@@ -39,11 +39,11 @@ class App extends Component {
       )
     }
 
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
-      return (
-        <ExamPage />
-      )
-    }
+    // if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
+    //   return (
+    //     <ExamPage />
+    //   )
+    // }
 
     return (
       <Router>

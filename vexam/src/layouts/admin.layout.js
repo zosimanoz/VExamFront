@@ -26,7 +26,7 @@ import AddQuestionComplexity from '../components/questionComplexities/add-questi
 
 import JobIndex from '../components/jobs/job-index.component';
 import AddJob from '../components/jobs/add-jobs.component';
-
+import SetQuestions from '../components/examsets/setquestionsbyexamset';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -228,10 +228,23 @@ const Routings = () => (
       <Route exact
         path="/admin/examsets/add"
         render={props => (
-          <AddExamSet heading="Add Question Set" {...props} />
+          <AddExamSet heading="Add Exam Set" {...props} />
         )}
       />
-
+  <Route exact
+        path="/admin/examsets/:id"
+        render={props => (
+          <AddExamSet heading="Edit Exam Set"  {...props} />
+        )}
+      />
+  <Route exact
+        path="/admin/setquestions/:id"
+        render={props => (
+          <SetQuestions heading="Set Questions"  {...props} />
+        )}
+      />
+      
+      
       <Route exact
         path="/admin/examsets/:id/questions"
         render={props => (

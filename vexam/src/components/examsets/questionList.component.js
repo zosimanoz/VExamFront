@@ -19,7 +19,7 @@ class QuestionList extends Component {
     render() {
         const { QuestionId,Question,QuestionCategoryName,QuestionComplexityName, QuestionTypeName,isInExamSet } = this.props;
 
-        console.log('props in question list', this.props)
+     //   console.log('props in question list', this.props)
 
         return (
            <tr className="options" key={QuestionId}>

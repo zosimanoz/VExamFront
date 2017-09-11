@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import ExamSetList from './examset-list.component';
 
-import { fetchExamSets, deleteExamSetById} from '../../actions/examset.action';
+import { fetchExamSets, deleteExamSet} from '../../actions/examset.action';
 import { connect } from 'react-redux';
 
 
@@ -33,7 +33,7 @@ class ExamSet extends React.Component {
                         <NavLink exact to="/admin/examsets/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Question Set</NavLink>
                     </div>
 
-                    <ExamSetList examsets={this.props.examsets} deleteExamSetById={this.props.deleteExamSetById}/>
+                    <ExamSetList examsets={this.props.examsets} deleteExamSet={this.props.deleteExamSet}/>
 
             </Panel>
          );
@@ -47,4 +47,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{fetchExamSets, deleteExamSetById})(ExamSet);
+export default connect(mapStateToProps,{fetchExamSets, deleteExamSet})(ExamSet);

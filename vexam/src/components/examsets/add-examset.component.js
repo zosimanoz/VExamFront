@@ -1,14 +1,14 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import classnames from 'classnames';
-import { Redirect, match, matchPath } from 'react-router-dom';
+import { Redirect, match, matchPath,NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
-import { fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById} from '../../actions/examset.action';
-
+import { fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById,updateExamSet} from '../../actions/examset.action';
+import { fetchJobTypes } from '../../actions/jobTypes.action';
 
 
 class AddExamSet extends React.Component {
@@ -17,9 +17,11 @@ class AddExamSet extends React.Component {
     }
 
     componentDidMount = (props) => {
+         this.props.fetchJobTypes();
         if (this.props.match.params.id) {
             this.props.fetchExamSetById(this.props.match.params.id);
         }
+      
     }
 
 
@@ -35,7 +37,19 @@ class AddExamSet extends React.Component {
         done: false
     }
 
-
+    componentWillReceiveProps = (new_props) => {
+        this.setState({
+        ExamSetId: new_props.examset ? new_props.examset.ExamSetId : null,
+        Title: new_props.examset ? new_props.examset.Title : '',
+        Description: new_props.examset ? new_props.examset.Description : '',
+        TotalMark: new_props.examset ? new_props.examset.TotalMark: '',
+        JobTitleId : new_props.examset ? new_props.examset.JobTitleId: '',
+        CreatedBy: new_props.examset ? new_props.examset.CreatedBy: 2,
+        errors: {},
+        loading: false,
+        done: false
+        });
+    }
     handleChange = (e) => {
 
         if (!!this.state.errors[e.target.name]) {
@@ -95,10 +109,20 @@ class AddExamSet extends React.Component {
 
         if (isValid) {
 
-            const { Title, Description, TotalMark, CreatedBy,JobTitleId } = this.state;
+            const {ExamSetId, Title, Description, TotalMark, CreatedBy,JobTitleId } = this.state;
 
             this.setState({ loading: true });
 
+            if(ExamSetId) {
+                this.props.updateExamSet({ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId })
+                .then((res)=>{ 
+                    this.setState({ loading: false });
+                    this.setState({ done: true });
+                 },
+                    (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                 );
+            }
+            else {
             this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId })
                 .then(() => {
                     this.setState({ done: true });
@@ -106,6 +130,9 @@ class AddExamSet extends React.Component {
                 },
                 (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                 );
+            }
+
+
 
         }
 
@@ -115,6 +142,7 @@ class AddExamSet extends React.Component {
 
 
     renderForm() {
+        {console.log('title',this.state.Title)}
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
 
@@ -159,24 +187,21 @@ class AddExamSet extends React.Component {
 
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
                     <div className={classnames('field', { errors: !!this.state.errors.JobTitleId })}>
-                        <label>Category </label>
-                        <select name="JobTitleId" className="form-control" onChange={this.handleChange}>
-                            <option value="">--Select Job Title--</option>
-                            <option value="1">Java</option>
-                            <option value="2">C#</option>
-                            <option value="3">JS</option>
+                        <label>Job Title </label>
+                           <select name="JobTitleId" className="form-control" onChange={this.handleChange.bind(this)}>
+                            <option value="0">--Select Job Title--</option>
+                            {this.props.jobs.map((job, idx) => (
+                                <option selected={job.JobTitleId === this.state.JobTitleId ? true : false} value={job.JobTitleId}>{job.JobTitle}</option>
+                            ))}
                         </select>
                         <span className="form-error">{this.state.errors.JobTitleId}</span>
                     </div>
                 </div>
-
-
-                
                 <div className="clearfix"></div>
 
                 <div className="btn-form-margin-top div-add-question">
                     <button className="btn btn-success btn-sm">Save</button>
-                    <button className="btn btn-danger btn-sm btn-right-margin" type="button">Cancel</button>
+                     <NavLink to={`/admin/examsets`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
                 </div>
             </form>
         )
@@ -185,24 +210,29 @@ class AddExamSet extends React.Component {
     render() {
         return (
             <Panel header={this.props.heading}>
-                {this.renderForm()}
+              {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
             </Panel>
         )
     }
 }
 
 
+
 const mapStateToProps = (state,props) => {
+    console.log('fjklsdfjsdkfjsdlkfjsdl k',state.examsets.examset);
+   
     if (props.match.params.id) {
         return {
-            examset: state.examsets.find(item => item.ExamSetId == props.match.params.id),
+            examset: state.examsets.examset,
+              jobs:state.jobTypes
         }
     }
 
     return {
-        examset: null
+       // examset: null,
+          jobs:state.jobTypes
     }
 }
 
 
-export default connect(mapStateToProps,{fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById})(AddExamSet);
+export default connect(mapStateToProps,{fetchJobTypes,fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById,updateExamSet})(AddExamSet);

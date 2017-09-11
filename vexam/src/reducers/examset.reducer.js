@@ -1,14 +1,14 @@
 
-import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET, SAVE_EXAM_QUESTION } from '../actions/examset.action';
+import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, SET_QUESTIONID_BY_EXAM_SET,UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET, SAVE_EXAM_QUESTION, SET_QUESTIONS_BY_EXAM_SET, QUESTION_BANK_ERROR } from '../actions/examset.action';
 
 
 
 const initialState = {
-    setQuestions: [], // array of product ids
+    setQuestions: [], // array of setquestion ids
     examsetList: [],
     examset: {}
 };
-
+const setQuestionArray = [];
 
 export default function examsets(state = initialState, action = {}) {
     switch (action.type) {
@@ -24,12 +24,12 @@ export default function examsets(state = initialState, action = {}) {
         case ADD_EXAMSET: {
             return {
                 ...state,
-                examset:[...state.examset, action.payload.examset]
+                examset: [...state.examset, action.payload.examset]
             }
             break;
         }
 
-         case UPDATE_EXAMSET: {
+        case UPDATE_EXAMSET: {
             return [
                 ...state,
                 action.examset
@@ -42,43 +42,64 @@ export default function examsets(state = initialState, action = {}) {
             //     ...state,
             //     action.payload.data
             // ]
-            console.log('current state',state)
+            console.log('current state', state)
             return state;
         }
 
         case GET_EXAMSETBYID: {
-            const index = state.examsets.findIndex(item => item.ExamSetId === action.examset.ExamSetId);
-            if (index > -1) {
-                return state.map(item => {
-                    if (item.ExamSetId === action.examset.ExamSetId) {
-                        return {
-                            examset: [...state.examset,action.payload.examset]
-                        }
-                    } else {
-                        return item;
-                    }
-                })
-            } else {
-                return {
-                    ...state,
-                    examset: [...state.examset,action.payload.examset]
-                }
+            return {
+                ...state,
+                examset: action.payload.examset
             }
+
+            break;
+        }
+        case DELETE_EXAMSET: {
+            return {
+                ...state,
+                examsetList: state.examsetList.filter(item => item.ExamSetId !== action.payload.examSetId)
+            }
+
             break;
         }
 
         case ADD_QUESTION_TO_SET: {
             return {
                 ...state,
-                setQuestions: [ ...state.setQuestions, action.payload.questionId ]
+                setQuestions: [...state.setQuestions, action.payload.questionId]
             };
             break;
         }
 
-         case DELETE_QUESTION_FROM_SET: {
+        case DELETE_QUESTION_FROM_SET: {
             return {
                 ...state,
                 setQuestions: state.setQuestions.filter(id => id !== action.payload.questionId)
+            };
+            break;
+        }
+        case SET_QUESTIONS_BY_EXAM_SET: {
+            return {
+                ...state,
+                setQuestionList: action.payload.setQuestionList
+            };
+            break;
+        }
+
+        case SET_QUESTIONID_BY_EXAM_SET: {
+            (action.payload.setQuestions).map(item => {
+                setQuestionArray.push(item.QuestionId);
+            });
+            return {
+                ...state,
+                setQuestions: setQuestionArray
+            };
+            break;
+        }
+        case QUESTION_BANK_ERROR: {
+            return {
+                ...state,
+                error: action.payload.message
             };
             break;
         }
@@ -86,3 +107,4 @@ export default function examsets(state = initialState, action = {}) {
         default: return state;
     }
 }
+

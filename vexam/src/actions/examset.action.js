@@ -1,3 +1,9 @@
+import axios from 'axios';
+
+import setAuthorizationToken from '../utils/setAuthorizationToken';
+import qs from 'qs'
+
+
 export const SET_EXAMSETS = 'SET_EXAMSETS'
 export const ADD_EXAMSET = 'ADD_EXAMSET'
 export const GET_EXAMSETBYID = 'GET_EXAMSETBYID'
@@ -7,7 +13,9 @@ export const DELETE_EXAMSET = 'DELETE_EXAMSET'
 export const ADD_QUESTION_TO_SET = 'ADD_QUESTION_TO_SET' 
 export const DELETE_QUESTION_FROM_SET = 'DELETE_QUESTION_FROM_SET'
 export const SAVE_EXAM_QUESTION = 'SAVE_EXAM_QUESTION'
-
+export const SET_QUESTIONS_BY_EXAM_SET ='SET_QUESTIONS_BY_EXAM_SET'
+export const QUESTION_BANK_ERROR ='QUESTION_BANK_ERROR'
+export const SET_QUESTIONID_BY_EXAM_SET ='SET_QUESTIONID_BY_EXAM_SET'
 
 const URL = 'http://localhost:5000';
 
@@ -49,6 +57,36 @@ export const addExamSet = (examset) => {
 }
 
 
+export const setQuestionIdByExamSet = (setQuestions) => {
+     console.log("fetchSetQuestionIdByExamSet ",setQuestions);
+    return {
+        type: SET_QUESTIONID_BY_EXAM_SET,
+         payload: {
+            setQuestions:setQuestions
+        }
+    }
+}
+
+
+export const setQuestionsByExamSet = (setQuestions) => {
+     console.log("fetchSetQuestionsByExamSet ",setQuestions);
+    return {
+        type: SET_QUESTIONS_BY_EXAM_SET,
+         payload: {
+            setQuestionList:setQuestions
+        }
+    }
+}
+
+
+export const questionBankError = (message) => {
+    return {
+        type: QUESTION_BANK_ERROR,
+       payload: {
+            message:message
+        }
+    }
+}
 export const setUpdatedExamSet = (examset) => {
     return {
         type: UPDATE_EXAMSET,
@@ -61,15 +99,18 @@ export const setExamSetById = (examset) => {
     return {
         type: GET_EXAMSETBYID,
         payload: {
-            examset
+            examset:examset
         }
     }
 }
 
-export const deleteExamSetById = (examset) => {
+export const deleteExamSetById = (examSetId) => {
+    
     return {
         type: DELETE_EXAMSET,
-        examset
+      payload: {
+            examSetId:examSetId
+        }
     }
 }
 
@@ -110,7 +151,7 @@ export const fetchExamSets = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/examset/get/all/sets`)
+        fetch(`${URL}/api/v1/examset/get/all`)
             .then(res => res.json())
             .then(data => dispatch(setExamSets(data.Data)))
     }
@@ -145,19 +186,33 @@ export function fetchExamSetById(id){
     }
 }
 
+export function fetchSetQuestionsByExamSet(id) {
+   
+    return dispatch => {
+        axios.get(`${URL}/api/v1/examset/question/get/${id}`)
+            .then(res => dispatch(setQuestionsByExamSet(res.data.Data)))
+            .catch((err) => {
+                dispatch(questionBankError(err.response.message))
+            });
+    }
+}
 
-export function updateExamSet(data){
-     return dispatch => {
-        return fetch(`${URL}/api/v1/examset/update`, {
-            method: 'post',
-            dataType: 'json',
-            body: JSON.stringify(data),
+
+export function updateExamSet(data) {
+    return dispatch => {
+        return axios({
+            method: 'PUT',
+            url: `${URL}/api/v1/examset/update`,
+            data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-        .then(data => dispatch(setUpdatedExamSet(data.Data)));
+        })
+            .then()
+            .catch((err) => {
+                dispatch(questionBankError(err.response.data))
+            });
     }
 }
 
@@ -194,9 +249,6 @@ export function saveExamSetQuestions(data){
 
 
 export function isInExamSet(state, props) {
-
-    console.log('state',state);
-    console.log('PROPS',props);
 
    return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
 }

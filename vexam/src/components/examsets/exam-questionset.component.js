@@ -2,7 +2,7 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 
 import classnames from 'classnames';
-import { Redirect, match, matchPath } from 'react-router-dom';
+import { Redirect, match, matchPath,NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
-import { saveExamSetQuestions } from '../../actions/examset.action'
+import { saveExamSetQuestions,fetchSetQuestionsByExamSet } from '../../actions/examset.action'
 
 import QuestionList from './questionList.component'
 
@@ -30,7 +30,7 @@ class ExamQuestions extends React.Component {
         super(props);
     }
 
-   
+
     state = {
         QuestionTypeId: '0',
         QuestionCategoryId: '0',
@@ -40,7 +40,7 @@ class ExamQuestions extends React.Component {
         errors: {},
         loading: false,
         done: false,
-        selectedQuestions: [],
+        selectedQuestions: [54],
         checked: []
     }
 
@@ -50,6 +50,7 @@ class ExamQuestions extends React.Component {
         this.props.filterQuestionForExamSet({ QuestionTypeId, QuestionCategoryId, JobTitleId, QuestionComplexityId, Question });
         this.props.fetchQuestionCategoryList();
         this.props.fetchQuestionComplexityList();
+        this.props.fetchSetQuestionsByExamSet(this.props.match.params.id);
     }
 
 
@@ -214,7 +215,7 @@ class ExamQuestions extends React.Component {
 
                 <div className="btn-form-margin-top div-add-question">
                     <button className="btn btn-success btn-sm" onClick={this.handleSaveBtnClick}>Save</button>
-                    <button className="btn btn-danger btn-sm btn-right-margin" type="button">Cancel</button>
+                    <NavLink to={`/admin/examsets`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
                 </div>
             </form>
         )
@@ -232,17 +233,18 @@ class ExamQuestions extends React.Component {
 
 
 const mapStateToProps = (state, props) => {
-    console.log(state);
+    console.log('setquestion',state);
     return ({
+        ...state,
         questionsList: state.questions.QuestionList,
         categoryList: state.questionCategories,
         complexityList: state.questionComplexities,
         questionTypeList: state.questionTypes,
         //allAddedInExamSet: allAddedInExamSet(state, props),
-        examsets: state.examsets
+        examsets: state.examsets,
     })
 }
 
 
 
-export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, saveExamSetQuestions })(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, fetchSetQuestionsByExamSet,saveExamSetQuestions })(ExamQuestions);
