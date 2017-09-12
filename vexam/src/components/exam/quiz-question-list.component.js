@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { connect } from 'react-redux'
+
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
@@ -9,62 +11,81 @@ import AnswerOption from './answer-options.component'
 import Quiz from './quiz.component'
 
 
+import { setAnswersToStore } from '../../actions/answers.action'
+
+
 class QuizQuestionList extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            answers : []
+            answers: []
         }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
-        this.handleChangeForEditor = this.handleChangeForEditor.bind(this);
-    }
-
-
-    
-     onAnswerSelected = (e) => {
-        console.log('selected',e.target.value)
-        console.log('question',e.target.getAttribute('data-questionId'))
- 
-        e.preventDefault();
-        var newItem = {
-            questionId: e.target.getAttribute('data-questionId'),
-            optionId: e.target.value
-        };
-
-        this.setState((prevState) => ({
-            answers: prevState.answers.concat([newItem]),
-        }));
-       
- console.log(this.state)
         
     }
 
 
+    checkAnswer = (e) => {
+        var array = this.state.answers;
+        var index = array.findIndex(o => o.optionId == e.target.value);
+        
+        if( index > -1) {
+            array.splice(index,1);
+       
+            this.setState({
+                answers: array
+            },()=> {
+                this.props.setAnswersToStore(this.state.answers);
+            })
+        }else {
+            this.saveAnswer(e);
+        }
+    }
+
+    saveAnswer = (e) => {
+        
+        var newItem = {
+            questionId: e.target.getAttribute('data-questionId'),
+            optionId: e.target.value,
+            IntervieweeId: this.props.user.IntervieweeId,
+            AnswerBy: this.props.user.IntervieweeId,
+            subjectiveAnswer: ''
+        };
+
+        this.setState({
+            answers: this.state.answers.concat(newItem)
+        },()=> {
+            this.props.setAnswersToStore(this.state.answers);
+        });
+    }
+
+
     renderQuestionOptionsList = (option) => {
+     
         return (
             <AnswerOption
                 key={option.ObjectiveQuestionOptionId}
-                optionId = {option.ObjectiveQuestionOptionId}
+                optionId={option.ObjectiveQuestionOptionId}
                 answerContent={option.AnswerOption}
                 answerType={option.QuestionId}
                 questionId={option.QuestionId}
                 attachment={option.Attachment}
-                onAnswerSelected = {this.onAnswerSelected}
+                checkAnswer={this.checkAnswer}
             />
         );
     }
 
-    handleChangeForEditor = (value) => {
-
+    handleChangeForEditor = (value,questionId) => {
+        this.saveAnswer
     }
 
-    renderSubjectiveField = () => {
+    renderSubjectiveField = (questionId) => {
         return (
             <div className="subjectiveAnswer">
                 <ReactQuill name="SubjectiveAnswer" value=''
-                    onChange={this.handleChangeForEditor} />
+                    onChange={this.handleChangeForEditor.bind(this,questionId)} />
             </div>
         )
     }
@@ -77,13 +98,14 @@ class QuizQuestionList extends React.Component {
                 <Question content={key.Question.Question} index={++i} />
 
                 <div className="options">
-                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField()}
+                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key.Question.QuestionId)}
                 </div>
             </div>
         );
     }
 
     render() {
+     
         return (
             <div className="quiz-question-list">
                 {this.props.questions.map(this.renderQuestionsList)}
@@ -94,6 +116,12 @@ class QuizQuestionList extends React.Component {
 }
 
 
+const mapStateToProps = (state, props) => {
+    return {
+        user: state.authReducer.user
+    }
+}
 
-export default QuizQuestionList;
+
+export default connect(mapStateToProps, { setAnswersToStore })(QuizQuestionList);
 
