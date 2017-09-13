@@ -10,6 +10,7 @@ export default function interviewSessions(state = [], action = {}) {
         }
 
         case ADD_INTERVIEW_SESSION: {
+         
             return [
                 ...state,
                 action.interviewSession
@@ -17,7 +18,7 @@ export default function interviewSessions(state = [], action = {}) {
             break;
         }
 
-         case UPDATE_INTERVIEW_SESSION: {
+        case UPDATE_INTERVIEW_SESSION: {
             return [
                 ...state,
                 action.interviewSession
@@ -32,21 +33,12 @@ export default function interviewSessions(state = [], action = {}) {
         }
 
         case GET_INTERVIEW_SESSION_BYID: {
-            const index = state.findIndex(item => item.InterviewSessionId === action.interviewSession.InterviewSessionId);
-            if (index > -1) {
-                return state.map(item => {
-                    if (item.InterviewSessionId === action.interviewSession.InterviewSessionId) {
-                        return action.interviewSession;
-                    } else {
-                        return item;
-                    }
-                })
-            } else {
-                return [
-                    ...state,
-                    action.interviewSession
-                ]
+               console.log('reducer', action.interviewSession);
+            return {
+                ...state,
+                interviewSession: action.interviewSession
             }
+
             break;
         }
 

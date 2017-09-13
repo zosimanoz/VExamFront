@@ -219,8 +219,6 @@ class AddExamSet extends React.Component {
 
 
 const mapStateToProps = (state,props) => {
-    console.log('fjklsdfjsdkfjsdlkfjsdl k',state.examsets.examset);
-   
     if (props.match.params.id) {
         return {
             examset: state.examsets.examset,

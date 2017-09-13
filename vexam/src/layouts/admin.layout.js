@@ -27,7 +27,9 @@ import AddQuestionComplexity from '../components/questionComplexities/add-questi
 import JobIndex from '../components/jobs/job-index.component';
 import AddJob from '../components/jobs/add-jobs.component';
 import SetQuestions from '../components/examsets/setquestionsbyexamset';
+import InterviewSessions from '../components/interviewSession/interviewSession-index.component';
 
+import AddInterviewSession from '../components/interviewSession/add-interviewSession.component';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
@@ -87,9 +89,9 @@ const SideBar = () => (
        <li><NavLink exact to="/" activeClassName="active"><span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span></NavLink></li>
       <li><NavLink to='/admin/questions' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Question Bank</span></NavLink></li>
       <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
-      <li><NavLink to='/admin/users' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Users</span></NavLink></li>
+      <li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span></NavLink></li>
       <li><NavLink to='/interviewee/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
-      <li><NavLink to='' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
+      <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
         <ul className="submenu">
           <li><NavLink to="/admin/departments" activeClassName="active"><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavLink></li>
           <li><NavLink to='/admin/categories' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavLink></li>
@@ -267,6 +269,26 @@ const Routings = () => (
         )}
       />
 
+      <Route exact
+        path="/admin/interviewsessions"
+        render={props => (
+          <InterviewSessions heading="Interview Sessions" />
+        )}
+      />
+        <Route exact
+       path="/admin/interviewSession/add"
+        render={props => (
+          <AddInterviewSession heading="Add Interview Sessions" {...props} />
+        )}
+      />
+      
+       <Route exact
+        path="/admin/interviewSession/:id"
+        render={props => (
+          <AddInterviewSession heading="Edit Interview Sessions"  {...props} />
+        )}
+      />
+     
       <Route exact
         path="/admin/test"
         render={props => (
