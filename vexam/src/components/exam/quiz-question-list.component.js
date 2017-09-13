@@ -19,7 +19,9 @@ class QuizQuestionList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            answers: []
+            answers: [],
+            subjectiveAnswers: [],
+             text: ''
         }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
@@ -77,15 +79,35 @@ class QuizQuestionList extends React.Component {
         );
     }
 
-    handleChangeForEditor = (value,questionId) => {
-        this.saveAnswer
+    handleChangeForEditor = (questionId,value) => {
+        console.log(value)
+        console.log(questionId)
+
+       // this.setState({ text: value })
+        
+        var newItem = {
+            questionId: questionId,
+            optionId: null,
+            IntervieweeId: this.props.user.IntervieweeId,
+            AnswerBy: this.props.user.IntervieweeId,
+            subjectiveAnswer: value
+        };
+
+        console.log(newItem)
+
+        // this.setState({
+        //     text: newItem
+        // },()=> {
+        //     console.log(this.state.text)
+        //     //this.props.setAnswersToStore(this.state.answers);
+        // });
     }
 
-    renderSubjectiveField = (questionId) => {
+    renderSubjectiveField = (question) => {
         return (
             <div className="subjectiveAnswer">
                 <ReactQuill name="SubjectiveAnswer" value=''
-                    onChange={this.handleChangeForEditor.bind(this,questionId)} />
+                    onChangeSelection={this.handleChangeForEditor.bind(this,question.QuestionId)} />
             </div>
         )
     }
@@ -98,7 +120,7 @@ class QuizQuestionList extends React.Component {
                 <Question content={key.Question.Question} index={++i} />
 
                 <div className="options">
-                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key.Question.QuestionId)}
+                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key.Question)}
                 </div>
             </div>
         );
