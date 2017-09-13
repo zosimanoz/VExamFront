@@ -6,45 +6,19 @@ class AnswerOption extends React.Component {
 
     constructor(props) {
         super(props);
-
-        
-     //   this.onAnswerSelected = this.onAnswerSelected.bind(this);
     }
 
-    state = {
-            answers : []
-    }
 
-//     onAnswerSelected = (e) => {
-//           console.log('selected nnnn',e.target.value)
-//         console.log('question',e.target.getAttribute('data-questionId'))
- 
-//         e.preventDefault();
+//  onAnswerSelected = (e) => {
+//          console.log('selected nnnn',e.target.value)
+//          console.log('question',e.target.getAttribute('data-questionId'));
+//                  e.preventDefault();
 //         var newItem = {
 //             questionId: e.target.getAttribute('data-questionId'),
 //             optionId: e.target.value
 //         };
-
-//         console.log(newItem)
-//         this.state.answers.push(newItem)
-//         // this.setState({
-//         //     answers: this.state.answers
-//         // });
-       
-//  console.log(this.state)
-        
-//     }
-
- onAnswerSelected = (e) => {
-         console.log('selected nnnn',e.target.value)
-         console.log('question',e.target.getAttribute('data-questionId'));
-                 e.preventDefault();
-        var newItem = {
-            questionId: e.target.getAttribute('data-questionId'),
-            optionId: e.target.value
-        };
-        this.setState({ answers: this.state.answers.concat([newItem]) }); 
- }
+//         this.setState({ answers: this.state.answers.concat([newItem]) }); 
+//  }
 
  
 
@@ -55,7 +29,6 @@ class AnswerOption extends React.Component {
     }
 
     render() {
-         console.log('hhhh',this.state)
         return (
             <li className="answerOption">
                 <input
@@ -67,7 +40,7 @@ class AnswerOption extends React.Component {
                     data-questionId={this.props.questionId}
                     value={this.props.optionId}
                     disabled={this.props.answer}
-                    onChange={this.onAnswerSelected}
+                    onChange={this.props.checkAnswer}
                 />
 
                 {this.props.answerContent ? this.props.answerContent : ''}

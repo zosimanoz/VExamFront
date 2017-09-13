@@ -40,7 +40,7 @@ class ExamPage extends React.Component {
             disableBtnPrev: false,
             questions: null,
             exampleItems: null,
-                        pageOfItems: [],
+            pageOfItems: [],
             start_time: Date.now()
         };
 
@@ -97,8 +97,8 @@ class ExamPage extends React.Component {
 
 
     onChangePage(pageOfItems) {
-                // update state with new page of items
-                this.setState({ pageOfItems: pageOfItems });
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems });
 
 
         let new_time = Date.now() + 7200000 - this.state.start_time;
@@ -106,7 +106,7 @@ class ExamPage extends React.Component {
 
 
         this.setState({ start_time: new_time });
-        }
+    }
 
 
 
@@ -124,33 +124,32 @@ class ExamPage extends React.Component {
     render() {
 
         return (
-          
-           <div>
-                    <div className="col-md-8">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                <p>Exam Set for Software Engineer</p>
-                            </div>
-                            <div className="panel-body">
+            <div>
+                <div className="col-md-8">
+                    <div className="panel panel-default">
+                        <div className="panel-heading">
+                            <p>Exam Set for Software Engineer</p>
+                        </div>
+                        <div className="panel-body">
 
-                                {
-                                    this.state.pageOfItems ?
-                                        <QuizQuestionList questions={this.state.pageOfItems} /> :
-                                        <p>No questions found</p>
-                                }
+                            {
+                                this.state.pageOfItems ?
+                                    <QuizQuestionList questions={this.state.pageOfItems} /> :
+                                    <p>No questions found</p>
+                            }
 
-                                <div className="pager">
-                                    <Pagination items={this.props.quizQuestions} onChangePage={this.onChangePage} />
-                                </div>
+                            <div className="pager">
+                                <Pagination items={this.props.quizQuestions} onChangePage={this.onChangePage} />
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
-                        <div id="scorecard" className="menu">
-                            <ul>
-                                {this.renderQuestionJumpIndex()}
+                </div>
+                <div className="col-md-4">
+                    <div id="scorecard" className="menu">
+                        <ul>
+                            {this.renderQuestionJumpIndex()}
 
-                                {/*<li className="">1</li>
+                            {/*<li className="">1</li>
                                     <li className="">2</li>
                                     <li className="">3</li>
                                     <li className="">4</li>
@@ -162,12 +161,10 @@ class ExamPage extends React.Component {
                                     <li className="">2</li>
                                     <li className="">3</li>
                                     <li className="">4</li>*/}
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
-        
-
+            </div>
         )
     }
 
