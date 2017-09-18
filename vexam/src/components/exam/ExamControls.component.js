@@ -28,12 +28,28 @@ class ExamControls extends Component {
             return {questionId: key, ObjectiveAnswers: group_by_questionId[key]};
         });
 
-        console.log('groups',answers);
+        return answers;
     }
 
+
+formatFinalAnswers() {
+     var optionsArr = this.formatAnswersByQuestionId();
+    var subjectiveArr = this.props.subjectiveAnswers;
+    console.log(optionsArr)
+    console.log(subjectiveArr)
+
+    for (var key in subjectiveArr) {
+        console.log(subjectiveArr[key])
+        optionsArr.push(subjectiveArr[key])
+    }
+
+    console.log(optionsArr)
+}
+
+
+
     submitAnswers() {
-        console.log('submitting ans', this.props.answers)
-        this.formatAnswersByQuestionId();
+        this.formatFinalAnswers();
     }
 
     render() {
@@ -52,7 +68,8 @@ class ExamControls extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        answers: state.answerReducer.answers
+        answers: state.answerReducer.answers,
+        subjectiveAnswers: state.answerReducer.subjectiveAnswers
     }
 }
 

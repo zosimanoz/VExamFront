@@ -12,6 +12,7 @@ import Quiz from './quiz.component'
 
 
 import { setAnswersToStore } from '../../actions/answers.action'
+import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
 
 
 class QuizQuestionList extends React.Component {
@@ -21,7 +22,7 @@ class QuizQuestionList extends React.Component {
         this.state = {
             answers: [],
             subjectiveAnswers: [],
-             text: ''
+            text: ''
         }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
@@ -79,35 +80,33 @@ class QuizQuestionList extends React.Component {
         );
     }
 
-    handleChangeForEditor = (questionId,value) => {
-        console.log(value)
-        console.log(questionId)
+    // onUpdateComments (id, e) {
 
-       // this.setState({ text: value })
-        
-        var newItem = {
-            questionId: questionId,
-            optionId: null,
-            IntervieweeId: this.props.user.IntervieweeId,
-            AnswerBy: this.props.user.IntervieweeId,
-            subjectiveAnswer: value
-        };
+    //     /*
+    //         you can modify your state only using setState. But be carefull when trying to grab actual state and modify it's reference.
+    //         So, the best way is to create a new object (immutable pattern), and one way of doing that is to use Object.assign
+    //     */
+    //     var comments = Object.assign({}, this.state.comments);
 
-        console.log(newItem)
+    //     console.log(e)
+    //     /* set, for instance, comment[1] to "some text" */
+    //     //comments[id] = e.target.value;
 
-        // this.setState({
-        //     text: newItem
-        // },()=> {
-        //     console.log(this.state.text)
-        //     //this.props.setAnswersToStore(this.state.answers);
-        // });
-    }
+    //     /* set the state to the new variable */
+    //    // this.setState({comments: comments});
+
+
+    // }
 
     renderSubjectiveField = (question) => {
+        //console.log('rerender question hello', this.props.comments)
+         /* grab the comment for this ID. If undefined, set to empty */
+        //var comment = this.props.comments ? (this.props.comments[question.QuestionId] || "") : "";
+       
         return (
             <div className="subjectiveAnswer">
-                <ReactQuill name="SubjectiveAnswer" value=''
-                    onChangeSelection={this.handleChangeForEditor.bind(this,question.QuestionId)} />
+                <ReactQuill name="SubjectiveAnswer" 
+                    onChange = {this.props.onUpdateComments.bind(this,question.QuestionId)} />
             </div>
         )
     }
@@ -145,5 +144,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { setAnswersToStore })(QuizQuestionList);
+export default connect(mapStateToProps, { setAnswersToStore, setSubjectiveAnswerToStore })(QuizQuestionList);
 

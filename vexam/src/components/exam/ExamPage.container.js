@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 
 import { getExamQuestions } from '../../actions/examQuiz.action'
+import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
 
 import Pagination from '../common/pagination.component'
 
@@ -41,7 +42,8 @@ class ExamPage extends React.Component {
             questions: null,
             exampleItems: null,
             pageOfItems: [],
-            start_time: Date.now()
+            start_time: Date.now(),
+            comments: {}
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -120,9 +122,30 @@ class ExamPage extends React.Component {
         })
     )
 
+    onUpdateComments(id, e) {
+        let that = this;
+        var comments = Object.assign({}, this.state.comments);
+
+        var model = {
+            questionId: id,
+            optionId: 0,
+            IntervieweeId: this.props.user.IntervieweeId,
+            AnswerBy: this.props.user.IntervieweeId,
+            subjectiveAnswer: e
+        };
+
+        comments[id] = model;
+
+        /* set the state to the new variable */
+        this.setState({ comments: comments },
+        ()=> {
+            this.props.setSubjectiveAnswerToStore(this.state.comments);
+        });
+        console.log(this.state.comments)
+    }
+
 
     render() {
-
         return (
             <div>
                 <div className="col-md-8">
@@ -134,9 +157,9 @@ class ExamPage extends React.Component {
 
                             {
                                 this.state.pageOfItems ?
-                                    <QuizQuestionList questions={this.state.pageOfItems} /> :
+                                    <QuizQuestionList questions={this.state.pageOfItems} onUpdateComments={this.onUpdateComments} /> :
                                     <p>No questions found</p>
-                            }
+                            } 
 
                             <div className="pager">
                                 <Pagination items={this.props.quizQuestions} onChangePage={this.onChangePage} />
@@ -174,7 +197,8 @@ class ExamPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        quizQuestions: state.quizReducer.questions
+        quizQuestions: state.quizReducer.questions,
+        user: state.authReducer.user
     }
 }
 

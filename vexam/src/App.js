@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User') {
       return (
         <Router>
           <Admin />
@@ -42,11 +42,11 @@ class App extends Component {
     }
 
 
-    // if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
-    //   return (
-    //     <ExamPage />
-    //   )
-    // }
+    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
+      return (
+        <ExamMain />
+      )
+    }
 
 
 
