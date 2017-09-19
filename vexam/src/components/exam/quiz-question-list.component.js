@@ -2,6 +2,8 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 
+import CKEditor from "react-ckeditor-component";
+
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
@@ -26,29 +28,29 @@ class QuizQuestionList extends React.Component {
         }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
-        
+        //  this.componentDidMount = this.componentDidMount.bind(this);
     }
 
 
     checkAnswer = (e) => {
         var array = this.state.answers;
         var index = array.findIndex(o => o.optionId == e.target.value);
-        
-        if( index > -1) {
-            array.splice(index,1);
-       
+
+        if (index > -1) {
+            array.splice(index, 1);
+
             this.setState({
                 answers: array
-            },()=> {
+            }, () => {
                 this.props.setAnswersToStore(this.state.answers);
             })
-        }else {
+        } else {
             this.saveAnswer(e);
         }
     }
 
     saveAnswer = (e) => {
-        
+
         var newItem = {
             questionId: e.target.getAttribute('data-questionId'),
             optionId: e.target.value,
@@ -59,56 +61,120 @@ class QuizQuestionList extends React.Component {
 
         this.setState({
             answers: this.state.answers.concat(newItem)
-        },()=> {
+        }, () => {
             this.props.setAnswersToStore(this.state.answers);
         });
     }
 
 
     renderQuestionOptionsList = (option) => {
-     
-        return (
-            <AnswerOption
-                key={option.ObjectiveQuestionOptionId}
-                optionId={option.ObjectiveQuestionOptionId}
-                answerContent={option.AnswerOption}
-                answerType={option.QuestionId}
-                questionId={option.QuestionId}
-                attachment={option.Attachment}
-                checkAnswer={this.checkAnswer}
-            />
-        );
+        var array = this.props.objectiveAnswers;
+        console.log('array in store', array)
+        var index = array.findIndex(o => o.optionId == option.ObjectiveQuestionOptionId);
+
+        if (index > -1) {
+            return (
+                <AnswerOption
+                    key={option.ObjectiveQuestionOptionId}
+                    optionId={option.ObjectiveQuestionOptionId}
+                    answerContent={option.AnswerOption}
+                    answerType={option.QuestionId}
+                    questionId={option.QuestionId}
+                    attachment={option.Attachment}
+                    checkAnswer={this.checkAnswer}
+                    isChecked={true}
+                />
+            )
+        } else {
+            return (
+                <AnswerOption
+                    key={option.ObjectiveQuestionOptionId}
+                    optionId={option.ObjectiveQuestionOptionId}
+                    answerContent={option.AnswerOption}
+                    answerType={option.QuestionId}
+                    questionId={option.QuestionId}
+                    attachment={option.Attachment}
+                    checkAnswer={this.checkAnswer}
+                    isChecked={false}
+                />
+            )
+        }
+
     }
 
-    // onUpdateComments (id, e) {
+    checkIfObjectIsEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
 
-    //     /*
-    //         you can modify your state only using setState. But be carefull when trying to grab actual state and modify it's reference.
-    //         So, the best way is to create a new object (immutable pattern), and one way of doing that is to use Object.assign
-    //     */
-    //     var comments = Object.assign({}, this.state.comments);
-
-    //     console.log(e)
-    //     /* set, for instance, comment[1] to "some text" */
-    //     //comments[id] = e.target.value;
-
-    //     /* set the state to the new variable */
-    //    // this.setState({comments: comments});
-
-
+    // componentDidMount() {
+    //     let configuration = {
+    //         toolbar: "Basic"
+    //     };
+    //     CKEDITOR.replace("editor", configuration);
+    //     CKEDITOR.instances.editor.on('change', function () {
+    //         let data = CKEDITOR.instances.editor.getData();
+    //         this.props.onChange(data);
+    //     }.bind(this));
     // }
 
     renderSubjectiveField = (question) => {
         //console.log('rerender question hello', this.props.comments)
-         /* grab the comment for this ID. If undefined, set to empty */
+        /* grab the comment for this ID. If undefined, set to empty */
         //var comment = this.props.comments ? (this.props.comments[question.QuestionId] || "") : "";
-       
-        return (
-            <div className="subjectiveAnswer">
-                <ReactQuill name="SubjectiveAnswer" 
-                    onChange = {this.props.onUpdateComments.bind(this,question.QuestionId)} />
-            </div>
-        )
+
+        let subjective_array = this.props.subjectiveAnswers;
+
+        let check_for_sub_answers = this.checkIfObjectIsEmpty(subjective_array);
+
+        let arr = [];
+
+        for (var key in subjective_array) {
+            arr.push(subjective_array[key]);
+        }
+
+
+        var index = arr.findIndex(o => o.questionId == question.QuestionId);
+
+        console.log(arr)
+        console.log('index of current question', index)
+
+        //if (check_for_sub_answers) {
+        if (index > -1) {
+            return (
+                <div className="subjectiveAnswer" id={question.QuestionId}>
+                    <CKEditor activeClass={question.QuestionId} content={arr[index].subjectiveAnswer} onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
+                </div>
+            )
+        } else {
+            return (
+                <div className="subjectiveAnswer" id={question.QuestionId}>
+                    <CKEditor activeClass={question.QuestionId} content='' onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
+                </div>
+            )
+        }
+        //for (var key in subjective_array) {
+
+        // debugger;
+        /*console.log('rerender')
+        if (question.QuestionId == subjective_array[key].questionId) {
+            console.log('QuestionId',question.QuestionId)
+            console.log('subjective_array',subjective_array[key].questionId)
+            return (
+                <div className="subjectiveAnswer" id={question.QuestionId}>
+                    <CKEditor activeClass={question.QuestionId} content={subjective_array[key].subjectiveAnswer} onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
+                </div>
+            )
+        }else {
+            console.log('QuestionId',question.QuestionId)
+            console.log('subjective_array',subjective_array[key].questionId)
+            return (
+                <div className="subjectiveAnswer" id={question.QuestionId}>
+                    <CKEditor activeClass={question.QuestionId} content='' onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
+                </div>
+            )
+        }*/
+        //}
+        // }
     }
 
 
@@ -126,7 +192,7 @@ class QuizQuestionList extends React.Component {
     }
 
     render() {
-     
+
         return (
             <div className="quiz-question-list">
                 {this.props.questions.map(this.renderQuestionsList)}
@@ -139,7 +205,9 @@ class QuizQuestionList extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        user: state.authReducer.user
+        user: state.authReducer.user,
+        objectiveAnswers: state.answerReducer.objectiveAnswers,
+        subjectiveAnswers: state.answerReducer.subjectiveAnswers
     }
 }
 

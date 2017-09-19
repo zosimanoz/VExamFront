@@ -41,6 +41,7 @@ class AnswerOption extends React.Component {
                     value={this.props.optionId}
                     disabled={this.props.answer}
                     onChange={this.props.checkAnswer}
+                    checked={this.props.isChecked}
                 />
 
                 {this.props.answerContent ? this.props.answerContent : ''}

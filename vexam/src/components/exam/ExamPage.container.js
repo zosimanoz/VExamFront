@@ -42,8 +42,7 @@ class ExamPage extends React.Component {
             questions: null,
             exampleItems: null,
             pageOfItems: [],
-            start_time: Date.now(),
-            comments: {}
+            subjectiveAnswers: {}
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -101,13 +100,6 @@ class ExamPage extends React.Component {
     onChangePage(pageOfItems) {
         // update state with new page of items
         this.setState({ pageOfItems: pageOfItems });
-
-
-        let new_time = Date.now() + 7200000 - this.state.start_time;
-        console.log('new time', this.state.start_time)
-
-
-        this.setState({ start_time: new_time });
     }
 
 
@@ -122,9 +114,9 @@ class ExamPage extends React.Component {
         })
     )
 
-    onUpdateComments(id, e) {
+    onAddSubjectiveAnswer(id, e) {
         let that = this;
-        var comments = Object.assign({}, this.state.comments);
+        var subjectiveAnswers = Object.assign({}, this.state.subjectiveAnswers);
 
         var model = {
             questionId: id,
@@ -134,14 +126,14 @@ class ExamPage extends React.Component {
             subjectiveAnswer: e
         };
 
-        comments[id] = model;
+        subjectiveAnswers[id] = model;
 
         /* set the state to the new variable */
-        this.setState({ comments: comments },
+        this.setState({ subjectiveAnswers: subjectiveAnswers },
         ()=> {
-            this.props.setSubjectiveAnswerToStore(this.state.comments);
+            this.props.setSubjectiveAnswerToStore(this.state.subjectiveAnswers);
         });
-        console.log(this.state.comments)
+        console.log(this.state.subjectiveAnswers)
     }
 
 
@@ -157,7 +149,7 @@ class ExamPage extends React.Component {
 
                             {
                                 this.state.pageOfItems ?
-                                    <QuizQuestionList questions={this.state.pageOfItems} onUpdateComments={this.onUpdateComments} /> :
+                                    <QuizQuestionList questions={this.state.pageOfItems} onAddSubjectiveAnswer={this.onAddSubjectiveAnswer} /> :
                                     <p>No questions found</p>
                             } 
 

@@ -2,7 +2,7 @@ import { SET_ANSWERS, SET_ANSWERS_SUCCESS, SET_SUBJECTIVE_ANSWERS_START, SET_SUB
 
 
 const initialState = {
-    answers: [],
+    objectiveAnswers: [],
     subjectiveAnswers: []
 };
 
@@ -14,7 +14,7 @@ export default function answerReducer(state = initialState, action = {}) {
         case SET_ANSWERS:
             return { ...state };
         case SET_ANSWERS_SUCCESS:
-            return { ...state, answers: action.payload.answerList };
+            return { ...state, objectiveAnswers: action.payload.answerList };
         case SET_SUBJECTIVE_ANSWERS_START:
             return { ...state };
         case SET_SUBJECTIVE_ANSWER_SUCCESS:
