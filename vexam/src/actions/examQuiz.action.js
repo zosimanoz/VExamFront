@@ -7,6 +7,8 @@ export const FETCH_EXAM_QUESTIONS_START = 'FETCH_EXAM_QUESTIONS_START';
 export const FETCH_EXAM_QUESTIONS_SUCCESS = 'FETCH_EXAM_QUESTIONS_SUCCESS';
 export const FETCH_EXAM_QUESTIONS_FAILURE = 'FETCH_EXAM_QUESTIONS_FAILURE';
 
+export const SET_QUESTIONS_WITH_ANSWER = 'SET_QUESTIONS_WITH_ANSWER'
+
 
 const URL = 'http://localhost:5000';
 
@@ -42,14 +44,14 @@ export function getExamQuestions() {
     dispatch(fetchExamQuestionStart());
     axios.get(`${URL}/api/v1/interviewee/interview/questions/3`)
           .then((res)=>{ 
-              console.log(res.data.Data)
               dispatch(fetchExamQuestionsSuccess(res.data.Data));
           }).catch((err) => {
-              console.log(err)
               dispatch(fetchExamQuestionsFailure(err.response.data))
           });
   }
 }
+
+
 
 
 // export function getExamQuestions() {

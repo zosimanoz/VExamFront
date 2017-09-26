@@ -8,35 +8,25 @@ import { getExamQuestions } from '../../actions/examQuiz.action'
 import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
 
 import Pagination from '../common/pagination.component'
-
-import quizQuestions from '../../api/quizQuestions.api';
-import Quiz from './quiz.component'
-import Pager from './pager.component'
-import QuizQuestionIndex from './quiz-question-index.component'
-import CustomTimer from '../timer/custom-timer.component'
-import CountDownTimer from '../timer/timer.component'
-import QuizQuestionList from './quiz-question-list.component'
-
-import './exam.css'
+import ExamQuestionList from './ExamQuestionList.component'
 
 
-class ExamPage extends React.Component {
+import '../exam/exam.css'
+
+
+class ExamMainPage extends React.Component {
 
     // we need an initial state to populate the data
     constructor(props) {
         super(props);
 
+        
         this.state = {
             counter: 0,
             questionId: 1,
             question: '',
             answerOptions: [],
             answer: '',
-            answersCount: {
-                nintendo: 0,
-                microsoft: 0,
-                sony: 0
-            },
             result: '',
             disableBtnPrev: false,
             questions: null,
@@ -56,46 +46,15 @@ class ExamPage extends React.Component {
     }
 
 
-    // componentWillMount is react life cycle event
-    // and we populate the state of the app when component will be rendered for the first time
+    // componentWillReceiveProps = (new_props) => {
+    //     this.setState({
+    //         questions: new_props.quizQuestions
+    //     });
+    // }
 
-    // The componentWillMount life cycle event is invoked once, both on the client and server, 
-    // immediately before the initial rendering occurs
-
-    componentWillMount() {
-
-    }
-
-
-    componentWillReceiveProps = (new_props) => {
-        this.setState({
-            questions: new_props.quizQuestions
-        });
-    }
-
-    componentDidMount() {
-        this.props.getExamQuestions();
-    }
-
-    setUserAnswer(answer) {
-        const updatedAnswersCount = update(this.state.answersCount, {
-            [answer]: { $apply: (currentValue) => currentValue + 1 }
-        });
-        this.setState({
-            answersCount: updatedAnswersCount,
-            answer: answer
-        });
-    }
-
-    handleAnswerSelected(event) {
-        this.setUserAnswer(event.currentTarget.value);
-        if (this.state.questionId <= quizQuestions.length) {
-            setTimeout(() => this.setNextQuestion(), 300);
-        } else {
-
-        }
-    }
-
+    // componentDidMount() {
+    //     this.props.getExamQuestions();
+    // }
 
 
     onChangePage(pageOfItems) {
@@ -104,13 +63,16 @@ class ExamPage extends React.Component {
     }
 
 
+    handleAnswerSelected = () => {
+        
+    }
 
     handleJumpIndexClick(id) {
         alert(id)
     }
 
     renderQuestionJumpIndex = () => (
-        this.props.quizQuestions.map((question, idx) => {
+        this.props.questionsList.map((question, idx) => {
             return <li onClick={this.handleJumpIndexClick.bind(this, question.Question.QuestionId)} className=''><span>{idx + 1}</span></li>
         })
     )
@@ -136,12 +98,11 @@ class ExamPage extends React.Component {
             this.props.setSubjectiveAnswerToStore(this.state.subjectiveAnswers);
         });
         console.log(this.state.subjectiveAnswers)
-
-        
     }
 
 
     render() {
+
         return (
             <div>
                 <div className="col-md-8">
@@ -153,12 +114,12 @@ class ExamPage extends React.Component {
 
                             {
                                 this.state.pageOfItems ?
-                                    <QuizQuestionList questions={this.state.pageOfItems} onAddSubjectiveAnswer={this.onAddSubjectiveAnswer} /> :
+                                    <ExamQuestionList questionsList={this.props.questionsList} questions={this.state.pageOfItems} onAddSubjectiveAnswer={this.onAddSubjectiveAnswer} /> :
                                     <p>No questions found</p>
                             } 
 
                             <div className="pager">
-                                <Pagination items={this.props.quizQuestions} onChangePage={this.onChangePage} />
+                                <Pagination items={this.props.questionsList} onChangePage={this.onChangePage} />
                             </div>
                         </div>
                     </div>
@@ -166,20 +127,7 @@ class ExamPage extends React.Component {
                 <div className="col-md-4">
                     <div id="scorecard" className="menu">
                         <ul>
-                            {this.renderQuestionJumpIndex()}
-
-                            {/*<li className="">1</li>
-                                    <li className="">2</li>
-                                    <li className="">3</li>
-                                    <li className="">4</li>
-                                    <li className="currQue">5</li>
-                                    <li className="currQue">6</li>
-                                    <li className="currQue">7</li>
-                                    <li className="currQue">8</li>
-                                    <li className="">1</li>
-                                    <li className="">2</li>
-                                    <li className="">3</li>
-                                    <li className="">4</li>*/}
+                            {this.props.questionsList ? this.renderQuestionJumpIndex() : 'Loading'}
                         </ul>
                     </div>
                 </div>
@@ -200,4 +148,4 @@ const mapStateToProps = (state, props) => {
 
 
 
-export default connect(mapStateToProps, { getExamQuestions })(ExamPage);
+export default connect(mapStateToProps, { getExamQuestions })(ExamMainPage);

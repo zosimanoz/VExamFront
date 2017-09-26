@@ -8,9 +8,6 @@ class AnswerOption extends React.Component {
         super(props);
     }
 
-
- 
-
     renderAttachment = () => {
         return (<div className="option-img">
             <img src={URL + this.props.attachment} />
@@ -44,12 +41,5 @@ class AnswerOption extends React.Component {
 
 }
 
-
-// AnswerOption.propTypes = {
-//     answerType: React.PropTypes.string.isRequired,
-//     answerContent: React.PropTypes.string.isRequired,
-//     answer: React.PropTypes.string.isRequired,
-//     onAnswerSelected: React.PropTypes.func.isRequired
-// };
 
 export default AnswerOption;
