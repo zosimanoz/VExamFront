@@ -1,36 +1,36 @@
+import axios from 'axios';
+
+import setAuthorizationToken from '../utils/setAuthorizationToken';
+
+
+
 export const SET_INTERVIEWEE = 'SET_INTERVIEWEE'
 export const ADD_INTERVIEWEE = 'ADD_INTERVIEWEE'
 export const GET_INTERVIEWEE_BYID = 'GET_INTERVIEWEE_BYID'
 export const UPDATE_INTERVIEWEE = 'UPDATE_INTERVIEWEE'
 export const DELETE_INTERVIEWEE = 'DELETE_INTERVIEWEE'
-
+export const GET_INTERVIEWEE_BY_SSESSIONID = 'GET_INTERVIEWEE_BY_SSESSIONID'
+export const INTERVIEWEE_ERROR= 'INTERVIEWEE_ERROR'
 
 const URL = 'http://localhost:5000';
 
 
-
-// handle the post response
-function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+export const error = (error) => {
+    return {
+        type: INTERVIEWEE_ERROR,
+        payload: {
+            error: error
+        }
+    }
 }
 
-
-// set games action is dispatched when data is received
-// this action sets a new state with type and dispatch data 
-// to the store. After it recives the new state, we need to implement
-// the reducer to respond to the change in data and state
-// So, lets jump into the department.reducer
-
 export const setInterviewees = (interviewees) => {
+ console.log('121212',interviewees);
     return {
         type: SET_INTERVIEWEE,
-        interviewees
+        payload: {
+            interviewees: interviewees
+        }
     }
 }
 
@@ -38,7 +38,9 @@ export const setInterviewees = (interviewees) => {
 export const addInterviewee = (interviewee) => {
     return {
         type: ADD_INTERVIEWEE,
-        interviewee
+        payload: {
+            interviewee: interviewee
+        }
     }
 }
 
@@ -46,7 +48,9 @@ export const addInterviewee = (interviewee) => {
 export const setUpdatedInterviewee = (interviewee) => {
     return {
         type: UPDATE_INTERVIEWEE,
-        interviewee
+        payload: {
+            interviewee: interviewee
+        }
     }
 }
 
@@ -54,27 +58,42 @@ export const setUpdatedInterviewee = (interviewee) => {
 export const setIntervieweeById = (interviewee) => {
     return {
         type: GET_INTERVIEWEE_BYID,
-        interviewee
+        payload: {
+            interviewee: interviewee
+        }
     }
 }
 
-export const deleteIntervieweeById = (interviewee) => {
+export const deleteIntervieweeById = (IntervieweeId) => {
     return {
         type: DELETE_INTERVIEWEE,
-        interviewee
+        payload: {
+            IntervieweeId: IntervieweeId
+        }
     }
 }
 
 
 export const fetchInterviewees = () => {
-    // fetch data from api
-    // dispatch a new state on receiving data data.Data
-    // thunk middle ware help in calling actions as funcitons
+   return dispatch => {
+        axios.get(`${URL}/api/v1/interviewee/get/all`)
+            .then(res => dispatch(setInterviewees(res.data.Data)))
+            .catch((err) => {
+                dispatch(error(err.response.data))
+            });
+    }
+}
 
-    return dispatch => {
-        fetch(`${URL}/api/v1/interviewee/get/all`)
-            .then(res => res.json())
-            .then(data => dispatch(setInterviewees(data.Data)))
+export const fetchIntervieweesBySessionId = (id) => {
+    console.log('session id to fetch interviewees',id);
+   return dispatch => {
+        axios.get(`${URL}/api/v1/interviewee/get/session/${id}`)
+            .then((res) => {
+                dispatch(setInterviewees(res.data.Data))
+            })
+            .catch((err) => {
+                dispatch(error(err.response))
+            });
     }
 }
 
@@ -82,58 +101,68 @@ export const fetchInterviewees = () => {
 
 // Save department
 export function saveInterviewee(data) {
-    return dispatch => {
-        return fetch(`${URL}/api/v1/interviewee/new`, {
-            method: 'post',
-            dataType: 'json',
-            body: JSON.stringify(data),
+ return dispatch => {
+        return axios({
+            method: 'POST',
+            url: `${URL}/api/v1/interviewee/new`,
+            data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-        .then(data => dispatch(addInterviewee(data.Data)));;
+        }).then(res => dispatch(addInterviewee(res.data.Data)))
+            .catch((err) => {
+                dispatch(error(err.response.Message))
+            });
     }
 }
 
 
 
-export function fetchIntervieweeById(id){
-    return dispatch => {
-        fetch(`${URL}/api/v1/interviewee/get/${id}`)
-            .then(res => res.json())
-            .then(data => dispatch(setIntervieweeById(data.Data)))
+export function fetchIntervieweeById(id) {
+ return dispatch => {
+        axios.get(`${URL}api/v1/interviewee/get/${id}`)
+            .then(res => dispatch(setIntervieweeById(res.data.Data)))
+            .catch((err) => {
+                dispatch(error(err.response.Message))
+            });
     }
 }
 
 
-export function updateInterviewee(data){
-     return dispatch => {
-        return fetch(`${URL}/api/v1/interviewee/update`, {
-            method: 'post',
-            dataType: 'json',
-            body: JSON.stringify(data),
+export function updateInterviewee(data) {
+
+ return dispatch => {
+        return axios({
+            method: 'PUT',
+            url: `${URL}/api/v1/interviewee/update`,
+            data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-        .then(data => dispatch(setUpdatedInterviewee(data.Data)));
+        }).then(res => dispatch(setUpdatedInterviewee(data)))
+            .catch((err) => {
+                dispatch(error(err.response.Message))
+            });
     }
+
 }
 
 
-export function deleteInterviewee(id){
+export function deleteInterviewee(id) {
 
-    return dispatch => {
-        return fetch(`${URL}/api/v1/interviewee/delete/${id}`, {
-            method: 'put',
-           dataType: 'json',
+ return dispatch => {
+        return axios({
+            method: 'PUT',
+            url: `${URL}/api/v1/interviewee/delete/${id}`,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-        .then(data => dispatch(deleteIntervieweeById(id)));
+        }).then(res => dispatch(deleteIntervieweeById(id)))
+            .catch((err) => {
+                dispatch(error(err.response.Message))
+            });
     }
 }

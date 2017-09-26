@@ -128,7 +128,7 @@ class AddInterviewSession extends React.Component {
 
 
     renderForm() {
-        {console.log('title',this.state.interviewSession)}
+        {console.log('title',this.state)}
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
 

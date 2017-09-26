@@ -28,6 +28,9 @@ import JobIndex from '../components/jobs/job-index.component';
 import AddJob from '../components/jobs/add-jobs.component';
 import SetQuestions from '../components/examsets/setquestionsbyexamset';
 import InterviewSessions from '../components/interviewSession/interviewSession-index.component';
+import InterviewSessionIndex from '../components/interviewSession/interviewSessionHistory.component';
+import AddSessionJobs from '../components/interviewSession/sessionJobs.component';
+import AddInterviewees from '../components/interviewSession/interviewees.component';
 
 import AddInterviewSession from '../components/interviewSession/add-interviewSession.component';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -275,6 +278,15 @@ const Routings = () => (
           <InterviewSessions heading="Interview Sessions" />
         )}
       />
+       <Route exact
+        path="/admin/interviewsession/history"
+        render={props => (
+          <InterviewSessionIndex heading="Interview Session History" />
+        )}
+      />
+
+
+      
         <Route exact
        path="/admin/interviewSession/add"
         render={props => (
@@ -286,6 +298,19 @@ const Routings = () => (
         path="/admin/interviewSession/:id"
         render={props => (
           <AddInterviewSession heading="Edit Interview Sessions"  {...props} />
+        )}
+      />
+      
+       <Route exact
+        path="/admin/interviewSession/:id/jobs"
+        render={props => (
+          <AddSessionJobs heading="Job Vacancies for this session"  {...props} />
+        )}
+      />
+        <Route exact
+        path="/admin/interviewSession/:id/interviewees"
+        render={props => (
+          <AddInterviewees heading="Interviewees for this session"  {...props} />
         )}
       />
      

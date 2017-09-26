@@ -1,34 +1,45 @@
 import { SET_INTERVIEW_SESSION, ADD_INTERVIEW_SESSION, GET_INTERVIEW_SESSION_BYID, UPDATE_INTERVIEW_SESSION, DELETE_INTERVIEW_SESSION } from '../actions/interviewSession.action';
 
 
-export default function interviewSessions(state = [], action = {}) {
+export default function interviewSessionReducer(state = [], action = {}) {
     switch (action.type) {
 
         case SET_INTERVIEW_SESSION: {
-            return action.interviewSessions;
+            return {
+                ...state,
+                interviewSessions:action.payload.interviewSessions
+            }
             break;
         }
 
         case ADD_INTERVIEW_SESSION: {
-         
-            return [
+            console.log("added ", action.interviewSession);
+            return {
                 ...state,
-                action.interviewSession
-            ]
+                interviewSessions: state.interviewSessions.concat(action.payload.interviewSession)
+            }
             break;
         }
 
-        case UPDATE_INTERVIEW_SESSION: {
-            return [
+          case UPDATE_INTERVIEW_SESSION: {
+
+            var updatedInterviewSession = state.interviewSessions.filter(item => item.interviewSessionId !== action.payload.InterviewSession.InterviewSessionId)
+            updatedInterviewSession = updatedInterviewSession.concat(action.payload.interviewSession)
+            return {
                 ...state,
-                action.interviewSession
-            ]
+                interviewSessions: updatedInterviewSession
+            }
             break;
         }
 
 
         case DELETE_INTERVIEW_SESSION: {
-            return state.filter(item => item.InterviewSessionId != action.interviewSession.InterviewSessionId)
+            console.log('reducer interview session', state.interviewSessions)
+             return {
+                ...state,
+                 interviewSessions: state.interviewSessions.filter(item => item.InterviewSessionId !== action.payload.interviewSessionId)
+             }
+          
             break;
         }
 
@@ -36,7 +47,7 @@ export default function interviewSessions(state = [], action = {}) {
                console.log('reducer', action.interviewSession);
             return {
                 ...state,
-                interviewSession: action.interviewSession
+                interviewSession: action.payload.interviewSession
             }
 
             break;

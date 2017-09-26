@@ -1,11 +1,16 @@
 import { SET_INTERVIEWEE, ADD_INTERVIEWEE, GET_INTERVIEWEE_BYID, UPDATE_INTERVIEWEE, DELETE_INTERVIEWEE } from '../actions/interviewee.action';
 
 
-export default function interviewees(state = [], action = {}) {
+export default function intervieweeReducer(state = [], action = {}) {
     switch (action.type) {
 
         case SET_INTERVIEWEE: {
-            return action.interviewees;
+            console.log("get interviewees ", action.payload.interviewees);
+            return {
+                ...state,
+                intervieweeList: action.payload.interviewees
+            }
+
             break;
         }
 
@@ -17,17 +22,23 @@ export default function interviewees(state = [], action = {}) {
             break;
         }
 
-         case UPDATE_INTERVIEWEE: {
-            return [
+       case UPDATE_INTERVIEWEE: {
+
+            var updatedInterviewee = state.intervieweeList.filter(item => item.IntervieweeId !== action.payload.interviewee.IntervieweeId)
+            updatedInterviewee = updatedInterviewee.concat(action.payload.interviewee)
+            return {
                 ...state,
-                action.interviewee
-            ]
+                intervieweeList: updatedInterviewee
+            }
             break;
         }
 
 
         case DELETE_INTERVIEWEE: {
-            return state.filter(item => item.IntervieweeId != action.interviewee.IntervieweeId)
+                return {
+                ...state,
+                intervieweeList: state.intervieweeList.filter(item => item.IntervieweeId !== action.payload.IntervieweeId)
+            }
             break;
         }
 

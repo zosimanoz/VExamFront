@@ -37,9 +37,7 @@ function handleResponse(response) {
 export const setInterviewSessions = (interviewSessions) => {
     return {
         type: SET_INTERVIEW_SESSION,
-       payload: {
-            interviewSessions: interviewSessions
-        }
+        interviewSessions
     }
 }
 export function interviewSessionError(error) {
@@ -54,10 +52,7 @@ export function interviewSessionError(error) {
 export const addInterviewSession = (interviewSession) => {
     return {
         type: ADD_INTERVIEW_SESSION,
-          payload: {
-            interviewSession: interviewSession
-        }
-        
+        interviewSession
     }
 }
 
@@ -65,9 +60,7 @@ export const addInterviewSession = (interviewSession) => {
 export const setUpdatedInterviewSession = (interviewSession) => {
     return {
         type: UPDATE_INTERVIEW_SESSION,
-        payload: {
-            interviewSession: interviewSession
-        }
+        interviewSession
     }
 }
 
@@ -75,33 +68,29 @@ export const setUpdatedInterviewSession = (interviewSession) => {
 export const setInterviewSessionById = (interviewSession) => {
     return {
         type: GET_INTERVIEW_SESSION_BYID,
-       payload: {
-            interviewSession: interviewSession
-        }
+        interviewSession
     }
 }
 
-
-export const deleteInterviewSessionById = (interviewSessionId) => {
+export const deleteInterviewSessionById = (interviewSessions) => {
     return {
         type: DELETE_INTERVIEW_SESSION,
-          payload: {
-            interviewSessionId: interviewSessionId
-        }
+        interviewSessions
     }
 }
 
 
-export const fetchInterviewSessionHistory = () => {
-       return dispatch => {
-        axios.get(`${URL}/api/v1/interviewsession/history`)
-            .then(res => dispatch(setInterviewSessions(res.data.Data)))
-            .catch((err) => {
-                dispatch(interviewSessionError(err.response.message))
-            });
+export const fetchExpiredInterviewSessions = () => {
+    // fetch data from api
+    // dispatch a new state on receiving data data.Data
+    // thunk middle ware help in calling actions as funcitons
+
+    return dispatch => {
+        fetch(`${URL}/api/v1/interviewsession/expired`)
+            .then(res => res.json())
+            .then(data => dispatch(setInterviewSessions(data.Data)))
     }
 }
-
 
 export const fetchActiveInterviewSessions = () => {
        return dispatch => {
@@ -161,22 +150,18 @@ export function updateInterviewSession(data){
     }
 }
 
-export function deleteInterviewSession(id) {
+
+export function deleteInterviewSession(id){
+
     return dispatch => {
-        return axios({
-            method: 'PUT',
-            url: `${URL}/api/v1/interviewsession/delete/${id}`,
+        return fetch(`${URL}/api/v1/interviewsession/delete/${id}`, {
+            method: 'put',
+           dataType: 'json',
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        })
-        .then((res) =>{
-                 dispatch(deleteInterviewSessionById(id))
-                console.log("response here...",res)
-        })
-            // .catch((err) => {
-            //     dispatch(interviewSessionError(err.data.Message))
-            // });
+        }).then(handleResponse)
+        .then(data => dispatch(deleteInterviewSessionById(id)));
     }
 }
