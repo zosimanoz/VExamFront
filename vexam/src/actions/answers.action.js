@@ -41,11 +41,11 @@ export function setSubjectiveAnswerStart(){
 }
 
 
-export function setSubjectiveAnswerSuccess(answerList) {
+export function setSubjectiveAnswerSuccess(question_state) {
   return {
     type: SET_SUBJECTIVE_ANSWER_SUCCESS,
     payload: {
-      answerList : answerList
+      question_state : question_state
     }
   }
 }

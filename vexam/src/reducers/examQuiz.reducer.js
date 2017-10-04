@@ -18,6 +18,7 @@ export default function quizReducer(state = initialState, action = {}) {
         case FETCH_EXAM_QUESTIONS_FAILURE:
             return { ...state, errors: action.payload.errors };
         case SET_QUESTIONS_WITH_ANSWER:
+            console.log('action', action)
             return { ...state, questions: action.payload.question_state.questionsList }; 
         default: return state;
     }

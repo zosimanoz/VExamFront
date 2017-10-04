@@ -27,16 +27,14 @@ class ExamQuestionList extends React.Component {
             answers: [],
             subjectiveAnswers: [],
             text: '',
-            questionsList : null
+            questionsList: null
         }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
-        //  this.componentDidMount = this.componentDidMount.bind(this);
     }
 
 
     componentWillReceiveProps = (new_props) => {
-        console.log('props new got', new_props)
         this.setState({
             questions: new_props.questions,
             questionsList: new_props.questionsList
@@ -63,8 +61,8 @@ class ExamQuestionList extends React.Component {
         //         this.props.setAnswersToStore(this.state);
         //     })
         // } else {
-            this.saveAnswer(e);
-       // }
+        this.saveAnswer(e);
+        // }
     }
 
     saveAnswer = (e) => {
@@ -75,23 +73,15 @@ class ExamQuestionList extends React.Component {
         // get the current option
         var optionId = e.target.value;
 
-        var arr = this.props.questionsList.filter((key)=>{
+        var arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == questionId
         })
 
-        arr[0].Options.map((key,value)=>{
-            if(key.ObjectiveQuestionOptionId == optionId){
+        arr[0].Options.map((key, value) => {
+            if (key.ObjectiveQuestionOptionId == optionId) {
                 key.IsAnswer = key.IsAnswer ? false : true;
             }
         })
-
-        // var newItem = {
-        //     questionId: e.target.getAttribute('data-questionId'),
-        //     optionId: e.target.value,
-        //     // IntervieweeId: this.props.user.IntervieweeId,
-        //     // AnswerBy: this.props.user.IntervieweeId,
-        //     subjectiveAnswer: ''
-        // };
 
         this.setState({
             questionsList: this.props.questionsList
@@ -101,50 +91,40 @@ class ExamQuestionList extends React.Component {
     }
 
 
+
+    onAddSubjectiveAnswer(question, answer) {
+
+        var arr = this.props.questionsList.filter((key) => {
+            return key.Question.QuestionId == question.Question.QuestionId
+        })
+
+        arr[0].Answers = answer;
+
+        /* set the state to the new variable */
+        this.setState({
+            questionsList: this.props.questionsList
+        }, () => {
+            this.props.setSubjectiveAnswerToStore(this.state);
+        });
+    }
+
+
     renderQuestionOptionsList = (option) => {
-       // var array = this.props.objectiveAnswers;
-       // var index = array.findIndex(o => o.optionId == option.ObjectiveQuestionOptionId);
+        // var array = this.props.objectiveAnswers;
+        // var index = array.findIndex(o => o.optionId == option.ObjectiveQuestionOptionId);
 
-         return (
-                <AnswerOption
-                    key={option.ObjectiveQuestionOptionId}
-                    optionId={option.ObjectiveQuestionOptionId}
-                    answerContent={option.AnswerOption}
-                    answerType={option.QuestionId}
-                    questionId={option.QuestionId}
-                    attachment={option.Attachment}
-                    checkAnswer={this.checkAnswer}
-                    isChecked={option.IsAnswer}
-                />
-            )
-
-        /*if (index > -1) {
-            return (
-                <AnswerOption
-                    key={option.ObjectiveQuestionOptionId}
-                    optionId={option.ObjectiveQuestionOptionId}
-                    answerContent={option.AnswerOption}
-                    answerType={option.QuestionId}
-                    questionId={option.QuestionId}
-                    attachment={option.Attachment}
-                    checkAnswer={this.checkAnswer}
-                    isChecked={true}
-                />
-            )
-        } else {
-            return (
-                <AnswerOption
-                    key={option.ObjectiveQuestionOptionId}
-                    optionId={option.ObjectiveQuestionOptionId}
-                    answerContent={option.AnswerOption}
-                    answerType={option.QuestionId}
-                    questionId={option.QuestionId}
-                    attachment={option.Attachment}
-                    checkAnswer={this.checkAnswer}
-                    isChecked={false}
-                />
-            )
-        }*/
+        return (
+            <AnswerOption
+                key={option.ObjectiveQuestionOptionId}
+                optionId={option.ObjectiveQuestionOptionId}
+                answerContent={option.AnswerOption}
+                answerType={option.QuestionId}
+                questionId={option.QuestionId}
+                attachment={option.Attachment}
+                checkAnswer={this.checkAnswer}
+                isChecked={option.IsAnswer}
+            />
+        )
 
     }
 
@@ -152,63 +132,14 @@ class ExamQuestionList extends React.Component {
         return Object.keys(obj).length === 0;
     }
 
-   
+
 
     renderSubjectiveField = (question) => {
-      
-        console.log('page question',question)
-
-        // let subjective_array = this.props.subjectiveAnswers;
-
-        // let check_for_sub_answers = this.checkIfObjectIsEmpty(subjective_array);
-
-        // let arr = [];
-
-        // for (var key in subjective_array) {
-        //     arr.push(subjective_array[key]);
-        // }
-
-
-       // var index = arr.findIndex(o => o.questionId == question.QuestionId);
-
-
-
-            return (
-                <div className="subjectiveAnswer" id={question.QuestionId}>
-                    <CKEditor activeClass={question.QuestionId} content='' onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
-                </div>
-            )
-        
-        //else {
-        //     return (
-        //         <div className="subjectiveAnswer" id={question.QuestionId}>
-        //             <CKEditor activeClass={question.QuestionId} content='' onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
-        //         </div>
-        //     )
-        // }
-        //for (var key in subjective_array) {
-
-        // debugger;
-        /*console.log('rerender')
-        if (question.QuestionId == subjective_array[key].questionId) {
-            console.log('QuestionId',question.QuestionId)
-            console.log('subjective_array',subjective_array[key].questionId)
-            return (
-                <div className="subjectiveAnswer" id={question.QuestionId}>
-                    <CKEditor activeClass={question.QuestionId} content={subjective_array[key].subjectiveAnswer} onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
-                </div>
-            )
-        }else {
-            console.log('QuestionId',question.QuestionId)
-            console.log('subjective_array',subjective_array[key].questionId)
-            return (
-                <div className="subjectiveAnswer" id={question.QuestionId}>
-                    <CKEditor activeClass={question.QuestionId} content='' onChange={this.props.onAddSubjectiveAnswer.bind(this, question.QuestionId)} />
-                </div>
-            )
-        }*/
-        //}
-        // }
+        return (
+            <div className="subjectiveAnswer" id={question.QuestionId}>
+                <CKEditor activeClass={question.QuestionId} content={question.Answers} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />
+            </div>
+        )
     }
 
 

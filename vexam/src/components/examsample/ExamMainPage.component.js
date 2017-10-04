@@ -20,7 +20,7 @@ class ExamMainPage extends React.Component {
     constructor(props) {
         super(props);
 
-        
+
         this.state = {
             counter: 0,
             questionId: 1,
@@ -33,7 +33,13 @@ class ExamMainPage extends React.Component {
             exampleItems: null,
             pageOfItems: [],
             subjectiveAnswers: {},
-            text: ''
+            text: '',
+            currentPage: 1,
+            pageSize: 4,
+            totalPages: 4,
+            startPage: 1,
+            endPage: 4
+
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -64,40 +70,93 @@ class ExamMainPage extends React.Component {
 
 
     handleAnswerSelected = () => {
-        
+
     }
 
-    handleJumpIndexClick(id) {
-        alert(id)
+
+    chunk(arr, start, amount) {
+        var result = [],
+            i,
+            start = start || 0,
+            amount = amount || 500,
+            len = arr.length;
+
+        do {
+            result.push(arr.slice(start, start + amount));
+            start += amount;
+
+        } while (start < len);
+
+        return result;
+    };
+
+    handleJumpIndexClick(question) {
+
+        console.log(question)
+        // get the page of items
+        // and set the state to that page of items
+
+        var arr = this.props.questionsList; //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+        var chunked = this.chunk(arr, 0, 4/*Math.floor(arr.length/4)*/);
+
+        console.log(chunked);
+
+        var arrActive = null;
+
+        chunked.map((key, val) => {
+            var idx = key.indexOf(question);
+            console.log('index', idx)
+            if (idx > -1) {
+                arrActive = key;
+                this.setState({
+                    currentPage: val + 1,
+                    startPage: val +1
+                })
+            }
+        })
+        
+        this.onChangePage(arrActive);
     }
 
     renderQuestionJumpIndex = () => (
         this.props.questionsList.map((question, idx) => {
-            return <li onClick={this.handleJumpIndexClick.bind(this, question.Question.QuestionId)} className=''><span>{idx + 1}</span></li>
+            return <li onClick={this.handleJumpIndexClick.bind(this, question)} className=''><span>{idx + 1}</span></li>
         })
     )
 
-    onAddSubjectiveAnswer(id, e) {
-
+    onAddSubjectiveAnswer(questionId, e) {
+        alert(questionId)
         let that = this;
         var subjectiveAnswers = Object.assign({}, this.state.subjectiveAnswers);
 
-        var model = {
-            questionId: id,
-            optionId: 0,
-            IntervieweeId: this.props.user.IntervieweeId,
-            AnswerBy: this.props.user.IntervieweeId,
-            subjectiveAnswer: e
-        };
+        var arr = this.props.questionsList.filter((key) => {
+            return key.Question.QuestionId == questionId
+        })
 
-        subjectiveAnswers[id] = model;
+        console.log('subject question filtered from array:', arr)
+
+        // arr[0].Options.map((key,value)=>{
+        //     if(key.ObjectiveQuestionOptionId == optionId){
+        //         key.IsAnswer = key.IsAnswer ? false : true;
+        //     }
+        // })
+
+
+        // var model = {
+        //     questionId: id,
+        //     optionId: 0,
+        //     IntervieweeId: this.props.user.IntervieweeId,
+        //     AnswerBy: this.props.user.IntervieweeId,
+        //     subjectiveAnswer: e
+        // };
+
+        // subjectiveAnswers[id] = model;
 
         /* set the state to the new variable */
         this.setState({ subjectiveAnswers: subjectiveAnswers },
-        ()=> {
-            this.props.setSubjectiveAnswerToStore(this.state.subjectiveAnswers);
-        });
-        console.log(this.state.subjectiveAnswers)
+            () => {
+                this.props.setSubjectiveAnswerToStore(this.state.subjectiveAnswers);
+            });
     }
 
 
@@ -116,10 +175,10 @@ class ExamMainPage extends React.Component {
                                 this.state.pageOfItems ?
                                     <ExamQuestionList questionsList={this.props.questionsList} questions={this.state.pageOfItems} onAddSubjectiveAnswer={this.onAddSubjectiveAnswer} /> :
                                     <p>No questions found</p>
-                            } 
+                            }
 
                             <div className="pager">
-                                <Pagination items={this.props.questionsList} onChangePage={this.onChangePage} />
+                                <Pagination items={this.props.questionsList} currentPage={this.state.currentPage} pageSize={this.state.pageSize} startPage={this.state.currentPage} endPage={this.state.endPage} onChangePage={this.onChangePage} />
                             </div>
                         </div>
                     </div>
@@ -141,7 +200,7 @@ class ExamMainPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        quizQuestions: state.quizReducer.questions,
+        questionsList: state.quizReducer.questions,
         user: state.authReducer.user
     }
 }

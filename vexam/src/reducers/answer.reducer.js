@@ -19,7 +19,7 @@ export default function answerReducer(state = initialState, action = {}) {
         case SET_SUBJECTIVE_ANSWERS_START:
             return { ...state };
         case SET_SUBJECTIVE_ANSWER_SUCCESS:
-            return { ...state,subjectiveAnswers: action.payload.answerList };
+            return { ...state,questionsList: action.payload.question_state };
 
         default: return state;
     }

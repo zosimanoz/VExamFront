@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import { submitFinalAnswers } from '../../actions/examQuiz.action'
+
 
 class ExamControlComponent extends Component {
 
@@ -80,7 +82,11 @@ class ExamControlComponent extends Component {
 
 
     submitAnswers() {
-        this.formatFinalAnswers();
+        //this.formatFinalAnswers();
+
+        // get the question list and pass it to the api
+
+        this.props.submitFinalAnswers(this.props.questionsList,this.props.user);
     }
 
     render() {
@@ -99,13 +105,12 @@ class ExamControlComponent extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        objectiveAnswers: state.answerReducer.objectiveAnswers,
-        subjectiveAnswers: state.answerReducer.subjectiveAnswers,
+        questionsList: state.quizReducer.questions,
         user: state.authReducer.user
     }
 }
 
-export default connect(mapStateToProps, {})(ExamControlComponent);
+export default connect(mapStateToProps, { submitFinalAnswers })(ExamControlComponent);
 
 
 

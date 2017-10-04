@@ -9,6 +9,10 @@ export const FETCH_EXAM_QUESTIONS_FAILURE = 'FETCH_EXAM_QUESTIONS_FAILURE';
 
 export const SET_QUESTIONS_WITH_ANSWER = 'SET_QUESTIONS_WITH_ANSWER'
 
+export const SUBMIT_ASWERS_START = 'SUBMIT_ASWERS_START'
+export const SUBMIT_ASWERS_START_FAIL = 'SUBMIT_ASWERS_START_FAIL'
+export const SUBMIT_ASWERS_START_SUCCESS = 'SUBMIT_ASWERS_START_SUCCESS'
+
 
 const URL = 'http://localhost:5000';
 
@@ -49,6 +53,15 @@ export function getExamQuestions() {
               dispatch(fetchExamQuestionsFailure(err.response.data))
           });
   }
+}
+
+
+export function submitFinalAnswers(questions,user){
+  return dispatch => {
+ console.log(questions)
+  console.log('user details',user)
+  }
+ 
 }
 
 

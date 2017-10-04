@@ -40,10 +40,8 @@ class Pagination extends React.Component {
  
         // get new page of items from items array
         var pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
- 
         // update state
         this.setState({ pager: pager });
- 
         // call change page function in parent component
         this.props.onChangePage(pageOfItems);
     }
@@ -52,13 +50,17 @@ class Pagination extends React.Component {
 
     getPager(totalItems, currentPage, pageSize) {
 
-       // console.log('totalitems in pager',totalItems)
+       console.log('totalitems in pager',totalItems)
+       console.log('current page',currentPage)
+       console.log('pagesize',pageSize)
        
         // default to first page
-        currentPage = currentPage || 1;
+        currentPage = this.props.currentPage || 1;
  
         // default page size is 10
         pageSize = pageSize || 4;
+
+        console.log('cur page size',pageSize)
  
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
@@ -105,7 +107,12 @@ class Pagination extends React.Component {
 
 
     render() {
+
+        console.log('this state in pages',this.props)
+        console.log('this pager',this.state.pager)
+
         var pager = this.state.pager;
+        pager.currentPage = this.props.currentPage > 1 ? this.props.currentPage : this.state.pager; 
  
         if (!pager.pages || pager.pages.length <= 1) {
             // don't display pager if there is only 1 page
