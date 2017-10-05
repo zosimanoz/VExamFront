@@ -12,6 +12,13 @@ class Pagination extends React.Component {
     }
  
 
+    componentWillReceiveProps = (new_props) => {
+        this.setState({
+            pager: new_props.pager
+        });
+    }
+
+
     componentWillMount() {
         // set page if items array isn't empty
         if (this.props.items && this.props.items.length) {
@@ -37,25 +44,26 @@ class Pagination extends React.Component {
  
         // get new pager object for specified page
         pager = this.getPager(items.length, page);
+
+
+        console.log('pager condition',pager)
  
         // get new page of items from items array
         var pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
         // update state
         this.setState({ pager: pager });
+
         // call change page function in parent component
         this.props.onChangePage(pageOfItems);
+
     }
  
 
 
     getPager(totalItems, currentPage, pageSize) {
-
-       console.log('totalitems in pager',totalItems)
-       console.log('current page',currentPage)
-       console.log('pagesize',pageSize)
        
         // default to first page
-        currentPage = this.props.currentPage || 1;
+        currentPage = currentPage || 1;
  
         // default page size is 10
         pageSize = pageSize || 4;
@@ -64,25 +72,31 @@ class Pagination extends React.Component {
  
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
- 
-        var startPage, endPage;
-        if (totalPages <= 10) {
+        
+        var startPage, endPage;
+       
+
+      //  if (totalPages <= 10) {
             // less than 10 total pages so show all
-            startPage = 1;
-            endPage = totalPages;
-        } else {
+        //    startPage = 1;
+         //   endPage = totalPages;
+        //} 
+        //else {
             // more than 10 total pages so calculate start and end pages
-            if (currentPage <= 6) {
-                startPage = 1;
-                endPage = 10;
-            } else if (currentPage + 4 >= totalPages) {
-                startPage = totalPages - 9;
-                endPage = totalPages;
-            } else {
-                startPage = currentPage - 5;
-                endPage = currentPage + 4;
-            }
-        }
+//             if (currentPage <= 6) {
+//                 startPage = 1;
+//                 endPage = 10;
+//             } else if (currentPage + 4 >= totalPages) {
+//                 startPage = totalPages - 9;
+//                 endPage = totalPages;
+//             } else {
+//                 startPage = currentPage - 5;
+//                 endPage = currentPage + 4;
+//             }
+        //}
+
+        startPage = 1;
+        endPage = totalPages;
  
         // calculate start and end item indexes
         var startIndex = (currentPage - 1) * pageSize;
@@ -108,11 +122,9 @@ class Pagination extends React.Component {
 
     render() {
 
-        console.log('this state in pages',this.props)
-        console.log('this pager',this.state.pager)
-
         var pager = this.state.pager;
-        pager.currentPage = this.props.currentPage > 1 ? this.props.currentPage : this.state.pager; 
+
+console.log('pager in paginate state',this.state.pager)
  
         if (!pager.pages || pager.pages.length <= 1) {
             // don't display pager if there is only 1 page

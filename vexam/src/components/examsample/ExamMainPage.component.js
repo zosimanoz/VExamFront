@@ -2,6 +2,7 @@ import React from 'react'
 import update from 'react-addons-update'
 
 import { connect } from 'react-redux'
+import range from 'lodash/range'
 
 
 import { getExamQuestions } from '../../actions/examQuiz.action'
@@ -20,7 +21,7 @@ class ExamMainPage extends React.Component {
     constructor(props) {
         super(props);
 
-
+        console.log('props const', this.props)
         this.state = {
             counter: 0,
             questionId: 1,
@@ -34,33 +35,32 @@ class ExamMainPage extends React.Component {
             pageOfItems: [],
             subjectiveAnswers: {},
             text: '',
-            currentPage: 1,
-            pageSize: 4,
-            totalPages: 4,
-            startPage: 1,
-            endPage: 4
-
+            pager: {}
         };
 
-        this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
-
-
-        // this.handleJumpIndexClick = this.handleJumpIndexClick.bind(this);
-
         this.onChangePage = this.onChangePage.bind(this);
-
     }
 
 
-    // componentWillReceiveProps = (new_props) => {
-    //     this.setState({
-    //         questions: new_props.quizQuestions
-    //     });
-    // }
+    componentWillReceiveProps = (new_props) => {
+        this.setState({
+            pager: {
+                totalItems: new_props.questionsList.length,
+                currentPage: 1,
+                pageSize: 4,
+                totalPages: Math.ceil(new_props.questionsList / 4),
+                startPage: 1,
+                endPage: Math.ceil(new_props.questionsList / 4),
+                startIndex: 0,
+                endIndex: 3,
+                pages: new_props.questionsList.slice(0, 4)
+            }
+        });
+    }
 
-    // componentDidMount() {
-    //     this.props.getExamQuestions();
-    // }
+    componentDidMount() {
+        this.props.getExamQuestions();
+    }
 
 
     onChangePage(pageOfItems) {
@@ -69,9 +69,44 @@ class ExamMainPage extends React.Component {
     }
 
 
-    handleAnswerSelected = () => {
+    setPagerFromJumpIndex(totalItems, currentPage, pageSize) {
+        // default to first page
+        currentPage = currentPage || 1;
 
+        // default page size is 10
+        pageSize = pageSize || 4;
+
+        console.log('cur page size', pageSize)
+
+        // calculate total pages
+        var totalPages = Math.ceil(totalItems / pageSize);
+
+        var startPage, endPage;
+
+        startPage = 1;
+        endPage = totalPages;
+
+        // calculate start and end item indexes
+        var startIndex = (currentPage - 1) * pageSize;
+        var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+
+        // create an array of pages to ng-repeat in the pager control
+        var pages = range(startPage, endPage + 1);
+
+        // return object with all pager properties required by the view
+        return {
+            totalItems: totalItems,
+            currentPage: currentPage,
+            pageSize: pageSize,
+            totalPages: totalPages,
+            startPage: startPage,
+            endPage: endPage,
+            startIndex: startIndex,
+            endIndex: endIndex,
+            pages: pages
+        };
     }
+
 
 
     chunk(arr, start, amount) {
@@ -90,37 +125,43 @@ class ExamMainPage extends React.Component {
         return result;
     };
 
-    handleJumpIndexClick(question) {
 
-        console.log(question)
+
+    handleJumpIndexClick(question) {
         // get the page of items
         // and set the state to that page of items
 
-        var arr = this.props.questionsList; //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-        var chunked = this.chunk(arr, 0, 4/*Math.floor(arr.length/4)*/);
-
-        console.log(chunked);
+        var arr = this.props.questionsList;
+        var chunked = this.chunk(arr, 0, 4);
 
         var arrActive = null;
+        var page = 1;
 
         chunked.map((key, val) => {
             var idx = key.indexOf(question);
-            console.log('index', idx)
             if (idx > -1) {
                 arrActive = key;
-                this.setState({
-                    currentPage: val + 1,
-                    startPage: val +1
-                })
+                page = val + 1;
             }
         })
-        
-        this.onChangePage(arrActive);
+
+        var pager = this.setPagerFromJumpIndex(this.props.questionsList.length, page);
+
+        // get new page of items from items array
+        var pages = arr.slice(pager.startIndex, pager.endIndex + 1);
+
+        pager.pages = pages;
+
+        this.onChangePage(pager.pages);
+
+        this.setState({
+            pager: pager
+        })
     }
 
     renderQuestionJumpIndex = () => (
         this.props.questionsList.map((question, idx) => {
-            return <li onClick={this.handleJumpIndexClick.bind(this, question)} className=''><span>{idx + 1}</span></li>
+            return <li className="currQue" onClick={this.handleJumpIndexClick.bind(this, question)}><span>{idx + 1}</span></li>
         })
     )
 
@@ -133,26 +174,6 @@ class ExamMainPage extends React.Component {
             return key.Question.QuestionId == questionId
         })
 
-        console.log('subject question filtered from array:', arr)
-
-        // arr[0].Options.map((key,value)=>{
-        //     if(key.ObjectiveQuestionOptionId == optionId){
-        //         key.IsAnswer = key.IsAnswer ? false : true;
-        //     }
-        // })
-
-
-        // var model = {
-        //     questionId: id,
-        //     optionId: 0,
-        //     IntervieweeId: this.props.user.IntervieweeId,
-        //     AnswerBy: this.props.user.IntervieweeId,
-        //     subjectiveAnswer: e
-        // };
-
-        // subjectiveAnswers[id] = model;
-
-        /* set the state to the new variable */
         this.setState({ subjectiveAnswers: subjectiveAnswers },
             () => {
                 this.props.setSubjectiveAnswerToStore(this.state.subjectiveAnswers);
@@ -161,7 +182,6 @@ class ExamMainPage extends React.Component {
 
 
     render() {
-
         return (
             <div>
                 <div className="col-md-8">
@@ -178,7 +198,7 @@ class ExamMainPage extends React.Component {
                             }
 
                             <div className="pager">
-                                <Pagination items={this.props.questionsList} currentPage={this.state.currentPage} pageSize={this.state.pageSize} startPage={this.state.currentPage} endPage={this.state.endPage} onChangePage={this.onChangePage} />
+                                <Pagination setNewPager={this.setNewPager} items={this.props.questionsList} pager={this.state.pager} onChangePage={this.onChangePage} />
                             </div>
                         </div>
                     </div>
