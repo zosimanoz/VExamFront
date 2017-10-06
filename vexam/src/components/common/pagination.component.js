@@ -50,8 +50,15 @@ class Pagination extends React.Component {
  
         // get new page of items from items array
         var pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+
+        pager.pages = pageOfItems;
+
+        console.log('page of items in paginaton comp',pageOfItems);
+
         // update state
-        this.setState({ pager: pager });
+        this.setState({ pager: pager },()=>{
+            this.props.setPager(pager);
+        });
 
         // call change page function in parent component
         this.props.onChangePage(pageOfItems);
@@ -104,6 +111,9 @@ class Pagination extends React.Component {
  
         // create an array of pages to ng-repeat in the pager control
         var pages = range(startPage, endPage + 1);
+
+
+        console.log('pages in paginaton comp',pages);
 
         // return object with all pager properties required by the view
         return {

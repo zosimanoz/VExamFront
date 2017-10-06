@@ -76,8 +76,6 @@ class ExamMainPage extends React.Component {
         // default page size is 10
         pageSize = pageSize || 4;
 
-        console.log('cur page size', pageSize)
-
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
 
@@ -150,23 +148,39 @@ class ExamMainPage extends React.Component {
         // get new page of items from items array
         var pages = arr.slice(pager.startIndex, pager.endIndex + 1);
 
+console.log('pages',pages)
+console.log('array',arr)
+
         pager.pages = pages;
+
+  this.setState({
+            pager: pager
+        })
 
         this.onChangePage(pager.pages);
 
-        this.setState({
-            pager: pager
-        })
+      
     }
 
     renderQuestionJumpIndex = () => (
         this.props.questionsList.map((question, idx) => {
-            return <li className="currQue" onClick={this.handleJumpIndexClick.bind(this, question)}><span>{idx + 1}</span></li>
+            let cssClass = ''
+
+
+            this.state.pager.pages.map((currentQuestion,value)=>{
+                console.log('question in pager',currentQuestion)
+                if(question == currentQuestion){
+                    cssClass = 'currQue';
+                }
+            })
+
+              return (
+                        <li className={cssClass} onClick={this.handleJumpIndexClick.bind(this, question)}><span>{idx + 1}</span></li>
+                )
         })
     )
 
     onAddSubjectiveAnswer(questionId, e) {
-        alert(questionId)
         let that = this;
         var subjectiveAnswers = Object.assign({}, this.state.subjectiveAnswers);
 
@@ -178,6 +192,13 @@ class ExamMainPage extends React.Component {
             () => {
                 this.props.setSubjectiveAnswerToStore(this.state.subjectiveAnswers);
             });
+    }
+
+
+    setPager(pager) {
+        this.setState({
+            pager: pager
+        })
     }
 
 
@@ -198,7 +219,7 @@ class ExamMainPage extends React.Component {
                             }
 
                             <div className="pager">
-                                <Pagination setNewPager={this.setNewPager} items={this.props.questionsList} pager={this.state.pager} onChangePage={this.onChangePage} />
+                                <Pagination parentState={this.state} setPager={this.setPager.bind(this)} items={this.props.questionsList} pager={this.state.pager} onChangePage={this.onChangePage} />
                             </div>
                         </div>
                     </div>
