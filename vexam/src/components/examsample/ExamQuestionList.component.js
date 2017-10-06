@@ -27,7 +27,8 @@ class ExamQuestionList extends React.Component {
             answers: [],
             subjectiveAnswers: [],
             text: '',
-            questionsList: null
+            questionsList: null,
+            index: 0
         }
         this.renderQuestionsList = this.renderQuestionsList.bind(this);
         this.renderQuestionOptionsList = this.renderQuestionOptionsList.bind(this);
@@ -144,9 +145,11 @@ class ExamQuestionList extends React.Component {
 
 
     renderQuestionsList = (key) => {
+        let i = 0;
+    
         return (
             <div className="quiz-question-detail" key={key.Question.SetQuestionId}>
-                <Question content={key.Question.Question} key={key.Question.SetQuestionId} />
+                <Question index={this.state.index} content={key.Question.Question} key={key.Question.SetQuestionId} />
 
                 <div className="options">
                     {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key)}
@@ -158,7 +161,7 @@ class ExamQuestionList extends React.Component {
     render() {
         return (
             <div className="quiz-question-list">
-                {this.props.questions.map(this.renderQuestionsList)}
+                {this.props.questions.map(this.renderQuestionsList.bind(this))}
             </div>
         )
     }

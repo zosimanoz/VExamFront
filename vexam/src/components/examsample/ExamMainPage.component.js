@@ -148,35 +148,29 @@ class ExamMainPage extends React.Component {
         // get new page of items from items array
         var pages = arr.slice(pager.startIndex, pager.endIndex + 1);
 
-console.log('pages',pages)
-console.log('array',arr)
-
         pager.pages = pages;
 
-  this.setState({
+        this.setState({
             pager: pager
         })
 
         this.onChangePage(pager.pages);
 
-      
+
     }
 
     renderQuestionJumpIndex = () => (
         this.props.questionsList.map((question, idx) => {
             let cssClass = ''
 
-
-            this.state.pager.pages.map((currentQuestion,value)=>{
-                console.log('question in pager',currentQuestion)
-                if(question == currentQuestion){
+            this.state.pager.pages.map((currentQuestion, value) => {
+                if (question == currentQuestion) {
                     cssClass = 'currQue';
                 }
             })
-
-              return (
-                        <li className={cssClass} onClick={this.handleJumpIndexClick.bind(this, question)}><span>{idx + 1}</span></li>
-                )
+            return (
+                <li className={cssClass} onClick={this.handleJumpIndexClick.bind(this, question)}><span>{idx + 1}</span></li>
+            )
         })
     )
 
