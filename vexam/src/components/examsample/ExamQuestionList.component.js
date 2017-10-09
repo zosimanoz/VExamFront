@@ -42,31 +42,7 @@ class ExamQuestionList extends React.Component {
         });
     }
 
-    checkAnswer = (e) => {
-
-        // console.log('chekcans', this.state);
-
-        // var array = this.state.answers;
-
-        // var index = array.findIndex(o => o.optionId == e.target.value);
-
-        // console.log(index);
-
-        // if (index > -1) {
-        //     array.splice(index, 1);
-
-        //     this.setState({
-        //         ...this.state,
-        //         answers: array
-        //     }, () => {
-        //         this.props.setAnswersToStore(this.state);
-        //     })
-        // } else {
-        this.saveAnswer(e);
-        // }
-    }
-
-    saveAnswer = (e) => {
+    saveObjectiveAnswer = (e) => {
 
         // get the current question from question id
         var questionId = e.target.getAttribute('data-questionId');
@@ -76,14 +52,24 @@ class ExamQuestionList extends React.Component {
 
         var arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == questionId
-        })
+        });
 
         arr[0].Options.map((key, value) => {
             if (key.ObjectiveQuestionOptionId == optionId) {
-                key.IsAnswer = key.IsAnswer ? false : true;
+                key.AnswerByInterviewees = key.AnswerByInterviewees ? false: true;
             }
-        })
+        });
 
+        let objectForAnswer = {
+            IntervieweeId: this.props.user.IntervieweeId,
+            SetQuestionId: arr[0].Question.SetQuestionId,
+            subjectiveAnswer: '',
+            ObjectiveAnswer: '',
+            AnsweredBy: this.props.user.IntervieweeId
+        }
+
+        arr[0].Answers = objectForAnswer;
+        
         this.setState({
             questionsList: this.props.questionsList
         }, () => {
@@ -95,12 +81,20 @@ class ExamQuestionList extends React.Component {
 
     onAddSubjectiveAnswer(question, answer) {
 
-        var arr = this.props.questionsList.filter((key) => {
+        let arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == question.Question.QuestionId
-        })
+        });
 
-        arr[0].Answers = answer;
+        let objectForAnswer = {
+            IntervieweeId: this.props.user.IntervieweeId,
+            SetQuestionId: question.Question.SetQuestionId,
+            subjectiveAnswer: answer,
+            ObjectiveAnswer: '',
+            AnsweredBy: this.props.user.IntervieweeId
+        }
 
+        arr[0].Answers = objectForAnswer;
+        
         /* set the state to the new variable */
         this.setState({
             questionsList: this.props.questionsList
@@ -122,8 +116,8 @@ class ExamQuestionList extends React.Component {
                 answerType={option.QuestionId}
                 questionId={option.QuestionId}
                 attachment={option.Attachment}
-                checkAnswer={this.checkAnswer}
-                isChecked={option.IsAnswer}
+                saveObjectiveAnswer={this.saveObjectiveAnswer}
+                isChecked={option.AnswerByInterviewees}
             />
         )
 
@@ -138,7 +132,7 @@ class ExamQuestionList extends React.Component {
     renderSubjectiveField = (question) => {
         return (
             <div className="subjectiveAnswer" id={question.QuestionId}>
-                <CKEditor activeClass={question.QuestionId} content={question.Answers} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />
+                <CKEditor activeClass={question.QuestionId} content={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />
             </div>
         )
     }
@@ -172,8 +166,7 @@ class ExamQuestionList extends React.Component {
 const mapStateToProps = (state, props) => {
     return {
         user: state.authReducer.user,
-        objectiveAnswers: state.answerReducer.objectiveAnswers,
-        subjectiveAnswers: state.answerReducer.subjectiveAnswers
+        examset: state.quizReducer.questions
     }
 }
 

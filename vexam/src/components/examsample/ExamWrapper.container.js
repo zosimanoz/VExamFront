@@ -14,7 +14,6 @@ import '../exam/exam.css'
 class ExamWrapper extends React.Component {
 
     constructor(props){
-        console.log('cur props',props)
         super(props);
         this.state = {
             questions : null
@@ -33,7 +32,6 @@ class ExamWrapper extends React.Component {
     }
 
     render() {
-        console.log('wrapper questions',this.state.questions)
         return (
             <div>
                 <div className="navbar navbar-default navbar-fixed-top clearfix">

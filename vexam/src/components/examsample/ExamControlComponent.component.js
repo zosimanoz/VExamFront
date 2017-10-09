@@ -82,11 +82,8 @@ class ExamControlComponent extends Component {
 
 
     submitAnswers() {
-        //this.formatFinalAnswers();
-
         // get the question list and pass it to the api
-
-        this.props.submitFinalAnswers(this.props.questionsList,this.props.user);
+        this.props.submitFinalAnswers(this.props.questionsList);
     }
 
     render() {

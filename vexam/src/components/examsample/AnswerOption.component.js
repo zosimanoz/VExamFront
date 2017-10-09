@@ -26,7 +26,7 @@ class AnswerOption extends React.Component {
                     data-questionId={this.props.questionId}
                     value={this.props.optionId}
                     disabled={this.props.answer}
-                    onChange={this.props.checkAnswer}
+                    onChange={this.props.saveObjectiveAnswer}
                     checked={this.props.isChecked}
                 />
 

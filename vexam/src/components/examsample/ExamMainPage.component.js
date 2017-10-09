@@ -21,7 +21,6 @@ class ExamMainPage extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log('props const', this.props)
         this.state = {
             counter: 0,
             questionId: 1,

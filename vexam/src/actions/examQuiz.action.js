@@ -26,7 +26,7 @@ export function fetchExamQuestionsSuccess(data) {
   return {
     type: FETCH_EXAM_QUESTIONS_SUCCESS,
     payload: {
-        questions : data
+      questions: data
     }
   }
 }
@@ -36,7 +36,23 @@ export function fetchExamQuestionsFailure(data) {
   return {
     type: FETCH_EXAM_QUESTIONS_FAILURE,
     payload: {
-        errors : data
+      errors: data
+    }
+  }
+}
+
+
+export function saveAnswersStart() {
+  return {
+    type: SUBMIT_ASWERS_START
+  }
+}
+
+export function saveAnswerSuccess(data) {
+  return {
+    type: SUBMIT_ASWERS_START_SUCCESS,
+    payload: {
+      data: data
     }
   }
 }
@@ -47,21 +63,28 @@ export function getExamQuestions() {
   return dispatch => {
     dispatch(fetchExamQuestionStart());
     axios.get(`${URL}/api/v1/interviewee/interview/questions/3`)
-          .then((res)=>{ 
-              dispatch(fetchExamQuestionsSuccess(res.data.Data));
-          }).catch((err) => {
-              dispatch(fetchExamQuestionsFailure(err.response.data))
-          });
+      .then((res) => {
+        dispatch(fetchExamQuestionsSuccess(res.data.Data));
+      }).catch((err) => {
+        dispatch(fetchExamQuestionsFailure(err.response.data))
+      });
   }
 }
 
 
-export function submitFinalAnswers(questions,user){
+export function submitFinalAnswers(questions) {
   return dispatch => {
- console.log(questions)
-  console.log('user details',user)
+    dispatch(saveAnswersStart());
+    return axios.post(`${URL}/api/v1/answer/save`, JSON.stringify(questions), {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(res => dispatch(saveAnswerSuccess(res.data.Data)));;
+
+
   }
- 
+
 }
 
 

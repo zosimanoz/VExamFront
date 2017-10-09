@@ -74,6 +74,7 @@ li.answerOption {
 
 .subjectiveAnswer {
     margin: 5px;
+    min-height: 307px;
 }
 
 .option-img {
