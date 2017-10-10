@@ -74,10 +74,15 @@ li.answerOption {
 
 .subjectiveAnswer {
     margin: 5px;
-    min-height: 307px;
+    min-height: 180px;
 }
 
 .option-img {
     margin-left: 10px;
 }
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+    min-height: 180px;
+}
+
 

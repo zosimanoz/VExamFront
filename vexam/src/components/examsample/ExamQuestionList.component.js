@@ -9,6 +9,9 @@ import RichTextEditor from 'react-rte';
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
+
+import '../exam/exam.css'
+
 import { setAnswersToStore } from '../../actions/answers.action'
 import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
 
