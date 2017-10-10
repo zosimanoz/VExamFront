@@ -132,7 +132,8 @@ class ExamQuestionList extends React.Component {
     renderSubjectiveField = (question) => {
         return (
             <div className="subjectiveAnswer" id={question.QuestionId}>
-                <CKEditor activeClass={question.QuestionId} content={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />
+                 <ReactQuill value={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />
+                {/*<CKEditor activeClass={question.QuestionId} content={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />*/}
             </div>
         )
     }
