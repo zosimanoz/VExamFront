@@ -32,6 +32,7 @@ class AddExamSet extends React.Component {
         TotalMark: this.props.examset ? this.props.examset.TotalMark: '',
         JobTitleId : this.props.examset ? this.props.examset.JobTitleId: '',
         CreatedBy: this.props.examset ? this.props.examset.CreatedBy: 2,
+        ExamDuration:this.props.examset ? this.props.examset.ExamDuration: 90,
         errors: {},
         loading: false,
         done: false
@@ -45,6 +46,7 @@ class AddExamSet extends React.Component {
         TotalMark: new_props.examset ? new_props.examset.TotalMark: '',
         JobTitleId : new_props.examset ? new_props.examset.JobTitleId: '',
         CreatedBy: new_props.examset ? new_props.examset.CreatedBy: 2,
+        ExamDuration:new_props.examset ? new_props.examset.ExamDuration: 90,
         errors: {},
         loading: false,
         done: false
@@ -68,6 +70,17 @@ class AddExamSet extends React.Component {
 
     }
 
+        // handleDurationChange(e){
+        //     this.setState({  
+        //            ExamDuration: e.target.value
+        //         });
+        //     // const re = /^[0-9\b]+$/;
+        //     // if (e.target.value == '' || re.test(e.target.value)) {
+        //     //     this.setState({  
+        //     //        ExamDuration: e.target.value
+        //     //     });
+        //     // }
+        // }
 
     
     handleChangeForEditor = (value) => {
@@ -98,7 +111,9 @@ class AddExamSet extends React.Component {
         if (this.state.JobTitleId == '') {
             errors.JobTitleId = 'Select job title.';
         }
-
+        if (this.state.ExamDuration == '') {
+            errors.ExamDuration = 'Please Specify Exam Duration.';
+        }
 
         this.setState({
             errors
@@ -109,12 +124,12 @@ class AddExamSet extends React.Component {
 
         if (isValid) {
 
-            const {ExamSetId, Title, Description, TotalMark, CreatedBy,JobTitleId } = this.state;
+            const {ExamSetId, Title, Description, TotalMark, CreatedBy,JobTitleId,ExamDuration} = this.state;
 
             this.setState({ loading: true });
 
             if(ExamSetId) {
-                this.props.updateExamSet({ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId })
+                this.props.updateExamSet({ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId,ExamDuration })
                 .then((res)=>{ 
                     this.setState({ loading: false });
                     this.setState({ done: true });
@@ -123,7 +138,7 @@ class AddExamSet extends React.Component {
                  );
             }
             else {
-            this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId })
+            this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId,ExamDuration })
                 .then(() => {
                     this.setState({ done: true });
                     this.setState({ loading: false })
@@ -131,9 +146,6 @@ class AddExamSet extends React.Component {
                 (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                 );
             }
-
-
-
         }
 
     }
@@ -157,6 +169,19 @@ class AddExamSet extends React.Component {
                             placeholder="Enter question set title."
                             className="form-control" />
                         <span className="form-error">{this.state.errors.Title}</span>
+                    </div>
+                </div>
+                <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                    <div className={classnames('field', { errors: !!this.state.errors.ExamDuration })}>
+                        <label>Exam Duration (in minutes)</label>
+                        <input
+                            type="text"
+                            name="ExamDuration"
+                            value={this.state.ExamDuration}
+                            onChange={this.handleChange}
+                            placeholder="Enter Exam Duration."
+                            className="form-control" />
+                        <span className="form-error">{this.state.errors.ExamDuration}</span>
                     </div>
                 </div>
 
