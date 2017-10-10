@@ -30,6 +30,8 @@ import SetQuestions from '../components/examsets/setquestionsbyexamset';
 import InterviewSessions from '../components/interviewSession/interviewSession-index.component';
 import InterviewSessionIndex from '../components/interviewSession/interviewSessionHistory.component';
 import AddSessionJobs from '../components/interviewSession/sessionJobs.component';
+import SessionJobs from '../components/interviewSession/InterviewSesssionHistory-JobList.component';
+import Interviewees from '../components/interviewSession/InterviewSesssionHistory-IntervieweeList.component';
 import AddInterviewees from '../components/interviewSession/interviewees.component';
 
 import AddInterviewSession from '../components/interviewSession/add-interviewSession.component';
@@ -92,7 +94,15 @@ const SideBar = () => (
        <li><NavLink exact to="/" activeClassName="active"><span className="glyphicon glyphicon-dashboard"></span> <span className="hidden-xs">Dashboard</span></NavLink></li>
       <li><NavLink to='/admin/questions' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Question Bank</span></NavLink></li>
       <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
-      <li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span></NavLink></li>
+      {/*<li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span></NavLink></li>*/}
+
+      <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
+        <ul className="submenu">
+           <li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Active Sessions</span></NavLink></li>
+           <li><NavLink to='/admin/interviewsession/history' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Session History</span></NavLink></li>
+        </ul>
+      </li>
+
       <li><NavLink to='/interviewee/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
       <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
         <ul className="submenu">
@@ -307,12 +317,26 @@ const Routings = () => (
           <AddSessionJobs heading="Job Vacancies for this session"  {...props} />
         )}
       />
+      <Route exact
+        path="/admin/interviewSessionHistory/:id/jobs"
+        render={props => (
+          <SessionJobs heading="Job Vacancies for this session"  {...props} />
+        )}
+      />
+
         <Route exact
         path="/admin/interviewSession/:id/interviewees"
         render={props => (
           <AddInterviewees heading="Interviewees for this session"  {...props} />
         )}
       />
+      <Route exact
+        path="/admin/interviewSessionHistory/:id/interviewees"
+        render={props => (
+          <Interviewees heading="Interviewees for this session"  {...props} />
+        )}
+      />
+      
      
       <Route exact
         path="/admin/test"

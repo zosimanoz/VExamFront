@@ -75,8 +75,8 @@ class InterviewSessionIndex extends React.Component {
                                 <td>{item.SessionStartDate}</td>
                                 <td>{item.SessionEndDate}</td>
                                 <td>
-                                    <NavLink title="Job Vacancies" to={`/admin/interviewsession/${item.InterviewSessionId}/jobs`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list-alt text-success"></i></NavLink>
-                                    <NavLink title="Interviewees" to={`/admin/interviewSession/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i></NavLink>
+                                    <NavLink title="Job Vacancies" to={`/admin/interviewSessionHistory/${item.InterviewSessionId}/jobs`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list-alt text-success"></i></NavLink>
+                                    <NavLink title="Interviewees" to={`/admin/interviewSessionHistory/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i></NavLink>
                                 </td>
 
                             </tr>
