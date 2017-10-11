@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -11,8 +12,6 @@ export const UPDATE_INTERVIEWEE = 'UPDATE_INTERVIEWEE'
 export const DELETE_INTERVIEWEE = 'DELETE_INTERVIEWEE'
 export const GET_INTERVIEWEE_BY_SSESSIONID = 'GET_INTERVIEWEE_BY_SSESSIONID'
 export const INTERVIEWEE_ERROR= 'INTERVIEWEE_ERROR'
-
-const URL = 'http://localhost:5000';
 
 
 export const error = (error) => {

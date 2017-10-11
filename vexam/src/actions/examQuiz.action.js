@@ -1,6 +1,6 @@
 import axios from 'axios'
-import quizQuestions from './quizQuestions.json'
 
+import { URL } from '../utils/url';
 
 //Get current questons for the user
 export const FETCH_EXAM_QUESTIONS_START = 'FETCH_EXAM_QUESTIONS_START';
@@ -13,8 +13,6 @@ export const SUBMIT_ASWERS_START = 'SUBMIT_ASWERS_START'
 export const SUBMIT_ASWERS_START_FAIL = 'SUBMIT_ASWERS_START_FAIL'
 export const SUBMIT_ASWERS_START_SUCCESS = 'SUBMIT_ASWERS_START_SUCCESS'
 
-
-const URL = 'http://localhost:5000';
 
 export function fetchExamQuestionStart() {
   return {

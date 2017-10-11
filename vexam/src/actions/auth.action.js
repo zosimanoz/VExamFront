@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { URL } from '../utils/url';
+
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -15,13 +17,15 @@ export const SIGNIN_USER = 'SIGNIN_USER';
 export const SIGNIN_USER_SUCCESS = 'SIGNIN_USER_SUCCESS';
 export const SIGNIN_USER_FAILURE = 'SIGNIN_USER_FAILURE';
 
+
+export const SIGN_IN_ADMIN_START = 'SIGN_IN_ADMIN_START';
+export const SIGN_IN_ADMIN_SUCCESS = 'SIGN_IN_ADMIN_SUCCESS';
+export const SIGN_IN_ADMIN_FAIL = 'SIGN_IN_ADMIN_FAIL';
+
 //log out user
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
-
-
-const URL = 'http://localhost:5000';
 
 
 
@@ -56,6 +60,31 @@ export function setCurrentUser(user) {
       user : user
     }
   };
+}
+
+
+export function signInAdminStart(){
+  return {
+    type: SIGN_IN_ADMIN_START
+  }
+}
+
+export function signInAdminSuccess(user) {
+  return {
+    type: SIGN_IN_ADMIN_SUCCESS,
+    payload: {
+      user: user
+    }
+  }
+}
+
+export function signInAdminFailure(error){
+  return {
+    type: SIGN_IN_ADMIN_FAIL,
+    payload: {
+      error: error
+    }
+  }
 }
 
 
@@ -129,6 +158,27 @@ export const loadUserFromToken = () => {
         })
       }
     }
+}
+
+
+
+
+
+export function adminLogin(creds) {
+  var data = qs.stringify({ 'emailAddress': creds.Email, 'password': creds.Password });
+
+  return dispatch => {
+    dispatch(signInAdminStart());
+    return axios.post(`${URL}/api/v1/token/user`,data)
+          .then((res)=>{ 
+              const token = res.data.access_token;
+              localStorage.setItem('access_token', token);
+              setAuthorizationToken(token);
+              dispatch(loadUserFromToken());
+          }).catch((err) => {
+              dispatch(signInAdminFailure(err.response.data))
+          });
+  }
 }
 
 

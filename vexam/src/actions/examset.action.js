@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { URL } from '../utils/url';
+
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -16,8 +18,6 @@ export const SAVE_EXAM_QUESTION = 'SAVE_EXAM_QUESTION'
 export const SET_QUESTIONS_BY_EXAM_SET ='SET_QUESTIONS_BY_EXAM_SET'
 export const QUESTION_BANK_ERROR ='QUESTION_BANK_ERROR'
 export const SET_QUESTIONID_BY_EXAM_SET ='SET_QUESTIONID_BY_EXAM_SET'
-
-const URL = 'http://localhost:5000';
 
 
 

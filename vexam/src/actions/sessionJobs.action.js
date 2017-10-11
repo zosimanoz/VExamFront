@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
@@ -9,10 +10,6 @@ export const GET_SESSION_JOB_BYID = 'GET_SESSION_JOB_BYID'
 export const UPDATE_SESSION_JOB = 'UPDATE_SESSION_JOB'
 export const DELETE_SESSION_JOB = 'DELETE_SESSION_JOB'
 export const SESSION_ERROR = 'SESSION_ERROR'
-
-
-
-const URL = 'http://localhost:5000';
 
 
 export const setInterviewSessions = (sessionJobs) => {

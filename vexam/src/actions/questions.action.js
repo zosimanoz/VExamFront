@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -10,9 +11,6 @@ export const DELETE_QUESTION = 'DELETE_QUESTION'
 export const SET_FILTERED_QUESTION = 'SET_FILTERED_QUESTION'
 export const QUESTION_ERROR = 'QUESTION_ERROR'
 
-
-
-const URL = 'http://localhost:5000';
 
 
 export const setQuestions = (questions) => {

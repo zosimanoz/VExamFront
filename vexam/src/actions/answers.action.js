@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { URL } from '../utils/url';
+
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -10,9 +12,6 @@ export const SET_ANSWERS = 'SET_ANSWERS';
 export const SET_ANSWERS_SUCCESS = 'SET_ANSWERS_SUCCESS';
 export const SET_SUBJECTIVE_ANSWERS_START = 'SET_SUBJECTIVE_ANSWERS_START'
 export const SET_SUBJECTIVE_ANSWER_SUCCESS = 'SET_SUBJECTIVE_ANSWER_SUCCESS'
-
-
-const URL = 'http://localhost:5000';
 
 
 export function setAnsStart(){

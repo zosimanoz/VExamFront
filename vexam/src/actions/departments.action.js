@@ -1,13 +1,11 @@
 import axios from 'axios'
 
+import { URL } from '../utils/url';
+
 export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
 export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
 export const GET_DEPARTMENTBYID = 'GET_DEPARTMENTBYID'
 export const UPDATE_DEPARTMENT = 'UPDATE_DEPARTMENT'
-
-
-const URL = 'http://localhost:5000';
-
 
 
 // handle the post response

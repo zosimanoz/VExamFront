@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { URL } from '../utils/url';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -9,11 +9,6 @@ export const GET_INTERVIEW_SESSION_BYID = 'GET_INTERVIEW_SESSION_BYID'
 export const UPDATE_INTERVIEW_SESSION = 'UPDATE_INTERVIEW_SESSION'
 export const DELETE_INTERVIEW_SESSION = 'DELETE_INTERVIEW_SESSION'
 export const INTERVIEW_SESSION_ERROR = 'INTERVIEW_SESSION_ERROR'
-
-
-
-const URL = 'http://localhost:5000';
-
 
 
 // handle the post response

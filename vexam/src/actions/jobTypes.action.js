@@ -1,11 +1,12 @@
+import { URL } from '../utils/url';
+
+
 export const SET_JOBTYPES = 'SET_JOBTYPES'
 export const ADD_JOBTYPE = 'ADD_JOBTYPE'
 export const GET_JOBTYPEBYID = 'GET_JOBTYPEBYID'
 export const UPDATE_JOBTYPE = 'UPDATE_JOBTYPE'
 export const DELETE_JOBTYPE = 'DELETE_JOBTYPE'
 
-
-const URL = 'http://localhost:5000';
 
 
 

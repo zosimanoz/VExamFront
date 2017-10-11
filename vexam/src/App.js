@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
 import { connect } from 'react-redux';
 
 import {
   BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath
 } from 'react-router-dom';
-
-
 
 import Admin from './layouts/admin.layout';
 import DefaultLayout from './layouts/default.layout';
@@ -22,6 +19,8 @@ import ExamPage from './components/exam/ExamPage.container';
 
 import ExamMain from './components/exam/ExamMain.container'
 import ExamWrapper from './components/examsample/ExamWrapper.container'
+import ExamInfoComponent from './components/examinfo/ExamInfoComponent.container'
+import LoginWrapper from './components/auth/LoginWrapper.container'
 
 // import Register from './components/auth/component.register';
 // import Admin from './components/admin/admin.container';
@@ -29,11 +28,14 @@ import ExamWrapper from './components/examsample/ExamWrapper.container'
 
 class App extends Component {
 
-  state = {
-    role: 'Interviewee'
+  constructor(props) {
+    super(props);
+    this.state = {
+      role: 'Interviewee'
+    }
   }
 
-  render() {
+  renderPage() {
     if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User') {
       return (
         <Router>
@@ -41,31 +43,41 @@ class App extends Component {
         </Router>
       )
     }
-
-
     if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
       return (
-        <ExamWrapper />
+        <Router>
+          <ExamWrapper />
+          {/* if exam info is to be shown... use   <ExamInfoComponent />*/}
+        </Router>
       )
     }
+  }
 
-
-
+  renderLoginPage() {
     return (
       <Router>
-        <DefaultLayout />
+        <LoginWrapper />
       </Router>
     )
+  }
 
+  renderLoader() {
+    return (<p>Loading...... </p>)
+  }
+
+  render() {
+    return (
+      this.props.authReducer.authenticated ? this.renderPage() : this.renderLoginPage()
+    )
   }
 }
 
 
 
 function mapStateToProps(state, props) {
-    return {
-        authReducer: state.authReducer
-    }
+  return {
+    authReducer: state.authReducer
+  }
 }
 
 

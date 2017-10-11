@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { URL } from '../utils/url';
 
 
 export const SET_QUESTION_CATEGORY = 'SET_QUESTION_CATEGORY'
@@ -7,8 +8,6 @@ export const GET_QUESTION_CATEGORY_BYID = 'GET_QUESTION_CATEGORY_BYID'
 export const UPDATE_QUESTION_CATEGORY = 'UPDATE_QUESTION_CATEGORY'
 export const DELETE_QUESTION_CATEGORY = 'DELETE_QUESTION_CATEGORY'
 
-
-const URL = 'http://localhost:5000';
 
 
 export const setQuestionCategories = (questionCategories) => {

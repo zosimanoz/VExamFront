@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:5000';
+import { URL } from '../utils/url';
 
 export function uploadSuccess({ filepath }) {
   return {

@@ -13,6 +13,7 @@ import flashMessage from './flashMessage.reducer'
 import quizReducer from './examQuiz.reducer'
 import answerReducer from './answer.reducer'
 import sessionJobReducer from './sessionJobs.reducer'
+import examinfoReducer from './examinfo.reducer'
 
 
 export default combineReducers({
@@ -28,5 +29,6 @@ export default combineReducers({
     flashMessage,
     quizReducer,
     answerReducer,
-    sessionJobReducer
+    sessionJobReducer,
+    examinfoReducer
 });

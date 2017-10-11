@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import {
+    BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath, match
+} from 'react-router-dom';
+
 import '../../css/Auth.css';
 
 import classnames from 'classnames';
@@ -9,11 +13,28 @@ import { connect } from 'react-redux';
 import { login } from '../../actions/auth.action';
 import { addFlashMessage } from '../../actions/flashMessage.action';
 
+const AdminLogin = () => (
+    <h1>Admin Login</h1>
+)
 
+const UserLogin = () => (
+    <h1>User Login</h1>
+)
+
+const Routings = () => {
+    return (
+        <div>
+            <Switch>
+                <Route exact path="/" render={() => <UserLogin heading="User Login" />} />
+                <Route exact path="/admin/login" render={() => <AdminLogin heading="Admin Login" />} />
+            </Switch>
+        </div>
+    )
+}
 
 class Login extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -29,11 +50,8 @@ class Login extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
-    
-    
 
-
-     handleChange = (e) => {
+    handleChange = (e) => {
 
         if (!!this.state.errors[e.target.name]) {
             let errors = Object.assign({}, this.state.errors);
@@ -78,23 +96,23 @@ class Login extends Component {
 
 
             this.props.login({ Email, Password }).then(
-                () => { 
+                () => {
 
-                    this.setState({ done: true }); 
+                    this.setState({ done: true });
                     this.setState({ loading: false });
 
                     this.props.addFlashMessage({
-                        type : 'success',
-                        text : 'You have successfully logged in. Thank you !'
+                        type: 'success',
+                        text: 'You have successfully logged in. Thank you !'
                     });
                 }
-            ); 
+            );
         }
     }
 
 
-    render() {
 
+    renderDefaultUserLogin = () => {
         return (
             <div>
                 <section id="login">
@@ -105,49 +123,52 @@ class Login extends Component {
 
                                     <h1>Log In</h1>
 
-                                    { this.props.authReducer.errors ?
-                                                 <div className="alert alert-danger">
-                                                     {this.props.authReducer.errors}
-                                                 </div>
-                                    : '' }
+                                    {this.props.authReducer.errors ?
+                                        <div className="alert alert-danger">
+                                            {this.props.authReducer.errors}
+                                        </div>
+                                        : ''}
 
-                                    
-                                      <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
-                                        
+
+                                    <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
+
                                         <div className={classnames('field', { errors: !!this.state.errors.Email })} >
                                             <div className="form-group">
                                                 <label className="sr-only">Email</label>
-                                                <input 
-                                                    type="email" 
-                                                    name="Email" 
+                                                <input
+                                                    type="email"
+                                                    name="Email"
                                                     id="Email"
                                                     value={this.state.Email}
-                                                    onChange={this.handleChange} 
-                                                    className="form-control" 
+                                                    onChange={this.handleChange}
+                                                    className="form-control"
                                                     placeholder="somebody@example.com" />
 
-                                             <span className="form-error">{this.state.errors.Email}</span>
-                                                    
+                                                <span className="form-error">{this.state.errors.Email}</span>
+
                                             </div>
                                         </div>
-                                        
+
                                         <div className={classnames('field', { errors: !!this.state.errors.Password })} >
                                             <div className="form-group">
                                                 <label className="sr-only">Password</label>
-                                                <input type="password" 
-                                                     onChange={this.handleChange} 
-                                                     name="Password" 
-                                                     id="Password" 
-                                                     className="form-control" 
-                                                     placeholder="Password" />
+                                                <input type="password"
+                                                    onChange={this.handleChange}
+                                                    name="Password"
+                                                    id="Password"
+                                                    className="form-control"
+                                                    placeholder="Password" />
 
-                                             <span className="form-error">{this.state.errors.Password}</span>
-                                                    
+                                                <span className="form-error">{this.state.errors.Password}</span>
+
                                             </div>
                                         </div>
-                                        
+
                                         <input type="submit" id="btn-login" className="btn btn-custom btn-lg btn-block" value="Log in" />
                                     </form>
+                                </div>
+                                <div className="form-wrap" id="footer">
+                                    <NavLink to='/admin/login'>Admin Login</NavLink>
                                 </div>
                             </div>
                         </div>
@@ -155,6 +176,10 @@ class Login extends Component {
                 </section>
             </div>
         );
+    }
+
+    render() {
+        return (<Routings />);
     }
 
 }
