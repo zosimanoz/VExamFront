@@ -95,6 +95,18 @@ export const fetchIntervieweesBySessionId = (id) => {
             });
     }
 }
+export const fetchExamAttendedIntervieweesBySessionId = (id) => {
+    console.log('session id to fetch interviewees',id);
+   return dispatch => {
+        axios.get(`${URL}/api/v1/interviewee/session/${id}/exam/attended`)
+            .then((res) => {
+                dispatch(setInterviewees(res.data.Data))
+            })
+            .catch((err) => {
+                dispatch(error(err.response))
+            });
+    }
+}
 
 
 

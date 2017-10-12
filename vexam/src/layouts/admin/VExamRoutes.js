@@ -33,6 +33,8 @@ import AddJob from '../../components/jobs/add-jobs.component';
 import SetQuestions from '../../components/examsets/setquestionsbyexamset';
 import InterviewSessions from '../../components/interviewSession/interviewSession-index.component';
 import InterviewSessionIndex from '../../components/interviewSession/interviewSessionHistory.component';
+import AllInterviewSessions from '../../components/checkAnswer/interviewSessions.component';
+import ExamAttendedInterviewee from '../../components/checkAnswer/examAttentedInterviewes.component';
 import AddSessionJobs from '../../components/interviewSession/sessionJobs.component';
 import SessionJobs from '../../components/interviewSession/InterviewSesssionHistory-JobList.component';
 import Interviewees from '../../components/interviewSession/InterviewSesssionHistory-IntervieweeList.component';
@@ -242,6 +244,20 @@ const VExamRoutes = () => (
                     <Interviewees heading="Interviewees for this session"  {...props} />
                 )}
             />
+             <Route exact path="/admin/checkanswers"
+                render={props => (
+                   <AllInterviewSessions heading="Interview Sessions" />
+                )}
+            />
+
+            <Route exact path="/admin/interviewSessions/:id/attended/interviewees"
+                render={props => (
+                    <ExamAttendedInterviewee heading="Interviewees for this session"  {...props} />
+                )}
+            />
+           
+
+            
 
             <Route exact path="/admin/login"
                 render={props => (

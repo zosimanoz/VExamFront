@@ -108,6 +108,18 @@ export const fetchActiveInterviewSessions = () => {
     }
 }
 
+export const fetchAllInterviewSessions = () => {
+       return dispatch => {
+        axios.get(`${URL}/api/v1/interviewsession/get`)
+            .then(res => dispatch(setInterviewSessions(res.data.Data)))
+            .catch((err) => {
+                dispatch(interviewSessionError(err.response.message))
+            });
+    }
+}
+
+
+
 
 
 // Save department

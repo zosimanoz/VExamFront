@@ -20,7 +20,7 @@ const SideBar = () => (
         </ul>
       </li>
 
-      <li><NavLink to='/interviewee/exam' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Exam</span></NavLink></li>
+      <li><NavLink to='/admin/checkanswers' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Check Answersheet </span></NavLink></li>
       <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
         <ul className="submenu">
           <li><NavLink to="/admin/departments" activeClassName="active"><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavLink></li>
