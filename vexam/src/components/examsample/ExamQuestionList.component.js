@@ -149,7 +149,7 @@ class ExamQuestionList extends React.Component {
             <div className="quiz-question-detail" key={key.Question.SetQuestionId}>
                 <Question index={this.state.index} content={key.Question.Question} key={key.Question.SetQuestionId} />
 
-                <div className="options">
+                <div className="options clear">
                     {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key)}
                 </div>
             </div>

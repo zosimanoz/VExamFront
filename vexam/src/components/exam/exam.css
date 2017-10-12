@@ -85,4 +85,14 @@ li.answerOption {
     min-height: 180px;
 }
 
+.clear {
+    clear:both;
+}
+
+.span-question-index{
+    float:left;
+}
+
+
+
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import striptags from 'striptags'
+import RawHtml from "react-raw-html"
 
 // we didn't use class because this is a presentational stateless component
 
@@ -11,7 +11,9 @@ import striptags from 'striptags'
 
 const Question = (props) => {
     return (
-        <p className="question"> {props.index}.{striptags(props.content)}</p>
+        <div>
+            <span className="span-question-index">1. </span><RawHtml.span>{props.content}</RawHtml.span>
+        </div>
     )
 }
 
