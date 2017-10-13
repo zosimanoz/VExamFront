@@ -12,7 +12,7 @@ import RawHtml from "react-raw-html"
 const Question = (props) => {
     return (
         <div>
-            <span className="span-question-index">1. </span><RawHtml.span>{props.content}</RawHtml.span>
+            <span className="span-question-index"></span><RawHtml.span>{props.content}</RawHtml.span>
         </div>
     )
 }

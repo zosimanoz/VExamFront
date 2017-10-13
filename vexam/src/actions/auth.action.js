@@ -29,7 +29,7 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 
 
 
-export function signInStart(){
+export function signInStart() {
   return {
     type: SIGNIN_USER
   }
@@ -44,7 +44,7 @@ export function signInSuccess(user) {
   }
 }
 
-export function signInFailure(error){
+export function signInFailure(error) {
   return {
     type: SIGNIN_USER_FAILURE,
     payload: {
@@ -57,13 +57,13 @@ export function setCurrentUser(user) {
   return {
     type: SET_CURRENT_USER,
     payload: {
-      user : user
+      user: user
     }
   };
 }
 
 
-export function signInAdminStart(){
+export function signInAdminStart() {
   return {
     type: SIGN_IN_ADMIN_START
   }
@@ -78,7 +78,7 @@ export function signInAdminSuccess(user) {
   }
 }
 
-export function signInAdminFailure(error){
+export function signInAdminFailure(error) {
   return {
     type: SIGN_IN_ADMIN_FAIL,
     payload: {
@@ -94,15 +94,15 @@ export function login(creds) {
 
   return dispatch => {
     dispatch(signInStart());
-    return axios.post(`${URL}/api/v1/token/interviewee`,data)
-          .then((res)=>{ 
-              const token = res.data.access_token;
-              localStorage.setItem('access_token', token);
-              setAuthorizationToken(token);
-              dispatch(loadUserFromToken());
-          }).catch((err) => {
-              dispatch(signInFailure(err.response.data))
-          });
+    return axios.post(`${URL}/api/v1/token/interviewee`, data)
+      .then((res) => {
+        const token = res.data.access_token;
+        localStorage.setItem('access_token', token);
+        setAuthorizationToken(token);
+        dispatch(loadUserFromToken());
+      }).catch((err) => {
+        dispatch(signInFailure(err.response.data))
+      });
   }
 }
 
@@ -120,7 +120,7 @@ export function logout() {
 export function meFromTokenStart() {
   return {
     type: ME_FROM_TOKEN,
-    payload : {
+    payload: {
       loading: true
     }
   }
@@ -130,7 +130,7 @@ export function meFromTokenSuccess(user) {
   return {
     type: ME_FROM_TOKEN_SUCCESS,
     payload: {
-      user : user,
+      user: user,
       loading: false
     }
   }
@@ -140,24 +140,26 @@ export function meFromTokenSuccess(user) {
 
 export const loadUserFromToken = () => {
 
-    let token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
 
-    if(!token || token === ''){
-        return;
-    }else{
-      return dispatch => {
-        dispatch(meFromTokenStart());
-
-        return axios({
-          method: 'get',
-          url: `${URL}/api/token/decode/${token}`
-        }).then((res) => {
-          dispatch(meFromTokenSuccess(res.data.Data));
-        }).catch(error => {
-          console.log(error);
-        })
-      }
+  if (!token || token === '') {
+    return;
+  } else {
+    return dispatch => {
+      dispatch(meFromTokenStart());
+      var data = qs.stringify({ 'accessToken': token });
+      return axios({
+        method: 'post',
+        // url: `${URL}/api/token/decode/${token}`,
+        url: `${URL}/api/v1/token/decode`,
+        data: data
+      }).then((res) => {
+        dispatch(meFromTokenSuccess(res.data.Data));
+      }).catch(error => {
+        console.log(error);
+      })
     }
+  }
 }
 
 
@@ -169,15 +171,15 @@ export function adminLogin(creds) {
 
   return dispatch => {
     dispatch(signInAdminStart());
-    return axios.post(`${URL}/api/v1/token/user`,data)
-          .then((res)=>{ 
-              const token = res.data.access_token;
-              localStorage.setItem('access_token', token);
-              setAuthorizationToken(token);
-              dispatch(loadUserFromToken());
-          }).catch((err) => {
-              dispatch(signInAdminFailure(err.response.data))
-          });
+    return axios.post(`${URL}/api/v1/token/user`, data)
+      .then((res) => {
+        const token = res.data.access_token;
+        localStorage.setItem('access_token', token);
+        setAuthorizationToken(token);
+        dispatch(loadUserFromToken());
+      }).catch((err) => {
+        dispatch(signInAdminFailure(err.response.data))
+      });
   }
 }
 
