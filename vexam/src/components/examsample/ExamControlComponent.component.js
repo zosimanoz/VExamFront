@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import { submitFinalAnswers } from '../../actions/examQuiz.action'
+import { logout } from '../../actions/auth.action';
+
+import { submitFinalAnswers } from '../../actions/examQuiz.action';
 
 
 class ExamControlComponent extends Component {
@@ -10,6 +12,7 @@ class ExamControlComponent extends Component {
         super(props);
 
         this.submitAnswers = this.submitAnswers.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     formatAnswersByQuestionId() {
@@ -86,12 +89,17 @@ class ExamControlComponent extends Component {
         this.props.submitFinalAnswers(this.props.questionsList);
     }
 
+
+    logout() {
+        this.props.logout();
+    }
+
     render() {
         return (
 
             <div>
                 <a className="btn btn-success btnSubmitScore" onClick={this.submitAnswers}>Submit</a>
-                <a className="btn btn-danger btnLogout" href="#">Logout</a>
+                <a className="btn btn-danger btnLogout" onClick={this.logout}>Logout</a>
             </div>
 
         );
@@ -107,7 +115,7 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default connect(mapStateToProps, { submitFinalAnswers })(ExamControlComponent);
+export default connect(mapStateToProps, { submitFinalAnswers, logout })(ExamControlComponent);
 
 
 
