@@ -27,7 +27,7 @@ class HeaderNavBar extends Component {
                     <NavDropdown title="User" id="basic-nav-dropdown">
                         <MenuItem>Settings</MenuItem>
                         <MenuItem divider />
-                        <MenuItem><a href="javascript:;" onClick={this.props.logout}>Logout</a></MenuItem>
+                        <MenuItem><NavLink to='/admin/logout'>Logout</NavLink></MenuItem>
                     </NavDropdown>
                 </Nav>
             </Navbar>

@@ -9,6 +9,7 @@ import '../../css/Auth.css';
 import classnames from 'classnames';
 
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
 import { login } from '../../actions/auth.action';
 import { addFlashMessage } from '../../actions/flashMessage.action';
@@ -95,7 +96,10 @@ class UserLogin extends Component {
 
 
     render() {
-                console.log('user component',this.props)
+        if(this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee'){
+            return(<Redirect to={{pathname: '/exam'}} />)
+        }
+
         return (
             <div>
                 <section id="login">
@@ -151,7 +155,7 @@ class UserLogin extends Component {
                                     </form>
                                 </div>
                                 <div className="form-wrap" id="footer">
-                                    <Link exact to='/admin/login'>Admin Login</Link>
+                                    <Link to='/admin/login'>Admin Login</Link>
                                 </div>
                             </div>
                         </div>

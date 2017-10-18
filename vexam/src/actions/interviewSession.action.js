@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -89,7 +89,7 @@ export const deleteInterviewSessionById = (interviewSessionId) => {
 
 export const fetchInterviewSessionHistory = () => {
        return dispatch => {
-        axios.get(`${URL}/api/v1/interviewsession/history`)
+        axios.get(`${API_URL}/api/v1/interviewsession/history`)
             .then(res => dispatch(setInterviewSessions(res.data.Data)))
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
@@ -100,7 +100,7 @@ export const fetchInterviewSessionHistory = () => {
 
 export const fetchActiveInterviewSessions = () => {
        return dispatch => {
-        axios.get(`${URL}/api/v1/interviewsession/active`)
+        axios.get(`${API_URL}/api/v1/interviewsession/active`)
             .then(res => dispatch(setInterviewSessions(res.data.Data)))
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
@@ -110,7 +110,7 @@ export const fetchActiveInterviewSessions = () => {
 
 export const fetchAllInterviewSessions = () => {
        return dispatch => {
-        axios.get(`${URL}/api/v1/interviewsession/get`)
+        axios.get(`${API_URL}/api/v1/interviewsession/get`)
             .then(res => dispatch(setInterviewSessions(res.data.Data)))
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
@@ -126,7 +126,7 @@ export const fetchAllInterviewSessions = () => {
 export function saveInterviewSession(data) {
     
     return dispatch => {
-        return fetch(`${URL}/api/v1/interviewsession/new`, {
+        return fetch(`${API_URL}/api/v1/interviewsession/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -144,7 +144,7 @@ export function saveInterviewSession(data) {
 
 export const fetchInterviewSessionById = (id) => {
     return dispatch => {
-        axios.get(`${URL}/api/v1/interviewsession/get/${id}`)
+        axios.get(`${API_URL}/api/v1/interviewsession/get/${id}`)
             .then(res => dispatch(setInterviewSessionById(res.data.Data)))
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
@@ -155,7 +155,7 @@ export const fetchInterviewSessionById = (id) => {
 
 export function updateInterviewSession(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/interviewsession/update`, {
+        return fetch(`${API_URL}/api/v1/interviewsession/update`, {
             method: 'put',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -172,7 +172,7 @@ export function deleteInterviewSession(id) {
     return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/interviewsession/delete/${id}`,
+            url: `${API_URL}/api/v1/interviewsession/delete/${id}`,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -75,7 +75,7 @@ export const deleteIntervieweeById = (IntervieweeId) => {
 
 export const fetchInterviewees = () => {
    return dispatch => {
-        axios.get(`${URL}/api/v1/interviewee/get/all`)
+        axios.get(`${API_URL}/api/v1/interviewee/get/all`)
             .then(res => dispatch(setInterviewees(res.data.Data)))
             .catch((err) => {
                 dispatch(error(err.response.data))
@@ -86,7 +86,7 @@ export const fetchInterviewees = () => {
 export const fetchIntervieweesBySessionId = (id) => {
     console.log('session id to fetch interviewees',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/interviewee/get/session/${id}`)
+        axios.get(`${API_URL}/api/v1/interviewee/get/session/${id}`)
             .then((res) => {
                 dispatch(setInterviewees(res.data.Data))
             })
@@ -98,7 +98,7 @@ export const fetchIntervieweesBySessionId = (id) => {
 export const fetchExamAttendedIntervieweesBySessionId = (id) => {
     console.log('session id to fetch interviewees',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/interviewee/session/${id}/exam/attended`)
+        axios.get(`${API_URL}/api/v1/interviewee/session/${id}/exam/attended`)
             .then((res) => {
                 dispatch(setInterviewees(res.data.Data))
             })
@@ -115,7 +115,7 @@ export function saveInterviewee(data) {
  return dispatch => {
         return axios({
             method: 'POST',
-            url: `${URL}/api/v1/interviewee/new`,
+            url: `${API_URL}/api/v1/interviewee/new`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -132,7 +132,7 @@ export function saveInterviewee(data) {
 
 export function fetchIntervieweeById(id) {
  return dispatch => {
-        axios.get(`${URL}api/v1/interviewee/get/${id}`)
+        axios.get(`${API_URL}api/v1/interviewee/get/${id}`)
             .then(res => dispatch(setIntervieweeById(res.data.Data)))
             .catch((err) => {
                 dispatch(error(err.response.Message))
@@ -146,7 +146,7 @@ export function updateInterviewee(data) {
  return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/interviewee/update`,
+            url: `${API_URL}/api/v1/interviewee/update`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -166,7 +166,7 @@ export function deleteInterviewee(id) {
  return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/interviewee/delete/${id}`,
+            url: `${API_URL}/api/v1/interviewee/delete/${id}`,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

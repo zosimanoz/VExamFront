@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 
 export const SET_QUESTION_CATEGORY = 'SET_QUESTION_CATEGORY'
@@ -55,7 +55,7 @@ export const fetchQuestionCategoryList = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        axios.get(`${URL}/api/v1/question/category/get/all`)
+        axios.get(`${API_URL}/api/v1/question/category/get/all`)
             .then(res => dispatch(setQuestionCategories(res.data.Data)))
     }
 }
@@ -66,7 +66,7 @@ export const fetchQuestionCategoryList = () => {
 export function saveQuestionCategory(data) {
     return dispatch => {
         return axios({
-            url: `${URL}/api/v1/question/category/new`,
+            url: `${API_URL}/api/v1/question/category/new`,
             method: 'post',
             dataType: 'json',
             data: JSON.stringify(data),
@@ -83,7 +83,7 @@ export function saveQuestionCategory(data) {
 
 export function fetchQuestionCategoryById(id){
     return dispatch => {
-        axios.get(`${URL}/api/v1/question/category/get/${id}`)
+        axios.get(`${API_URL}/api/v1/question/category/get/${id}`)
             .then(res => dispatch(setQuestionCategoryById(res.data.Data)))
     }
 }
@@ -92,7 +92,7 @@ export function fetchQuestionCategoryById(id){
 export function updateQuestionCategory(data){
      return dispatch => {
         return axios({ 
-            url: `${URL}/api/v1/question/category/update`, 
+            url: `${API_URL}/api/v1/question/category/update`, 
             method: 'put',
             dataType: 'json',
             data: JSON.stringify(data),
@@ -110,7 +110,7 @@ export function deleteQuestionCategory(id){
 
     return dispatch => {
         return axios({
-            url: `${URL}/api/v1/question/category/delete/${id}`,
+            url: `${API_URL}/api/v1/question/category/delete/${id}`,
             method: 'put',
             dataType: 'json',
             headers: {

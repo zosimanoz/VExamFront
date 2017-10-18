@@ -1,4 +1,4 @@
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 
 export const SET_JOBTYPES = 'SET_JOBTYPES'
@@ -73,7 +73,7 @@ export const fetchJobTypes = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/jobs/get/all`)
+        fetch(`${API_URL}/api/v1/jobs/get/all`)
             .then(res => res.json())
             .then(data => dispatch(setJobTypes(data.Data)))
     }
@@ -84,7 +84,7 @@ export const fetchJobTypes = () => {
 // Save department
 export function saveJobType(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/jobs/new`, {
+        return fetch(`${API_URL}/api/v1/jobs/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -102,7 +102,7 @@ export function saveJobType(data) {
 
 export function fetchJobTypeById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/jobs/get/${id}`)
+        fetch(`${API_URL}/api/v1/jobs/get/${id}`)
             .then(res => res.json())
             .then(data => dispatch(setJobTypeById(data.Data)))
     }
@@ -111,7 +111,7 @@ export function fetchJobTypeById(id){
 
 export function updateJobType(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/jobs/update`, {
+        return fetch(`${API_URL}/api/v1/jobs/update`, {
             method: 'put',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -128,7 +128,7 @@ export function updateJobType(data){
 export function deleteJobType(id){
 
     return dispatch => {
-        return fetch(`${URL}/api/v1/jobs/delete/${id}`, {
+        return fetch(`${API_URL}/api/v1/jobs/delete/${id}`, {
             method: 'put',
            dataType: 'json',
             headers: {

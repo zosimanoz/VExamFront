@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 export function uploadSuccess({ filepath }) {
   return {
@@ -26,7 +26,7 @@ export function uploadDocumentRequest(file) {
   return dispatch => {
     return axios({
       method: 'POST',
-      url: `${URL}/api/v1/file/upload`,
+      url: `${API_URL}/api/v1/file/upload`,
       data: data
     })
       // .then(res => dispatch(uploadSuccess(res.data.relativeFilePath)))

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
@@ -25,7 +25,7 @@ export const SIGN_IN_ADMIN_FAIL = 'SIGN_IN_ADMIN_FAIL';
 //log out user
 export const LOGOUT_USER = 'LOGOUT_USER';
 
-export const SET_CURRENT_USER = 'SET_CURRENT_USER'
+export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 
 
 
@@ -53,9 +53,10 @@ export function signInFailure(error) {
   }
 }
 
-export function setCurrentUser(user) {
+export function removeCurrentUser(user) {
+  console.log('user', user)
   return {
-    type: SET_CURRENT_USER,
+    type: REMOVE_CURRENT_USER,
     payload: {
       user: user
     }
@@ -94,7 +95,7 @@ export function login(creds) {
 
   return dispatch => {
     dispatch(signInStart());
-    return axios.post(`${URL}/api/v1/token/interviewee`, data)
+    return axios.post(`${API_URL}/api/v1/token/interviewee`, data)
       .then((res) => {
         const token = res.data.access_token;
         localStorage.setItem('access_token', token);
@@ -111,9 +112,13 @@ export function login(creds) {
 
 export function logout() {
   return dispatch => {
-    localStorage.removeItem('access_token');
-    setAuthorizationToken(false);
-    dispatch(setCurrentUser({}));
+    return axios.post(`${API_URL}/api/v1/logout`)
+      .then((res) => {
+        localStorage.removeItem('access_token');
+        setAuthorizationToken(false);
+        dispatch(removeCurrentUser({}));
+      }).catch((err) => {
+      });
   }
 }
 
@@ -151,7 +156,7 @@ export const loadUserFromToken = () => {
       return axios({
         method: 'post',
         // url: `${URL}/api/token/decode/${token}`,
-        url: `${URL}/api/v1/token/decode`,
+        url: `${API_URL}/api/v1/token/decode`,
         data: data
       }).then((res) => {
         dispatch(meFromTokenSuccess(res.data.Data));
@@ -171,7 +176,7 @@ export function adminLogin(creds) {
 
   return dispatch => {
     dispatch(signInAdminStart());
-    return axios.post(`${URL}/api/v1/token/user`, data)
+    return axios.post(`${API_URL}/api/v1/token/user`, data)
       .then((res) => {
         const token = res.data.access_token;
         localStorage.setItem('access_token', token);

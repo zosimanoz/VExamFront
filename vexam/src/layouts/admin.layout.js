@@ -7,10 +7,11 @@ import {
 
 import { connect } from 'react-redux';
 
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
+import { logout } from '../actions/auth.action';
 
 import HeaderNavBar from './admin/HeaderNavBar.layout'
 import SideBar from './admin/SideBar.layout'
@@ -23,6 +24,10 @@ import '../css/AdminStyle.css';
 import './menu.css';
 
 
+
+
+
+
 class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -30,31 +35,32 @@ class Admin extends React.Component {
   }
 
 
-  logout = () => {
-    alert('hello logout')
-  }
-
   render() {
-    return (
-      <div>
-        <HeaderNavBar logout={this.logout.bind(this)}/>
-
-        <Grid bsClass="container main-container">
-          <Col xs={2} md={2} className="sidebar">
-            <SideBar />
-
-          </Col>
-
-          <Col xs={10} md={10} >
-            <VExamRoutes />
-          </Col>
-        </Grid>
-      </div>
-    );
-  }
+   
+      return (
+        <div>
+          <HeaderNavBar />
+          <Grid bsClass="container main-container">
+            <Col xs={2} md={2} className="sidebar">
+              <SideBar />
+            </Col>
+            <Col xs={10} md={10} >
+              <VExamRoutes />
+            </Col>
+          </Grid>
+        </div>
+      );
+    } 
 
 }
 
 
+const mapStateToProps = (state, props) => {
+  return {
+    auth: state.authReducer
+  }
+}
 
-export default Admin;
+
+
+export default connect(mapStateToProps, { logout })(Admin);

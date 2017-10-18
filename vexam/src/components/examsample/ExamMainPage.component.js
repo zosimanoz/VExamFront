@@ -155,7 +155,6 @@ class ExamMainPage extends React.Component {
 
         this.onChangePage(pager.pages);
 
-
     }
 
     renderQuestionJumpIndex = () => (

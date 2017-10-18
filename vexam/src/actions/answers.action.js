@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'

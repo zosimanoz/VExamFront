@@ -5,14 +5,11 @@ import './App.css';
 import { connect } from 'react-redux';
 
 import {
-  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath
-} from 'react-router-dom';
+  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath } from 'react-router-dom';
 
 import Admin from './layouts/admin.layout';
-import DefaultLayout from './layouts/default.layout';
 import TestLayout from './layouts/test.layout';
 
-import Login from './components/auth/login.component';
 import Dashboard from './components/dashboard/dashboard.container';
 import AddDepartment from './components/departments/add-department.component';
 import ExamPage from './components/exam/ExamPage.container';
@@ -26,6 +23,8 @@ import LoginWrapper from './components/auth/LoginWrapper.container'
 // import Admin from './components/admin/admin.container';
 
 
+import PrivateRoute from './utils/PrivateRouter'
+
 class App extends Component {
 
   constructor(props) {
@@ -35,7 +34,7 @@ class App extends Component {
     }
   }
 
-  renderPage() {
+  /*renderPage() {
     if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User') {
       return (
         <Router>
@@ -47,11 +46,13 @@ class App extends Component {
       return (
         <Router>
           <ExamWrapper />
-          {/* if exam info is to be shown... use   <ExamInfoComponent />*/}
         </Router>
       )
     }
-  }
+  }*/
+
+
+ 
 
   renderLoginPage() {
     return (
@@ -61,13 +62,10 @@ class App extends Component {
     )
   }
 
-  renderLoader() {
-    return (<p>Loading...... </p>)
-  }
-
   render() {
     return (
-      this.props.authReducer.authenticated ? this.renderPage() : this.renderLoginPage()
+      // this.props.authReducer.authenticated ? this.renderPage() : this.renderLoginPage()
+      this.renderLoginPage()
     )
   }
 }

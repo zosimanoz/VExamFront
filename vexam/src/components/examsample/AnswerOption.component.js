@@ -1,6 +1,7 @@
 import React from 'react'
 
-URL = 'http://localhost:5000';
+import { API_URL } from '../../utils/url';
+
 
 class AnswerOption extends React.Component {
 
@@ -10,7 +11,7 @@ class AnswerOption extends React.Component {
 
     renderAttachment = () => {
         return (<div className="option-img">
-            <img src={URL + this.props.attachment} />
+            <img src={API_URL + this.props.attachment} />
         </div>)
     }
 

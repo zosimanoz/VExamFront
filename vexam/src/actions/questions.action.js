@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -82,7 +82,7 @@ export const filteredQuestion = (questions) => {
 
 export const fetchQuestions = () => {
     return dispatch => {
-        axios.get(`${URL}/api/v1/questionbank/select`)
+        axios.get(`${API_URL}/api/v1/questionbank/select`)
             .then(res => dispatch(setQuestions(res.data.Data)))
             .catch((err) => {
                 dispatch(questionBankError(err.response.data))
@@ -97,7 +97,7 @@ export function saveQuestion(data) {
     return dispatch => {
         return axios({
             method: 'POST',
-            url: `${URL}/api/v1/questionbank/new`,
+            url: `${API_URL}/api/v1/questionbank/new`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -114,7 +114,7 @@ export function saveQuestion(data) {
 
 export function fetchQuestionById(id) {
     return dispatch => {
-        axios.get(`${URL}/api/v1/questionbank/get/${id}`)
+        axios.get(`${API_URL}/api/v1/questionbank/get/${id}`)
             .then(res => dispatch(setQuestionById(res.data.Data)))
             .catch((err) => {
                 dispatch(questionBankError(err.response.data))
@@ -127,7 +127,7 @@ export function updateQuestion(data) {
     return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/questionbank/update`,
+            url: `${API_URL}/api/v1/questionbank/update`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -147,7 +147,7 @@ export function deleteQuestion(id) {
     return dispatch => {
                 return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/questionbank/delete/${id}`,
+            url: `${API_URL}/api/v1/questionbank/delete/${id}`,
           
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -164,7 +164,7 @@ export function deleteQuestion(id) {
 
 export function filterQuestionForExamSet(data) {
     return dispatch => {
-        return axios(`${URL}/api/v1/questionbank/search?QuestionTypeId=${data.QuestionTypeId}&QuestionCategoryId=${data.QuestionCategoryId}&QuestionComplexityId=${data.QuestionComplexityId}&Question=${data.Question}`)
+        return axios(`${API_URL}/api/v1/questionbank/search?QuestionTypeId=${data.QuestionTypeId}&QuestionCategoryId=${data.QuestionCategoryId}&QuestionComplexityId=${data.QuestionComplexityId}&Question=${data.Question}`)
             .then(res => dispatch(filteredQuestion(res.data.Data)))
             .catch((err) => {
                 dispatch(questionBankError(err))

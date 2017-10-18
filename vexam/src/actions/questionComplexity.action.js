@@ -1,4 +1,4 @@
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 export const SET_QUESTION_COMPLEXITY = 'SET_QUESTION_COMPLEXITY'
 export const ADD_QUESTION_COMPLEXITY = 'ADD_QUESTION_COMPLEXITY'
@@ -71,7 +71,7 @@ export const fetchQuestionComplexityList = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/question/complexity/get/all`)
+        fetch(`${API_URL}/api/v1/question/complexity/get/all`)
             .then(res => res.json())
             .then(data => dispatch(setQuestionComplexity(data.Data)))
     }
@@ -82,7 +82,7 @@ export const fetchQuestionComplexityList = () => {
 // Save department
 export function saveQuestionComplexity(data) {
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/complexity/new`, {
+        return fetch(`${API_URL}/api/v1/question/complexity/new`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -99,7 +99,7 @@ export function saveQuestionComplexity(data) {
 
 export function fetchQuestionComplexityById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/question/complexity/get/${id}`)
+        fetch(`${API_URL}/api/v1/question/complexity/get/${id}`)
             .then(res => res.json())
             .then(data => dispatch(setQuestionComplexityById(data.Data)))
     }
@@ -108,7 +108,7 @@ export function fetchQuestionComplexityById(id){
 
 export function updateQuestionComplexity(data){
      return dispatch => {
-        return fetch(`${URL}/api/v1/question/complexity/update`, {
+        return fetch(`${API_URL}/api/v1/question/complexity/update`, {
             method: 'put',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -125,7 +125,7 @@ export function updateQuestionComplexity(data){
 export function deleteQuestionComplexity(id){
 
     return dispatch => {
-        return fetch(`${URL}/api/v1/question/complexity/delete/${id}`, {
+        return fetch(`${API_URL}/api/v1/question/complexity/delete/${id}`, {
             method: 'put',
            dataType: 'json',
             headers: {

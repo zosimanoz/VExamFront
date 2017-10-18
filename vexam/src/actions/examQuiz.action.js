@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 //Get current questons for the user
 export const FETCH_EXAM_QUESTIONS_START = 'FETCH_EXAM_QUESTIONS_START';
@@ -60,7 +60,7 @@ export function saveAnswerSuccess(data) {
 export function getExamQuestions() {
   return dispatch => {
     dispatch(fetchExamQuestionStart());
-    axios.get(`${URL}/api/v1/interviewee/interview/questions/3`)
+    axios.get(`${API_URL}/api/v1/interviewee/interview/questions/3`)
       .then((res) => {
         dispatch(fetchExamQuestionsSuccess(res.data.Data));
       }).catch((err) => {
@@ -73,7 +73,7 @@ export function getExamQuestions() {
 export function submitFinalAnswers(questions) {
   return dispatch => {
     dispatch(saveAnswersStart());
-    return axios.post(`${URL}/api/v1/answer/save`, JSON.stringify(questions), {
+    return axios.post(`${API_URL}/api/v1/answer/save`, JSON.stringify(questions), {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
 export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
@@ -63,7 +63,7 @@ export const fetchDepartments = () => {
     // dispatch a new state on receiving data data.Data
     // thunk middle ware help in calling actions as funcitons
     return dispatch => {
-        return axios.get(`${URL}/api/v1/department/get/all`)
+        return axios.get(`${API_URL}/api/v1/department/get/all`)
                     .then(res => dispatch(setDepartments(res.data.Data)))
     }
 }
@@ -74,7 +74,7 @@ export const fetchDepartments = () => {
 // Save departmenty
 export function saveDepartment(data) {
       return dispatch => {
-        return axios.post(`${URL}/api/v1/department/new`,JSON.stringify(data),{
+        return axios.post(`${API_URL}/api/v1/department/new`,JSON.stringify(data),{
              headers: {
               'Accept': 'application/json',
                'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ export function saveDepartment(data) {
 
 export function fetchDepartmentById(id){
     return dispatch => {
-        return axios.get(`${URL}/api/v1/department/get/${id}`)
+        return axios.get(`${API_URL}/api/v1/department/get/${id}`)
                 .then(res => dispatch(setDepartmentById(res.data.Data)));
     }
 }
@@ -93,7 +93,7 @@ export function fetchDepartmentById(id){
 
 export function updateDepartment(data){
      return dispatch => {
-         return axios.post(`${URL}/api/v1/department/update`,JSON.stringify(data),{
+         return axios.post(`${API_URL}/api/v1/department/update`,JSON.stringify(data),{
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

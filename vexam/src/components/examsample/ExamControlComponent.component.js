@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import { submitFinalAnswers } from '../../actions/examQuiz.action'
+import { Redirect } from 'react-router';
+
+import { submitFinalAnswers } from '../../actions/examQuiz.action';
+import { logout } from '../../actions/auth.action';
 
 
 class ExamControlComponent extends Component {
@@ -50,7 +53,7 @@ class ExamControlComponent extends Component {
         // here we will change them to CSV for sending to the API
 
         let newArrayWithSplittedElements = [];
-        
+
         answers.forEach(function (element) {
             let optionsList = element.ObjectiveAnswers.join();
             var optionObj = {
@@ -71,12 +74,10 @@ class ExamControlComponent extends Component {
     formatFinalAnswers() {
         var optionsArr = this.formatAnswersByQuestionId();
         var subjectiveArr = this.props.subjectiveAnswers;
-      
+
         for (var key in subjectiveArr) {
             optionsArr.push(subjectiveArr[key])
         }
-
-        console.log(optionsArr)
     }
 
 
@@ -86,15 +87,24 @@ class ExamControlComponent extends Component {
         this.props.submitFinalAnswers(this.props.questionsList);
     }
 
+    logout() {
+        this.props.logout();
+    }
+
     render() {
-        return (
+        if (this.props.auth.authenticated) {
+            return (
+                <div>
+                    <a className="btn btn-success btnSubmitScore" onClick={this.submitAnswers}>Submit</a>
+                    <button type="submit" className="btn btn-danger btnLogout" onClick={this.logout.bind(this)}>Logout</button>
+                </div>
+            );
+        } else {
+            return (
+                <Redirect to="/" />
+            )
+        }
 
-            <div>
-                <a className="btn btn-success btnSubmitScore" onClick={this.submitAnswers}>Submit</a>
-                <a className="btn btn-danger btnLogout" href="#">Logout</a>
-            </div>
-
-        );
     }
 }
 
@@ -103,11 +113,12 @@ class ExamControlComponent extends Component {
 const mapStateToProps = (state, props) => {
     return {
         questionsList: state.quizReducer.questions,
-        user: state.authReducer.user
+        user: state.authReducer.user,
+        auth: state.authReducer
     }
 }
 
-export default connect(mapStateToProps, { submitFinalAnswers })(ExamControlComponent);
+export default connect(mapStateToProps, { submitFinalAnswers, logout })(ExamControlComponent);
 
 
 

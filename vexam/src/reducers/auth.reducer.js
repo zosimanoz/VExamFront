@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, SIGNIN_USER, SIGNIN_USER_SUCCESS,
+import { REMOVE_CURRENT_USER, SIGNIN_USER, SIGNIN_USER_SUCCESS,
 SIGNIN_USER_FAILURE,LOGOUT_USER,ME_FROM_TOKEN,ME_FROM_TOKEN_SUCCESS,ME_FROM_TOKEN_FAILURE,
  RESET_TOKEN, SIGN_IN_ADMIN_START, SIGN_IN_ADMIN_SUCCESS, SIGN_IN_ADMIN_FAIL} from '../actions/auth.action';
 
@@ -40,6 +40,10 @@ export default function authReducer(state = initialState, action = {}) {
             return { ...state, user: null, status:'storage', authenticated: false, errors:action.payload.error, role: null };
         case RESET_TOKEN:// remove token from storage make loading = false
             return { ...state, user: null, status:'storage', errors:null, authenticated: false, role: null };
+
+
+        case REMOVE_CURRENT_USER:
+            return { ...state, user: action.payload.user, authenticated: false }
 
         default: return state;
     }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
@@ -151,7 +151,7 @@ export const fetchExamSets = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
-        fetch(`${URL}/api/v1/examset/get/all`)
+        fetch(`${API_URL}/api/v1/examset/get/all`)
             .then(res => res.json())
             .then(data => dispatch(setExamSets(data.Data)))
     }
@@ -163,7 +163,7 @@ export const fetchExamSets = () => {
 export function saveExamSet(data) {
     console.log(data)
     return dispatch => {
-        return fetch(`${URL}/api/v1/examset/new/set`, {
+        return fetch(`${API_URL}/api/v1/examset/new/set`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
@@ -180,7 +180,7 @@ export function saveExamSet(data) {
 
 export function fetchExamSetById(id){
     return dispatch => {
-        fetch(`${URL}/api/v1/examset/get/${id}`)
+        fetch(`${API_URL}/api/v1/examset/get/${id}`)
             .then(res => res.json())
             .then(data => dispatch(setExamSetById(data.Data)))
     }
@@ -189,7 +189,7 @@ export function fetchExamSetById(id){
 export function fetchSetQuestionsByExamSet(id) {
    
     return dispatch => {
-        axios.get(`${URL}/api/v1/examset/question/get/${id}`)
+        axios.get(`${API_URL}/api/v1/examset/question/get/${id}`)
             .then(res => dispatch(setQuestionsByExamSet(res.data.Data)))
             .catch((err) => {
                 dispatch(questionBankError(err.response.message))
@@ -202,7 +202,7 @@ export function updateExamSet(data) {
     return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/examset/update`,
+            url: `${API_URL}/api/v1/examset/update`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -219,7 +219,7 @@ export function updateExamSet(data) {
 
 export function deleteExamSet(id){
     return dispatch => {
-        return fetch(`${URL}/api/v1/examset/delete/${id}`, {
+        return fetch(`${API_URL}/api/v1/examset/delete/${id}`, {
             method: 'put',
            dataType: 'json',
             headers: {
@@ -233,7 +233,7 @@ export function deleteExamSet(id){
 
 export function saveExamSetQuestions(data){
     return dispatch => {
-        return fetch(`${URL}/api/v1/examset/question/add`, {
+        return fetch(`${API_URL}/api/v1/examset/question/add`, {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),

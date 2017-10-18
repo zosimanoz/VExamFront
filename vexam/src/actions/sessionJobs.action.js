@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
@@ -73,7 +73,7 @@ export const deleteSessionJobById = (sessionJobId) => {
 
 export const fetchSessionJobBySessionId = (id) => {
     return dispatch => {
-        axios.get(`${URL}/api/v1/sessionwisejob/session/${id}`)
+        axios.get(`${API_URL}/api/v1/sessionwisejob/session/${id}`)
             .then(res => dispatch(setJobsBySessionId(res.data.Data)))
             .catch((err) => {
                 dispatch(sessionError(err.response.message))
@@ -87,7 +87,7 @@ export function saveSessionJob(data) {
     return dispatch => {
         return axios({
             method: 'POST',
-            url: `${URL}/api/v1/sessionwisejob/new`,
+            url: `${API_URL}/api/v1/sessionwisejob/new`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -109,7 +109,7 @@ export function updateSessionJob(data) {
     return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/sessionwisejob/update`,
+            url: `${API_URL}/api/v1/sessionwisejob/update`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -126,7 +126,7 @@ export function deleteSessionJob(id) {
     return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/sessionwisejob/delete/${id}`,
+            url: `${API_URL}/api/v1/sessionwisejob/delete/${id}`,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

@@ -10,8 +10,10 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
-import { adminLogin } from '../../actions/auth.action';
+import { adminLogin, logout } from '../../actions/auth.action';
 import { addFlashMessage } from '../../actions/flashMessage.action';
+import { Redirect } from 'react-router';
+
 
 
 
@@ -81,10 +83,8 @@ class AdminLogin extends Component {
 
             this.props.adminLogin({ Email, Password }).then(
                 () => {
-
                     this.setState({ done: true });
                     this.setState({ loading: false });
-
                     this.props.addFlashMessage({
                         type: 'success',
                         text: 'You have successfully logged in. Thank you !'
@@ -94,9 +94,11 @@ class AdminLogin extends Component {
         }
     }
 
-
     render() {
-        console.log('admin component',this.props)
+        if(this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User'){
+            return(<Redirect to={{pathname: '/admin'}} />)
+        }
+
         return (
             <div>
                 <section id="login">
@@ -152,7 +154,7 @@ class AdminLogin extends Component {
                                     </form>
                                 </div>
                                 <div className="form-wrap" id="footer">
-                                    <Link exact to='/'>User Login</Link>
+                                    <Link to='/'>User Login</Link>
                                 </div>
                             </div>
                         </div>
@@ -160,9 +162,11 @@ class AdminLogin extends Component {
                 </section>
             </div>
         );
-    }
+    } 
 
 }
+
+
 
 
 function mapStateToProps(state, props) {
@@ -173,5 +177,5 @@ function mapStateToProps(state, props) {
 
 
 
-export default connect(mapStateToProps, { adminLogin, addFlashMessage })(AdminLogin);
+export default connect(mapStateToProps, { adminLogin, addFlashMessage, logout })(AdminLogin);
 

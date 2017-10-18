@@ -17,10 +17,11 @@ import { fetchQuestionComplexityList } from '../../actions/questionComplexity.ac
 
 import { uploadDocumentRequest } from '../../actions/fileupload.action';
 
+import { API_URL } from '../../utils/url';
+
 
 
 class AddQuestion extends React.Component {
-    URL = 'http://localhost:5000';
 
     state = {
         QuestionId: this.props.question ? this.props.question.QuestionId : 0,
@@ -278,7 +279,7 @@ class AddQuestion extends React.Component {
                                 />
                             </td>
                             <td>
-                                <img src={option.Attachment ? (this.URL + option.Attachment) : ""} width={100} style={{ float: 'right' }} />
+                                <img src={option.Attachment ? (this.API_URL + option.Attachment) : ""} width={100} style={{ float: 'right' }} />
                                 <input type="file" accept="image/*" onChange={this.handleOptionImageUpload(idx)} />
                             </td>
                             <td><input type="checkbox" checked={option.IsAnswer} onChange={this.handleIsAnswerCheckBox(idx)} />Is Answer</td>
@@ -356,7 +357,7 @@ class AddQuestion extends React.Component {
                             onChange={this.handleChangeForEditor} />
                         <input type="file" accept="image/*" onChange={this.handleFileUpload} />
                         <div className="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            <img src={this.state.Attachment ? (this.URL + this.state.Attachment) : ""} width="100%" />
+                            <img src={this.state.Attachment ? (this.API_URL + this.state.Attachment) : ""} width="100%" />
                         </div>
                         <span className="form-error">{this.state.errors.Question}</span>
                     </div>
