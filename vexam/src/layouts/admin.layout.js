@@ -7,7 +7,9 @@ import {
 
 import { connect } from 'react-redux';
 
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+
+import { logout } from '../actions/auth.action';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
@@ -27,17 +29,18 @@ class Admin extends React.Component {
   constructor(props) {
     super(props);
     document.title = "VExam";
+    this.logout = this.logout.bind(this);
   }
 
 
   logout = () => {
-    alert('hello logout')
+    this.props.logout();
   }
 
   render() {
     return (
       <div>
-        <HeaderNavBar logout={this.logout.bind(this)}/>
+        <HeaderNavBar logout={this.logout}/>
 
         <Grid bsClass="container main-container">
           <Col xs={2} md={2} className="sidebar">
@@ -56,5 +59,11 @@ class Admin extends React.Component {
 }
 
 
+const mapStateToProps = (state, props) => {
+  return {
+    auth: state.authReducer
+  }
+}
 
-export default Admin;
+
+export default connect(mapStateToProps, { logout })(Admin);
