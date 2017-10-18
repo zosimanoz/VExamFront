@@ -14,7 +14,7 @@ import quizReducer from './examQuiz.reducer'
 import answerReducer from './answer.reducer'
 import sessionJobReducer from './sessionJobs.reducer'
 import examinfoReducer from './examinfo.reducer'
-
+import answersheetReducer from './checkAnswer.reducer'
 
 export default combineReducers({
     departments,
@@ -30,5 +30,6 @@ export default combineReducers({
     quizReducer,
     answerReducer,
     sessionJobReducer,
-    examinfoReducer
+    examinfoReducer,
+    answersheetReducer
 });

@@ -42,8 +42,9 @@ import AddInterviewees from '../../components/interviewSession/interviewees.comp
 
 import AddInterviewSession from '../../components/interviewSession/add-interviewSession.component';
 
+import AnswerSheetContainer from '../../components/checkAnswer/answersheet.component';
 
-
+import AllQuestions from '../../components/checkAnswer/allQuestions.component';
 const Home = (props) => {
     return (
         <Panel header={props.heading}>
@@ -255,7 +256,19 @@ const VExamRoutes = () => (
                     <ExamAttendedInterviewee heading="Interviewees for this session"  {...props} />
                 )}
             />
+
+             <Route exact path="/admin/interviewSessions/interviewees/:id/answersheet"
+                render={props => (
+                    <AnswerSheetContainer heading="Interview Exam Answersheet"  {...props} />
+                )}
+            />
            
+           <Route exact path="/admin/interviewSessions/interviewees/:id/all/answersheet"
+                render={props => (
+                    <AllQuestions heading="Interview Exam Answersheet"  {...props} />
+                )}
+            />
+
 
             
 
