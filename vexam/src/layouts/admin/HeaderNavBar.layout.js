@@ -28,6 +28,7 @@ class HeaderNavBar extends Component {
                         <MenuItem>Settings</MenuItem>
                         <MenuItem divider />
                         <MenuItem><NavLink to='/admin/logout'>Logout</NavLink></MenuItem>
+
                     </NavDropdown>
                 </Nav>
             </Navbar>

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+<<<<<<< HEAD
 import { Redirect } from 'react-router';
 
 import { submitFinalAnswers } from '../../actions/examQuiz.action';
 import { logout } from '../../actions/auth.action';
+
+import { submitFinalAnswers } from '../../actions/examQuiz.action';
+
 
 
 class ExamControlComponent extends Component {
@@ -13,6 +17,7 @@ class ExamControlComponent extends Component {
         super(props);
 
         this.submitAnswers = this.submitAnswers.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     formatAnswersByQuestionId() {
@@ -87,6 +92,7 @@ class ExamControlComponent extends Component {
         this.props.submitFinalAnswers(this.props.questionsList);
     }
 
+
     logout() {
         this.props.logout();
     }
@@ -104,6 +110,7 @@ class ExamControlComponent extends Component {
                 <Redirect to="/" />
             )
         }
+
 
     }
 }
