@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-<<<<<<< HEAD
+
 import { Redirect } from 'react-router';
 
 import { submitFinalAnswers } from '../../actions/examQuiz.action';
 import { logout } from '../../actions/auth.action';
 
-import { submitFinalAnswers } from '../../actions/examQuiz.action';
 
 
 

@@ -8,11 +8,6 @@ import {
 import { connect } from 'react-redux';
 
 import { Redirect } from 'react-router';
-<<<<<<< HEAD
-=======
-
-import { logout } from '../actions/auth.action';
->>>>>>> 927348f904005e499fdb61d8d12eba0a6f434d04
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
@@ -59,13 +54,6 @@ class Admin extends React.Component {
 
 }
 
-
-
-const mapStateToProps = (state, props) => {
-  return {
-    auth: state.authReducer
-  }
-}
 
 
 const mapStateToProps = (state, props) => {
