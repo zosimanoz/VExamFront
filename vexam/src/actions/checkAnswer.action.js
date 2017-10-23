@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL } from '../utils/url';
+import { API_URL } from '../utils/url';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -77,7 +77,7 @@ export const deleteIntervieweeById = (IntervieweeId) => {
 export const fetchAllAnswersheetByIntervieweeId = (id) => {
     console.log('fetchAllAnswersheetByIntervieweeId',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/checkanswer/all/answersheet/examineer/${id}`)
+        axios.get(`${API_URL}/api/v1/checkanswer/all/answersheet/examineer/${id}`)
             .then((res) => {
                 dispatch(answerSheet(res.data.Data))
             })
@@ -89,7 +89,7 @@ export const fetchAllAnswersheetByIntervieweeId = (id) => {
 export const fetchSubjectiveAnswersheetByIntervieweeId = (id) => {
     console.log('fetchSubjectiveAnswersheetByIntervieweeId',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/checkanswer/subjective/answersheet/examineer/${id}`)
+        axios.get(`${API_URL}/api/v1/checkanswer/subjective/answersheet/examineer/${id}`)
             .then((res) => {
                 dispatch(answerSheet(res.data.Data))
             })
@@ -102,7 +102,7 @@ export const fetchSubjectiveAnswersheetByIntervieweeId = (id) => {
 export const fetchObjectiveAnswersheetByIntervieweeId = (id) => {
     console.log('fetchObjectiveAnswersheetByIntervieweeId',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/checkanswer/objective/answersheet/examineer/${id}`)
+        axios.get(`${API_URL}/api/v1/checkanswer/objective/answersheet/examineer/${id}`)
             .then((res) => {
                 dispatch(answerSheet(res.data.Data))
             })
@@ -119,7 +119,7 @@ export function saveInterviewee(data) {
  return dispatch => {
         return axios({
             method: 'POST',
-            url: `${URL}/api/v1/interviewee/new`,
+            url: `${API_URL}/api/v1/interviewee/new`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -136,7 +136,7 @@ export function saveInterviewee(data) {
 
 export function fetchIntervieweeById(id) {
  return dispatch => {
-        axios.get(`${URL}api/v1/interviewee/get/${id}`)
+        axios.get(`${API_URL}api/v1/interviewee/get/${id}`)
             .then(res => dispatch(setIntervieweeById(res.data.Data)))
             .catch((err) => {
                 dispatch(error(err.response.Message))
@@ -150,7 +150,7 @@ export function updateInterviewee(data) {
  return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/interviewee/update`,
+            url: `${API_URL}/api/v1/interviewee/update`,
             data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
@@ -170,7 +170,7 @@ export function deleteInterviewee(id) {
  return dispatch => {
         return axios({
             method: 'PUT',
-            url: `${URL}/api/v1/interviewee/delete/${id}`,
+            url: `${API_URL}/api/v1/interviewee/delete/${id}`,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 import { Accordion, Panel } from 'react-bootstrap';
-
+import RawHtml from "react-raw-html"
 
 
 const QustionsList = (props) => {
@@ -29,7 +29,7 @@ const QustionsList = (props) => {
                         props.questions.map((item,i) =>
                             <tr key={i}>
                                 <td>{i+1}</td>
-                                <td>{item.Question}</td>
+                                <td><RawHtml.span>{item.Question}</RawHtml.span></td>
                                 <td>{item.Marks}</td>
                                 <td>{item.QuestionTypeName}</td>
                                 <td>
