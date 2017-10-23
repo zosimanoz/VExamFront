@@ -77,7 +77,7 @@ export const deleteIntervieweeById = (IntervieweeId) => {
 export const fetchAllAnswersheetByIntervieweeId = (id) => {
     console.log('fetchAllAnswersheetByIntervieweeId',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/checkanswer/all/answersheet/for/examineer/${id}`)
+        axios.get(`${URL}/api/v1/checkanswer/all/answersheet/examineer/${id}`)
             .then((res) => {
                 dispatch(answerSheet(res.data.Data))
             })
@@ -89,7 +89,7 @@ export const fetchAllAnswersheetByIntervieweeId = (id) => {
 export const fetchSubjectiveAnswersheetByIntervieweeId = (id) => {
     console.log('fetchSubjectiveAnswersheetByIntervieweeId',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/checkanswer/subjective/answersheet/for/examineer/${id}`)
+        axios.get(`${URL}/api/v1/checkanswer/subjective/answersheet/examineer/${id}`)
             .then((res) => {
                 dispatch(answerSheet(res.data.Data))
             })
@@ -102,7 +102,7 @@ export const fetchSubjectiveAnswersheetByIntervieweeId = (id) => {
 export const fetchObjectiveAnswersheetByIntervieweeId = (id) => {
     console.log('fetchObjectiveAnswersheetByIntervieweeId',id);
    return dispatch => {
-        axios.get(`${URL}/api/v1/checkanswer/objective/answersheet/for/examineer/${id}`)
+        axios.get(`${URL}/api/v1/checkanswer/objective/answersheet/examineer/${id}`)
             .then((res) => {
                 dispatch(answerSheet(res.data.Data))
             })

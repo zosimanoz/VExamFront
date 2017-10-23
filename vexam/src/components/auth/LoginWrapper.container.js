@@ -28,7 +28,18 @@ import { Redirect } from 'react-router';
 class LoginWrapper extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            auth : null
+        }
     }
+
+
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({
+           auth: nextProps.auth.authenticated
+        });
+    }
+
 
 
     Routings = () => {
@@ -47,7 +58,7 @@ class LoginWrapper extends Component {
 
     render() {
         return (
-            this.Routings()
+            this.state.auth ? this.Routings() : null
         );
     }
 }
