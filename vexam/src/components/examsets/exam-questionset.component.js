@@ -2,7 +2,7 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 
 import classnames from 'classnames';
-import { Redirect, match, matchPath,NavLink } from 'react-router-dom';
+import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -18,16 +18,16 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
-import { saveExamSetQuestions,fetchSetQuestionsByExamSet } from '../../actions/examset.action'
+import { saveExamSetQuestions, fetchSetQuestionsByExamSet, addQuestionToExamSet, emptySetQuestionList } from '../../actions/examset.action'
 
 import QuestionList from './questionList.component'
 
 
-
+import store from '../../store/index.store';
 
 class ExamQuestions extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
     }
 
 
@@ -53,7 +53,9 @@ class ExamQuestions extends React.Component {
         this.props.fetchSetQuestionsByExamSet(this.props.match.params.id);
     }
 
-
+    componentWillReceiveProps(nextProps) {
+        // checkSetQuestins(nextProps);
+    }
 
     onSetPage = (page) => {
         //this.props.onSetPage(this.props.fetchQuestionSets, page);
@@ -130,7 +132,10 @@ class ExamQuestions extends React.Component {
                     </td>
                     <td>
                         <input type="text"
-                            className="form-control" />
+                            placeholder="keyword"
+                            name="Question"
+                            className="form-control"
+                            onChange={this.handleChange.bind(this)} />
                     </td>
                     <td>
                         <select name="QuestionCategoryId" className="form-control" onChange={this.handleChange.bind(this)}>
@@ -222,6 +227,8 @@ class ExamQuestions extends React.Component {
     }
 
     render() {
+
+        console.log('store', store)
         return (
             <Panel header={this.props.heading}>
                 {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
@@ -230,10 +237,26 @@ class ExamQuestions extends React.Component {
     }
 }
 
+function checkSetQuestins(state) {
+    // alert('foo');
+    //  var setQuestionArrayList = props.examsets.setQuestionList;
+    console.log('state', state);
+    if (state.examsets.setQuestionList && state.examsets.setQuestions.length === 0) {
+        state.examsets.setQuestionList.map((item, i) => {
+            if (state.examsets.setQuestions.indexOf(item.QuestionId) === -1) {
+                store.dispatch(addQuestionToExamSet(item.QuestionId));
+            }
+            // state.examsets.setQuestions = state.examsets.setQuestions.concat(item.QuestionId);
+
+        })
+        store.dispatch(emptySetQuestionList());
+    }
+}
 
 
 const mapStateToProps = (state, props) => {
-    console.log('setquestion',state);
+    checkSetQuestins(state);
+    console.log('-->', state);
     return ({
         ...state,
         questionsList: state.questions.QuestionList,
@@ -247,4 +270,4 @@ const mapStateToProps = (state, props) => {
 
 
 
-export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, fetchSetQuestionsByExamSet,saveExamSetQuestions })(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, fetchSetQuestionsByExamSet, saveExamSetQuestions })(ExamQuestions);

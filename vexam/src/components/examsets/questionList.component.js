@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import RawHtml from "react-raw-html"
+
 import {  addQuestionToExamSet, deleteQuestionFromExamSet, isInExamSet } from '../../actions/examset.action'
 
 class QuestionList extends Component {
+    
     handleClick = () => {
         const { QuestionId, addQuestionToExamSet, deleteQuestionFromExamSet, isInExamSet } = this.props;
 
@@ -19,12 +22,12 @@ class QuestionList extends Component {
     render() {
         const { QuestionId,Question,QuestionCategoryName,QuestionComplexityName, QuestionTypeName,isInExamSet } = this.props;
 
-     //   console.log('props in question list', this.props)
+        console.log('is in exam set', isInExamSet)
 
         return (
            <tr className="options" key={QuestionId}>
                 <td><button className={isInExamSet ? 'btn btn-danger btn-xs' : 'btn btn-primary btn-xs' } type="button" onClick={this.handleClick}>{isInExamSet ? 'x': '+'}</button></td>
-                <td>{Question}</td>
+                <td><RawHtml.span>{Question}</RawHtml.span></td>
                 <td>{QuestionCategoryName}</td>
                 <td>{QuestionComplexityName}</td>
                 <td>{QuestionTypeName}</td>

@@ -12,27 +12,27 @@ export const GET_EXAMSETBYID = 'GET_EXAMSETBYID'
 export const UPDATE_EXAMSET = 'UPDATE_EXAMSET'
 export const DELETE_EXAMSET = 'DELETE_EXAMSET'
 
-export const ADD_QUESTION_TO_SET = 'ADD_QUESTION_TO_SET' 
+export const ADD_QUESTION_TO_SET = 'ADD_QUESTION_TO_SET'
 export const DELETE_QUESTION_FROM_SET = 'DELETE_QUESTION_FROM_SET'
 export const SAVE_EXAM_QUESTION = 'SAVE_EXAM_QUESTION'
-export const SET_QUESTIONS_BY_EXAM_SET ='SET_QUESTIONS_BY_EXAM_SET'
-export const QUESTION_BANK_ERROR ='QUESTION_BANK_ERROR'
-export const SET_QUESTIONID_BY_EXAM_SET ='SET_QUESTIONID_BY_EXAM_SET'
-
+export const SET_QUESTIONS_BY_EXAM_SET = 'SET_QUESTIONS_BY_EXAM_SET'
+export const QUESTION_BANK_ERROR = 'QUESTION_BANK_ERROR'
+export const SET_QUESTIONID_BY_EXAM_SET = 'SET_QUESTIONID_BY_EXAM_SET'
+export const EMPTY_SET_QUESTION_LIST = 'EMPTY_SET_QUESTION_LIST'
 
 
 // handle the post response
 function handleResponse(response) {
-  if (response.ok) {
-      console.log('success')
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-      console.log(error)
-    
-    error.response = response;
-    throw error;
-  }
+    if (response.ok) {
+        console.log('success')
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        console.log(error)
+
+        error.response = response;
+        throw error;
+    }
 }
 
 
@@ -46,6 +46,11 @@ export const setExamSets = (examsets) => {
     }
 }
 
+export const emptySetQuestionList = () => {
+    return {
+        type: EMPTY_SET_QUESTION_LIST
+    }
+}
 
 export const addExamSet = (examset) => {
     return {
@@ -58,22 +63,22 @@ export const addExamSet = (examset) => {
 
 
 export const setQuestionIdByExamSet = (setQuestions) => {
-     console.log("fetchSetQuestionIdByExamSet ",setQuestions);
+    console.log("fetchSetQuestionIdByExamSet ", setQuestions);
     return {
         type: SET_QUESTIONID_BY_EXAM_SET,
-         payload: {
-            setQuestions:setQuestions
+        payload: {
+            setQuestions: setQuestions
         }
     }
 }
 
 
 export const setQuestionsByExamSet = (setQuestions) => {
-     console.log("fetchSetQuestionsByExamSet ",setQuestions);
+    console.log("fetchSetQuestionsByExamSet ", setQuestions);
     return {
         type: SET_QUESTIONS_BY_EXAM_SET,
-         payload: {
-            setQuestionList:setQuestions
+        payload: {
+            setQuestionList: setQuestions
         }
     }
 }
@@ -82,8 +87,8 @@ export const setQuestionsByExamSet = (setQuestions) => {
 export const questionBankError = (message) => {
     return {
         type: QUESTION_BANK_ERROR,
-       payload: {
-            message:message
+        payload: {
+            message: message
         }
     }
 }
@@ -96,20 +101,21 @@ export const setUpdatedExamSet = (examset) => {
 
 
 export const setExamSetById = (examset) => {
+    console.log("action examset0", examset);
     return {
         type: GET_EXAMSETBYID,
         payload: {
-            examset:examset
+            examset: examset
         }
     }
 }
 
 export const deleteExamSetById = (examSetId) => {
-    
+
     return {
         type: DELETE_EXAMSET,
-      payload: {
-            examSetId:examSetId
+        payload: {
+            examSetId: examSetId
         }
     }
 }
@@ -134,8 +140,7 @@ export function deleteQuestionFromExamSet(questionId) {
 }
 
 
-export function saveExamQuestionForSet(data){
-    console.log('data',data)
+export function saveExamQuestionForSet(data) {
     return {
         type: SAVE_EXAM_QUESTION,
         payload: {
@@ -158,6 +163,10 @@ export const fetchExamSets = () => {
 }
 
 
+export function testFunction(){
+    console.log('blubalabuului')
+}
+
 
 // Save department
 export function saveExamSet(data) {
@@ -172,13 +181,14 @@ export function saveExamSet(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addExamSet(data.Data)));
+            .then(data => dispatch(addExamSet(data.Data)));
     }
 }
 
 
 
-export function fetchExamSetById(id){
+export function fetchExamSetById(id) {
+
     return dispatch => {
         fetch(`${API_URL}/api/v1/examset/get/${id}`)
             .then(res => res.json())
@@ -187,7 +197,6 @@ export function fetchExamSetById(id){
 }
 
 export function fetchSetQuestionsByExamSet(id) {
-   
     return dispatch => {
         axios.get(`${API_URL}/api/v1/examset/question/get/${id}`)
             .then(res => dispatch(setQuestionsByExamSet(res.data.Data)))
@@ -217,21 +226,21 @@ export function updateExamSet(data) {
 }
 
 
-export function deleteExamSet(id){
+export function deleteExamSet(id) {
     return dispatch => {
         return fetch(`${API_URL}/api/v1/examset/delete/${id}`, {
             method: 'put',
-           dataType: 'json',
+            dataType: 'json',
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(deleteExamSetById(id)));
+            .then(data => dispatch(deleteExamSetById(id)));
     }
 }
 
-export function saveExamSetQuestions(data){
+export function saveExamSetQuestions(data) {
     return dispatch => {
         return fetch(`${API_URL}/api/v1/examset/question/add`, {
             method: 'post',
@@ -242,16 +251,17 @@ export function saveExamSetQuestions(data){
                 "Accept": "application/json"
             }
         })
-        .then(handleResponse)
-        .then(data=> dispatch(saveExamQuestionForSet(data.Data)))
+            .then(handleResponse)
+            .then(data => dispatch(saveExamQuestionForSet(data.Data)))
     }
 }
 
 
 export function isInExamSet(state, props) {
 
-   return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
+    return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
 }
+
 
 // export function allAddedInExamSet(state,props){
 //      var result = state.questions.filter(function(fs) {
@@ -260,7 +270,7 @@ export function isInExamSet(state, props) {
 //             setQuestionArray.push(fs.QuestionId)
 //             return setQuestionArray.indexOf(ff) > -1 });
 //      });
-   
+
 // }
 
 
@@ -269,7 +279,7 @@ export function getQuestionFromExamSet(state, props) {
     return state.examsets.setQuestions.map(id => getQuestion(state, { id }));
 }
 
-export function getQuestion(state,props) {
+export function getQuestion(state, props) {
     //
 }
 

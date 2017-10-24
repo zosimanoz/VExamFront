@@ -1,5 +1,5 @@
 
-import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, SET_QUESTIONID_BY_EXAM_SET,UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET, SAVE_EXAM_QUESTION, SET_QUESTIONS_BY_EXAM_SET, QUESTION_BANK_ERROR } from '../actions/examset.action';
+import { ADD_EXAMSET, DELETE_EXAMSET, GET_EXAMSETBYID, SET_EXAMSETS, SET_QUESTIONID_BY_EXAM_SET,UPDATE_EXAMSET, ADD_QUESTION_TO_SET, DELETE_QUESTION_FROM_SET, SAVE_EXAM_QUESTION, SET_QUESTIONS_BY_EXAM_SET, QUESTION_BANK_ERROR,EMPTY_SET_QUESTION_LIST } from '../actions/examset.action';
 
 
 
@@ -103,6 +103,15 @@ export default function examsets(state = initialState, action = {}) {
             };
             break;
         }
+
+        case EMPTY_SET_QUESTION_LIST: {
+            return {
+                ...state,
+                setQuestionList: null
+            };
+            break;
+        }
+        
 
         default: return state;
     }

@@ -11,7 +11,10 @@ import { Pagination } from 'react-bootstrap'
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
+import RawHtml from "react-raw-html"
+
 import { fetchSetQuestionsByExamSet } from '../../actions/examset.action'
+import { API_URL } from '../../utils/url';
 
 class SetQuestions extends React.Component {
 
@@ -56,9 +59,10 @@ class SetQuestions extends React.Component {
                                 <tr key={i}>
                                     <td>{i + 1}</td>
                                     <td>
-                                        {item.Question}
+                                        <RawHtml.span>{item.Question}</RawHtml.span>
+                                      
                                         <br/>
-                                        <img src={item.Attachment} style={{ float: 'left',width:'40%' }}/>
+                                        <img src={API_URL + item.Attachment} style={{ float: 'left',width:'40%' }}/>
                                     </td>
                                     <td>{item.QuestionTypeName}</td>
                                     <td>{item.QuestionCategoryName} </td>
