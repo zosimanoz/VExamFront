@@ -37,6 +37,7 @@ export const setJobTypes = (jobtypes) => {
 
 
 export const addJobType = (jobtype) => {
+    console.log(jobtype);
     return {
         type: ADD_JOBTYPE,
         jobtype
@@ -59,10 +60,10 @@ export const setJobTypeById = (jobtype) => {
     }
 }
 
-export const deleteJobTypeById = (jobtype) => {
+export const deleteJobTypeById = (jobTypeId) => {
     return {
         type: DELETE_JOBTYPE,
-        jobtype
+        jobTypeId
     }
 }
 
@@ -88,7 +89,6 @@ export function saveJobType(data) {
             method: 'post',
             dataType: 'json',
             body: JSON.stringify(data),
-            credentials:true,
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"

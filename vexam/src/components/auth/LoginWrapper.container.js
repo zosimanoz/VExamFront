@@ -48,8 +48,8 @@ class LoginWrapper extends Component {
                 <Switch>
                     <Route exact path="/" render={() => <UserLogin heading="User Login" />} />
                     <Route path="/admin/login" render={() => <AdminLogin heading="Admin Login" />} />
-                    <PrivateRoute authed={this.props.auth.authenticated} path='/admin' component={Admin} />
-                    <PrivateRoute authed={this.props.auth.authenticated} path='/exam' component={ExamWrapper} />
+                    <Route authed={this.props.auth.authenticated} path='/admin' component={Admin} />
+                    <Route authed={this.props.auth.authenticated} path='/exam' component={ExamWrapper} />
                 </Switch>
             </Router>
         </div>)
@@ -58,7 +58,7 @@ class LoginWrapper extends Component {
 
     render() {
         return (
-            this.state.auth ? this.Routings() : null
+            this.Routings()
         );
     }
 }

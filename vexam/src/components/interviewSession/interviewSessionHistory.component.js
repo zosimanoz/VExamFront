@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Moment from 'react-moment';
+// import 'moment-timezone';
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
@@ -15,7 +17,7 @@ class InterviewSessionIndex extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            InterviewSessions : null
+            InterviewSessions: null
         }
     }
 
@@ -23,9 +25,9 @@ class InterviewSessionIndex extends React.Component {
         this.props.fetchInterviewSessionHistory();
     }
 
-    componentWillReceiveProps(new_props){
+    componentWillReceiveProps(new_props) {
         this.setState({
-            InterviewSessions : new_props.interviewSessions
+            InterviewSessions: new_props.interviewSessions
         })
     }
 
@@ -54,7 +56,7 @@ class InterviewSessionIndex extends React.Component {
 
 
     InterviewSessionHistory() {
-       console.log(this.state.InterviewSessions)
+        console.log(this.state.InterviewSessions)
         return (
             <table className="table table-bordered table-condensed table-hover">
                 <thead>
@@ -72,8 +74,8 @@ class InterviewSessionIndex extends React.Component {
                             <tr key={i}>
                                 <td>{i + 1}</td>
                                 <td>{item.Title}</td>
-                                <td>{item.SessionStartDate}</td>
-                                <td>{item.SessionEndDate}</td>
+                                <td><Moment format="YYYY/MM/DD">{item.SessionStartDate}</Moment></td>
+                                <td><Moment format="YYYY/MM/DD">{item.SessionEndDate}</Moment></td>
                                 <td>
                                     <NavLink title="Job Vacancies" to={`/admin/interviewSessionHistory/${item.InterviewSessionId}/jobs`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list-alt text-success"></i></NavLink>
                                     <NavLink title="Interviewees" to={`/admin/interviewSessionHistory/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i></NavLink>
@@ -91,7 +93,7 @@ class InterviewSessionIndex extends React.Component {
 
         return (
             <Panel header={this.props.heading}>
-                { this.state.InterviewSessions ? this.InterviewSessionHistory(): this.EmptyMessage() }
+                {this.state.InterviewSessions ? this.InterviewSessionHistory() : this.EmptyMessage()}
             </Panel>
         );
     }

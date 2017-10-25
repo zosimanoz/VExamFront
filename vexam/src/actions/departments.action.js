@@ -6,7 +6,8 @@ export const SET_DEPARTMENTS = 'SET_DEPARTMENTS'
 export const ADD_DEPARTMENT = 'ADD_DEPARTMENT'
 export const GET_DEPARTMENTBYID = 'GET_DEPARTMENTBYID'
 export const UPDATE_DEPARTMENT = 'UPDATE_DEPARTMENT'
-
+export const DELETE_DEPARTMENT = 'DELETE_DEPARTMENT'
+export const ERROR = 'ERROR'
 
 // handle the post response
 function handleResponse(response) {
@@ -40,7 +41,14 @@ export const addDepartment = (department) => {
         department
     }
 }
-
+export function error(error) {
+    return {
+        type: ERROR,
+        payload: {
+            error: error
+        }
+    }
+}
 
 export const setUpdatedDepartment = (department) => {
     return {
@@ -56,7 +64,14 @@ export const setDepartmentById = (department) => {
         department
     }
 }
-
+export const deleteDepartmentById = (departmentId) => {
+    return {
+        type: DELETE_DEPARTMENT,
+          payload: {
+            departmentId: departmentId
+        }
+    }
+}
 
 export const fetchDepartments = () => {
     // fetch data from api
@@ -100,6 +115,23 @@ export function updateDepartment(data){
             } 
          }).then(res => dispatch(setUpdatedDepartment(res.data.Data)))
 
+    }
+}
+
+
+export function deleteDepartment(id) {
+    return dispatch => {
+        return axios({
+            method: 'PUT',
+            url: `${API_URL}/api/v1/department/delete/${id}`,
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+        }).then(res => dispatch(deleteDepartmentById(id)))
+            .catch((err) => {
+                dispatch(error(err))
+            });
     }
 }
 

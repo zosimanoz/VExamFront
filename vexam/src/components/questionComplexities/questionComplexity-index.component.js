@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import QuestionComplexityList from './questionComplexity-list.component';
 
 
-import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action';
+import { fetchQuestionComplexityList ,deleteQuestionComplexity} from '../../actions/questionComplexity.action';
 
 class QuestionComplexityIndex extends React.Component {
     constructor(props) {
@@ -19,6 +19,20 @@ class QuestionComplexityIndex extends React.Component {
         this.props.fetchQuestionComplexityList();
     }
 
+    state = {
+        loading: false,
+        done: false
+    }
+
+    deleteQuestionComplexity = (id) => {
+        this.props.deleteQuestionComplexity(id)
+            .then((res) => {
+                this.setState({ loading: false });
+                this.setState({ done: true });
+            },
+            (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            );
+    }
     render() {
         return (
             <Panel header={this.props.heading}>
@@ -27,7 +41,7 @@ class QuestionComplexityIndex extends React.Component {
                         <NavLink exact to="/admin/complexity/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Complexity</NavLink>
                     </div>
 
-                    <QuestionComplexityList questionComplexities={this.props.questionComplexities} />
+                    <QuestionComplexityList questionComplexities={this.props.questionComplexities} deleteQuestionComplexities={this.deleteQuestionComplexity} />
 
                 </form>
             </Panel>
@@ -41,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchQuestionComplexityList })(QuestionComplexityIndex);
+export default connect(mapStateToProps, { fetchQuestionComplexityList,deleteQuestionComplexity })(QuestionComplexityIndex);

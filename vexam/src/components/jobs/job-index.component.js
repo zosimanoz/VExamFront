@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import JobList from './job-list.component';
 
 
-import { fetchJobTypes } from '../../actions/jobTypes.action';
+import { fetchJobTypes,deleteJobType } from '../../actions/jobTypes.action';
 
 class JobIndex extends React.Component {
     constructor(props) {
@@ -18,6 +18,20 @@ class JobIndex extends React.Component {
         this.props.fetchJobTypes();
     }
 
+    state = {
+        loading: false,
+        done: false
+    }
+
+    deleteJobType = (id) => {
+        this.props.deleteJobType(id)
+            .then((res) => {
+                this.setState({ loading: false });
+                this.setState({ done: true });
+            },
+            (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            );
+    }
     render() {
         return (
             <Panel header={this.props.heading}>
@@ -26,7 +40,7 @@ class JobIndex extends React.Component {
                         <NavLink exact to="/admin/job/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Job</NavLink>
                     </div>
 
-                    <JobList jobTypes = {this.props.jobTypes} />
+                    <JobList jobTypes = {this.props.jobTypes}  deleteJobType = {this.deleteJobType} />
 
                 </form>
             </Panel>
@@ -40,4 +54,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchJobTypes })(JobIndex);
+export default connect(mapStateToProps, { fetchJobTypes,deleteJobType })(JobIndex);

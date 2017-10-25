@@ -112,6 +112,10 @@ class AddInterviewees extends React.Component {
         } else {
             this.setState({
                 [e.target.name]: e.target.value
+            },()=>{
+                this.setState({ 
+                    FullName: this.state.FirstName +' '+ this.state.MiddleName +' '+this.state.LastName 
+                });
             });
         }
     }
@@ -167,16 +171,13 @@ class AddInterviewees extends React.Component {
 
 
         const isValid = Object.keys(errors).length === 0;
-
+       
         if (isValid) {
-          
-            // this.setState({ 
-            //     FullName: "Test name" 
-            // });
-            //   console.log("full name",this.state.FullName);
+
             const { IntervieweeId, InterviewSessionId,FirstName ,MiddleName,LastName,JobTitleId, EmailAddress,ContactNumber,Address, CreatedBy ,JobTitle,FullName } = this.state;
          
             this.setState({ loading: true });
+           
            
 
             if (IntervieweeId) {
@@ -190,7 +191,7 @@ class AddInterviewees extends React.Component {
             }
             else {
                 this.props.saveInterviewee({ InterviewSessionId,FirstName ,MiddleName,LastName,JobTitleId, EmailAddress,ContactNumber,Address, CreatedBy ,JobTitle,FullName})
-                    .then(() => {
+                    .then((res) => {
                         this.setState({ done: true });
                         this.setState({ loading: false })
                     },

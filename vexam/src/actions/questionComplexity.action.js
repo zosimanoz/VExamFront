@@ -57,10 +57,10 @@ export const setQuestionComplexityById = (questionComplexity) => {
     }
 }
 
-export const deleteQuestionComplexityById = (questionComplexity) => {
+export const deleteQuestionComplexityById = (questionComplexityId) => {
     return {
         type: DELETE_QUESTION_COMPLEXITY,
-        questionComplexity
+        questionComplexityId
     }
 }
 

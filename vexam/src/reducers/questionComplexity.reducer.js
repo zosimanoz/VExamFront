@@ -30,7 +30,7 @@ export default function questionComplexities(state = [], action = {}) {
 
 
         case DELETE_QUESTION_COMPLEXITY: {
-            return state.filter(item => item.QuestionComplexityId != action.questionComplexity.QuestionComplexityId)
+            return state.filter(item => item.QuestionComplexityId != action.questionComplexityId)
             break;
         }
 

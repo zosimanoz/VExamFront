@@ -27,7 +27,7 @@ export default function jobTypes(state = [], action = {}) {
 
 
         case DELETE_JOBTYPE: {
-            return state.filter(item => item.JobTitleId != action.jobtype.JobTitleId)
+            return state.filter(item => item.JobTitleId != action.jobTypeId)
             break;
         }
 

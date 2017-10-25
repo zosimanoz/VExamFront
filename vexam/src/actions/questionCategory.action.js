@@ -41,10 +41,10 @@ export const setQuestionCategoryById = (questionCategories) => {
     }
 }
 
-export const deleteQuestionCategoryById = (questionCategory) => {
+export const deleteQuestionCategoryById = (questionCategoryId) => {
     return {
         type: DELETE_QUESTION_CATEGORY,
-        questionCategory
+        questionCategoryId
     }
 }
 
@@ -101,7 +101,7 @@ export function updateQuestionCategory(data){
                 "Accept": "application/json"
             }
         })
-        .then(data => dispatch(setUpdateQuestionCategory(data.Data)));
+        .then(res => dispatch(setUpdateQuestionCategory(res.data.Data)));
     }
 }
 

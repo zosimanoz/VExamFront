@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import QuestionCategoryList from './questionCategory-list.component';
 
 
-import { fetchQuestionCategoryList } from '../../actions/questionCategory.action';
+import { fetchQuestionCategoryList ,deleteQuestionCategory} from '../../actions/questionCategory.action';
 
 class QuestionCategoriesIndex extends React.Component {
     constructor(props) {
@@ -18,7 +18,20 @@ class QuestionCategoriesIndex extends React.Component {
     componentDidMount() {
         this.props.fetchQuestionCategoryList();
     }
+    state = {
+        loading: false,
+        done: false
+    }
 
+    deleteQuestionCategory = (id) => {
+        this.props.deleteQuestionCategory(id)
+            .then((res) => {
+                this.setState({ loading: false });
+                this.setState({ done: true });
+            },
+            (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            );
+    }
     render() {
         return (
             <Panel header={this.props.heading}>
@@ -27,7 +40,7 @@ class QuestionCategoriesIndex extends React.Component {
                         <NavLink exact to="/admin/categories/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Category</NavLink>
                     </div>
 
-                    <QuestionCategoryList questionCategories={this.props.questionCategories} />
+                    <QuestionCategoryList questionCategories={this.props.questionCategories}  deleteQuestionCategories={this.deleteQuestionCategory}/>
 
                 </form>
             </Panel>
@@ -41,4 +54,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchQuestionCategoryList })(QuestionCategoriesIndex);
+export default connect(mapStateToProps, { fetchQuestionCategoryList ,deleteQuestionCategory})(QuestionCategoriesIndex);

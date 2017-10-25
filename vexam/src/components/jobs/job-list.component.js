@@ -8,7 +8,7 @@ const JobList = (props) => {
     )
 
     // const handleCategoryDelete = (id) => {
-       
+
     //     this.props.deleteQuestionCategory(id)
     //             .then(() => {
     //                 this.setState({ done: true });
@@ -34,15 +34,14 @@ const JobList = (props) => {
                     {
                         props.jobTypes.map((item, i) =>
                             <tr key={i}>
-                                <td>{i+1}</td>
+                                <td>{i + 1}</td>
                                 <td>{item.JobTitle}</td>
                                 <td>{item.Description}</td>
                                 <td>
                                     {/*<a title="View" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-eye-open text-success"></i> </a>*/}
                                     <NavLink to={`/admin/job/${item.JobTitleId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
-                                    {/*<NavLink onClick={this.handleCategoryDelete(item.QuestionCategoryId)} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-trash text-danger"></i></NavLink>*/}
+                                    <a title="Delete" className="btn btn-default btn-sm " onClick={() => props.deleteJobType(item.JobTitleId)}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
 
-                                  
                                 </td>
                             </tr>
                         )

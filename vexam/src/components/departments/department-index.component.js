@@ -6,10 +6,10 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import AddDepartment from './add-department.component';
-import DepartMentList from './department-list.component';
+import DepartmentList from './department-list.component';
 
 
-import { fetchDepartments } from '../../actions/departments.action';
+import { fetchDepartments, deleteDepartment } from '../../actions/departments.action';
 
 
 class DepartmentIndex extends React.Component {
@@ -20,7 +20,20 @@ class DepartmentIndex extends React.Component {
     componentDidMount() {
         this.props.fetchDepartments();
     }
+    state = {
+        loading: false,
+        done: false
+    }
 
+    deleteDepartment = (id) => {
+        this.props.deleteDepartment(id)
+            .then((res) => {
+                this.setState({ loading: false });
+                this.setState({ done: true });
+            },
+            (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+            );
+    }
     render() {
         return (
             <Panel header={this.props.heading}>
@@ -31,7 +44,7 @@ class DepartmentIndex extends React.Component {
                         <NavLink exact to="/admin/departments/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add department</NavLink>
                     </div>
 
-                    <DepartMentList departments={this.props.departments} />
+                    <DepartmentList departments={this.props.departments} deleteDepartment={this.deleteDepartment} />
 
                 </form>
             </Panel>
@@ -46,4 +59,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchDepartments })(DepartmentIndex);
+export default connect(mapStateToProps, { fetchDepartments, deleteDepartment })(DepartmentIndex);

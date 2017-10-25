@@ -1,6 +1,6 @@
 import { SET_DEPARTMENTS } from '../actions/departments.action';
 import { ADD_DEPARTMENT } from '../actions/departments.action';
-import { GET_DEPARTMENTBYID, UPDATE_DEPARTMENT } from '../actions/departments.action';
+import { GET_DEPARTMENTBYID, UPDATE_DEPARTMENT,DELETE_DEPARTMENT } from '../actions/departments.action';
 
 
 export default function departments(state = [], action = {}) {
@@ -43,6 +43,11 @@ export default function departments(state = [], action = {}) {
                     action.department
                 ]
             }
+            break;
+        }
+
+        case DELETE_DEPARTMENT: {
+            return state.filter(item => item.DepartmentId !== action.payload.departmentId);
             break;
         }
 

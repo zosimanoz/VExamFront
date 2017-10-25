@@ -32,7 +32,7 @@ const QuestionComplexityList = (props) => {
                                     {/*<a title="View" className="btn btn-default btn-sm "> <i className="glyphicon glyphicon-eye-open text-success"></i> </a>*/}
                                     <NavLink to={`/admin/complexity/${item.QuestionComplexityId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
                                     {/*<NavLink onClick={this.handleComplexityDelete(item.QuestionComplexityId)} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-trash text-danger"></i></NavLink>*/}
-
+ <a title="Delete" className="btn btn-default btn-sm " onClick={() => props.deleteQuestionComplexities(item.QuestionComplexityId)}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                   
                                 </td>
                             </tr>

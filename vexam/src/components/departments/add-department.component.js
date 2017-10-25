@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
-import { Redirect, match, matchPath } from 'react-router-dom';
+import { Redirect, match, matchPath,NavLink } from 'react-router-dom';
 
 import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel } from 'react-bootstrap';
 
@@ -142,7 +142,7 @@ class AddDepartment extends React.Component {
 
                 <div className="btn-form-margin-top">
                     <button className="btn btn-success btn-sm">Save</button>
-                    <button className="btn btn-danger btn-sm btn-right-margin" type="button">Cancel</button>
+                     <NavLink to={`/admin/departments`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
                 </div>
             </form>
 

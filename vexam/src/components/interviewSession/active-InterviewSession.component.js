@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Moment from 'react-moment';
+// import 'moment-timezone';
 import { NavLink } from 'react-router-dom';
 
 const ActiveInterviewSessionList = (props) => {
@@ -28,8 +30,8 @@ const ActiveInterviewSessionList = (props) => {
                             <tr key={i}>
                                 <td>{i + 1}</td>
                                 <td>{item.Title}</td>
-                                <td>{item.SessionStartDate}</td>
-                                <td>{item.SessionEndDate}</td>
+                                <td><Moment format="YYYY/MM/DD">{item.SessionStartDate}</Moment></td>
+                                <td><Moment format="YYYY/MM/DD">{item.SessionEndDate}</Moment></td>
                                 <td>
                                     <NavLink title="Manage Job Vacancies" to={`/admin/interviewsession/${item.InterviewSessionId}/jobs`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-success"></i></NavLink>
                                     <NavLink title="Add Interviewees" to={`/admin/interviewSession/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i></NavLink>

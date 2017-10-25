@@ -15,15 +15,15 @@ export default function intervieweeReducer(state = [], action = {}) {
         }
 
         case ADD_INTERVIEWEE: {
-            return [
+            return {
                 ...state,
-                action.interviewee
-            ]
+                intervieweeList: state.intervieweeList.concat(action.payload.interviewee)
+                // intervieweeList:action.payload.interviewee
+            }
             break;
         }
 
-       case UPDATE_INTERVIEWEE: {
-
+        case UPDATE_INTERVIEWEE: {
             var updatedInterviewee = state.intervieweeList.filter(item => item.IntervieweeId !== action.payload.interviewee.IntervieweeId)
             updatedInterviewee = updatedInterviewee.concat(action.payload.interviewee)
             return {
@@ -35,7 +35,7 @@ export default function intervieweeReducer(state = [], action = {}) {
 
 
         case DELETE_INTERVIEWEE: {
-                return {
+            return {
                 ...state,
                 intervieweeList: state.intervieweeList.filter(item => item.IntervieweeId !== action.payload.IntervieweeId)
             }

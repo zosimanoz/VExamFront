@@ -35,6 +35,7 @@ export const setInterviewees = (interviewees) => {
 
 
 export const addInterviewee = (interviewee) => {
+    console.log('interviewee-added',interviewee)
     return {
         type: ADD_INTERVIEWEE,
         payload: {
@@ -108,10 +109,8 @@ export const fetchExamAttendedIntervieweesBySessionId = (id) => {
     }
 }
 
-
-
-// Save department
 export function saveInterviewee(data) {
+    console.log('------------------------->',data)
  return dispatch => {
         return axios({
             method: 'POST',
@@ -121,7 +120,7 @@ export function saveInterviewee(data) {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(res => dispatch(addInterviewee(res.data.Data)))
+        }).then(res => dispatch(addInterviewee(data)))
             .catch((err) => {
                 dispatch(error(err.response.Message))
             });
