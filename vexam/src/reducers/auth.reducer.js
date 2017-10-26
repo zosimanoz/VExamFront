@@ -1,6 +1,6 @@
 import { REMOVE_CURRENT_USER, SIGNIN_USER, SIGNIN_USER_SUCCESS,
 SIGNIN_USER_FAILURE,LOGOUT_USER,ME_FROM_TOKEN,ME_FROM_TOKEN_SUCCESS,ME_FROM_TOKEN_FAILURE,
- RESET_TOKEN, SIGN_IN_ADMIN_START, SIGN_IN_ADMIN_SUCCESS, SIGN_IN_ADMIN_FAIL} from '../actions/auth.action';
+ RESET_TOKEN, SIGN_IN_ADMIN_START, SIGN_IN_ADMIN_SUCCESS, SIGN_IN_ADMIN_FAIL, CLEAR_ERRORS} from '../actions/auth.action';
 
 
 const initialState = {
@@ -44,6 +44,9 @@ export default function authReducer(state = initialState, action = {}) {
 
         case REMOVE_CURRENT_USER:
             return { ...state, user: action.payload.user, authenticated: false }
+
+        case CLEAR_ERRORS: 
+            return { ...state, errors: null }
 
         default: return state;
     }

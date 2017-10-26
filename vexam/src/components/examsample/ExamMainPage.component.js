@@ -59,6 +59,7 @@ class ExamMainPage extends React.Component {
 
     componentDidMount() {
         if (this.props.user) {
+            console.log('user --->',this.props.user.IntervieweeId);
             this.props.getExamQuestions(this.props.user.IntervieweeId);
         }
     }

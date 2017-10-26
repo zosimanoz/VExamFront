@@ -10,7 +10,7 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
-import { adminLogin, logout } from '../../actions/auth.action';
+import { adminLogin, logout, clearErrorMessages } from '../../actions/auth.action';
 import { addFlashMessage } from '../../actions/flashMessage.action';
 import { Redirect } from 'react-router';
 
@@ -36,6 +36,11 @@ class AdminLogin extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
+
+    componentDidMount () {
+       this.props.clearErrorMessages();
+    }
+
 
     handleChange = (e) => {
 
@@ -95,10 +100,11 @@ class AdminLogin extends Component {
     }
 
     render() {
-        if(this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User'){
-            return(<Redirect to={{pathname: '/admin'}} />)
-        }
 
+        if(this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User'){
+              return(<Redirect to={{pathname: '/admin' }} />)
+        }
+ 
         return (
             <div>
                 <section id="login">
@@ -177,5 +183,5 @@ function mapStateToProps(state, props) {
 
 
 
-export default connect(mapStateToProps, { adminLogin, addFlashMessage, logout })(AdminLogin);
+export default connect(mapStateToProps, { adminLogin, addFlashMessage, logout, clearErrorMessages })(AdminLogin);
 

@@ -14,12 +14,17 @@ import store from './store/index.store';
 
 import setAuthorizationToken from './utils/setAuthorizationToken';
 
+import CheckBrowserRefresh from './utils/RefreshHandler';
 
 if(localStorage.access_token){
     setAuthorizationToken(localStorage.access_token);
     store.dispatch(loadUserFromToken());
     // dispatch an action to get the current user
     // set the authenticated user into the store
+}
+
+window.onbeforeunload = function(e) {
+    return window.confirm('Your progress will be cleared on reload. Are you sure you want to leave the page?');
 }
 
 ReactDOM.render(

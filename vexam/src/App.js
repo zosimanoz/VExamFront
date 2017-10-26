@@ -5,7 +5,8 @@ import './App.css';
 import { connect } from 'react-redux';
 
 import {
-  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath } from 'react-router-dom';
+  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath
+} from 'react-router-dom';
 
 import Admin from './layouts/admin.layout';
 import TestLayout from './layouts/test.layout';
@@ -22,51 +23,35 @@ import LoginWrapper from './components/auth/LoginWrapper.container'
 // import Register from './components/auth/component.register';
 // import Admin from './components/admin/admin.container';
 
+import VexamRoutes from './routes/VexamRoutes';
+import VauthRoutes from './routes/AuthRoutes';
 
-import PrivateRoute from './utils/PrivateRouter'
+
+const Loader = () => (
+  <div>Loading...</div>
+)
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      role: 'Interviewee'
-    }
   }
 
-  /*renderPage() {
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'User') {
-      return (
-        <Router>
-          <Admin />
-        </Router>
-      )
-    }
-    if (this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee') {
-      return (
-        <Router>
-          <ExamWrapper />
-        </Router>
-      )
-    }
-  }*/
-
-
- 
-
-  renderLoginPage() {
-    return (
-      <Router>
-        <LoginWrapper />
-      </Router>
-    )
-  }
 
   render() {
-    return (
-      // this.props.authReducer.authenticated ? this.renderPage() : this.renderLoginPage()
-      this.renderLoginPage()
-    )
+    // if (this.props.authReducer.authenticated) {
+      return (
+        <Router>
+          <VexamRoutes authed={this.props.authReducer.authenticated} />
+        </Router>
+      )
+    /*} else {
+      return (<Router>
+        <VexamRoutes authed={this.props.authReducer.authenticated} />
+      </Router>);
+
+      return (<Loader />)
+    }*/
   }
 }
 

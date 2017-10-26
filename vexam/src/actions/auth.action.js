@@ -27,6 +27,8 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
 
 
 export function signInStart() {
@@ -58,7 +60,7 @@ export function removeCurrentUser(user) {
   return {
     type: REMOVE_CURRENT_USER,
     payload: {
-      user: user
+      user: null
     }
   };
 }
@@ -89,6 +91,18 @@ export function signInAdminFailure(error) {
 }
 
 
+
+export function clearErrors() {
+  return {
+    type: CLEAR_ERRORS
+  }
+}
+
+export function clearErrorMessages(){
+  return dispatch=>{
+    dispatch(clearErrors());
+  }
+}
 
 export function login(creds) {
   var data = qs.stringify({ 'emailAddress': creds.Email, 'password': creds.Password });

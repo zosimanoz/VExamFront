@@ -7,6 +7,8 @@ import { Redirect } from 'react-router';
 import { submitFinalAnswers } from '../../actions/examQuiz.action';
 import { logout } from '../../actions/auth.action';
 
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 
 
@@ -93,14 +95,27 @@ class ExamControlComponent extends Component {
 
 
     logout() {
-        this.props.logout();
+        confirmAlert({
+            message: 'Are you sure logout?',
+            confirmLabel: 'Yes',
+            cancelLabel: 'No',
+            onConfirm: () => this.props.logout()
+        })
+
     }
 
     render() {
         if (this.props.auth.authenticated) {
             return (
                 <div>
-                    <a className="btn btn-success btnSubmitScore" onClick={this.submitAnswers}>Submit</a>
+                    <a title="Submit" className="btn btn-success btnSubmitScore" onClick={() => confirmAlert({
+                        message: 'Are you sure to submit answersheet?',              
+                        confirmLabel: 'Yes',                           
+                        cancelLabel: 'No',                             
+                        onConfirm: () => this.submitAnswers  
+                    })}> Submit</a>
+
+                    
                     <button type="submit" className="btn btn-danger btnLogout" onClick={this.logout.bind(this)}>Logout</button>
                 </div>
             );

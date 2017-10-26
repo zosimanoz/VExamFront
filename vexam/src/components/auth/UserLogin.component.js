@@ -11,7 +11,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { login } from '../../actions/auth.action';
+import { login, clearErrorMessages } from '../../actions/auth.action';
 import { addFlashMessage } from '../../actions/flashMessage.action';
 
 
@@ -33,6 +33,10 @@ class UserLogin extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    }
+
+    componentDidMount () {
+      this.props.clearErrorMessages();
     }
 
     handleChange = (e) => {
@@ -176,5 +180,5 @@ function mapStateToProps(state, props) {
 
 
 
-export default connect(mapStateToProps, { login, addFlashMessage })(UserLogin);
+export default connect(mapStateToProps, { login, addFlashMessage, clearErrorMessages })(UserLogin);
 
