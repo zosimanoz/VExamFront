@@ -146,6 +146,7 @@ export function meFromTokenStart() {
 }
 
 export function meFromTokenSuccess(user) {
+  console.log('user token bala', user)
   return {
     type: ME_FROM_TOKEN_SUCCESS,
     payload: {
@@ -164,20 +165,20 @@ export const loadUserFromToken = () => {
   if (!token || token === '') {
     return;
   } else {
-    return dispatch => {
-      dispatch(meFromTokenStart());
+    return (dispatch) => {
+     dispatch(meFromTokenStart());
       var data = qs.stringify({ 'accessToken': token });
       return axios({
         method: 'post',
-        // url: `${URL}/api/token/decode/${token}`,
         url: `${API_URL}/api/v1/token/decode`,
         data: data
-      }).then((res) => {
+      })
+      .then((res) => {
         dispatch(meFromTokenSuccess(res.data.Data));
       }).catch(error => {
         console.log(error);
       })
-    }
+   }
   }
 }
 

@@ -100,6 +100,7 @@ class UserLogin extends Component {
 
 
     render() {
+     
         if(this.props.authReducer.authenticated && this.props.authReducer.user.Actor === 'Interviewee'){
             return(<Redirect to={{pathname: '/exam'}} />)
         }

@@ -33,7 +33,6 @@ export default class CustomTimer extends React.Component {
     }
 
     tick(){
-        console.log(this);
         let diff = Date.now() - this.props.start;
         this.setState({elapsed: Date.now() + diff});
     }

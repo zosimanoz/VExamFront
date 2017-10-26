@@ -91,6 +91,10 @@ class ExamControlComponent extends Component {
     submitAnswers() {
         // get the question list and pass it to the api
         this.props.submitFinalAnswers(this.props.questionsList);
+        this.props.logout();
+        return (
+            <Redirect to="/" />
+        )
     }
 
 
@@ -101,7 +105,6 @@ class ExamControlComponent extends Component {
             cancelLabel: 'No',
             onConfirm: () => this.props.logout()
         })
-
     }
 
     render() {
@@ -115,7 +118,7 @@ class ExamControlComponent extends Component {
                         onConfirm: () => this.submitAnswers  
                     })}> Submit</a>
 
-                    
+
                     <button type="submit" className="btn btn-danger btnLogout" onClick={this.logout.bind(this)}>Logout</button>
                 </div>
             );

@@ -16,15 +16,18 @@ class CountDownTimer extends Component {
     }
 
     render() {
-
+        
         // Random component 
         const Completionist = () => <span>Time Up!</span>;
 
         // Renderer callback with condition 
         const renderer = ({ hours, minutes, seconds, completed }) => {
             if (completed) {
-                // Render a completed state 
-                return <Completionist />;
+                // Render a completed state
+
+                this.props.submitFinalAnswers(this.props.questionsList);
+                this.props.logout(); 
+                // return <Completionist />;
             } else {
                 // Render a countdown 
                 return <span><TransitiveNumber>{zeroPad(hours, 2)}</TransitiveNumber>:<TransitiveNumber>{zeroPad(minutes, 2)}</TransitiveNumber>:<TransitiveNumber>{zeroPad(seconds, 2)}</TransitiveNumber></span>;
@@ -37,7 +40,7 @@ class CountDownTimer extends Component {
                     <div id="countdown" className="pull-left countdownHolder">
                         <span className="Timeleft">Time Left: </span>
                         <span className="timer-div">*/
-                            <Countdown date={Date.now() + 7200000} renderer={renderer} />
+                            <Countdown date={Date.now() + 720000} renderer={renderer} />
                         /*</span>
                     </div>
                 </div>

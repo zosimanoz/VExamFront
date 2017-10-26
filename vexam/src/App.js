@@ -39,6 +39,8 @@ class App extends Component {
 
 
   render() {
+
+    ///
     // if (this.props.authReducer.authenticated) {
       return (
         <Router>

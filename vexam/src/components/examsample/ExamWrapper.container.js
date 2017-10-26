@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 
 import { getExamQuestions } from '../../actions/examQuiz.action'
 
+import { submitFinalAnswers } from '../../actions/examQuiz.action';
+import { logout } from '../../actions/auth.action';
+
 import CountDownTimer from '../timer/timer.component'
 import ExamMainPage from './ExamMainPage.component'
 import ExamControlComponent from './ExamControlComponent.component'
@@ -39,7 +42,7 @@ class ExamWrapper extends React.Component {
                         <div id="countdown" className="pull-left countdownHolder">
                             <span className="Timeleft">Time Left: </span>
                             <span className="timer-div">
-                                <CountDownTimer />
+                                <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList ={this.props.quizQuestions}/>
                             </span>
                         </div>
                     </div>
@@ -70,4 +73,4 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps,{ getExamQuestions })(ExamWrapper);
+export default connect(mapStateToProps,{ getExamQuestions, logout, submitFinalAnswers })(ExamWrapper);
