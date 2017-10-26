@@ -24,7 +24,7 @@ import LoginWrapper from './components/auth/LoginWrapper.container'
 // import Admin from './components/admin/admin.container';
 
 import VexamRoutes from './routes/VexamRoutes';
-import VauthRoutes from './routes/AuthRoutes';
+
 
 
 const Loader = () => (
