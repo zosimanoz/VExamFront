@@ -57,10 +57,10 @@ export function saveAnswerSuccess(data) {
 
 
 
-export function getExamQuestions() {
+export function getExamQuestions(intervieweeId) {
   return dispatch => {
     dispatch(fetchExamQuestionStart());
-    axios.get(`${API_URL}/api/v1/interviewee/interview/questions/3`)
+    axios.get(`${API_URL}/api/v1/interviewee/interview/questions/${intervieweeId}`)
       .then((res) => {
         dispatch(fetchExamQuestionsSuccess(res.data.Data));
       }).catch((err) => {

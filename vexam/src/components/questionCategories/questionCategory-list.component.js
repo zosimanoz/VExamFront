@@ -2,6 +2,10 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+
+
 const QuestionCategoryList = (props) => {
 
     const EmptyMessage = (
@@ -42,8 +46,14 @@ const QuestionCategoryList = (props) => {
                                 <td>{item.Description}</td>
                                 <td>
                                     <NavLink to={`/admin/categories/${item.QuestionCategoryId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
-                                    <a title="Delete" className="btn btn-default btn-sm " onClick={() => props.deleteQuestionCategories(item.QuestionCategoryId)}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
-
+                                    <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({
+                                        title: 'Confirm.',                        // Title dialog
+                                        message: 'Are you sure to delete?',               // Message dialog
+                                        confirmLabel: 'Confirm',                           // Text button confirm
+                                        cancelLabel: 'Cancel',                             // Text button cancel
+                                        onConfirm: () => props.deleteQuestionCategories(item.QuestionCategoryId)  // Action after Confirm
+                                        // Action after Cancel
+                                    })}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                 </td>
                             </tr>
                         )

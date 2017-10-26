@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { NavLink } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 const SessionJobList = (props) => {
 
@@ -32,7 +34,14 @@ const SessionJobList = (props) => {
                                 <td>{item.ExamSetTitle}</td>
                                 <td>
                                     <a title="Edit" className="btn btn-default btn-sm "onClick={()=>props.editJob(item)} > <i className="glyphicon glyphicon-edit text-primary" ></i> </a>
-                                    <a title="Delete" className="btn btn-default btn-sm " onClick={()=>props.deleteJob(item.SessionwiseJobId)} > <i className="glyphicon glyphicon-trash text-danger"></i> </a>
+                                    <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({
+                                        title: 'Confirm.',                       
+                                        message: 'Are you sure to delete?',        
+                                        confirmLabel: 'Confirm',                   
+                                        cancelLabel: 'Cancel',                     
+                                        onConfirm: () => props.deleteJob(item.SessionwiseJobId) 
+                                        
+                                    })}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                 </td>
                             </tr>
                         )

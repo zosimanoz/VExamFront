@@ -3,6 +3,8 @@ import React from 'react';
 import Moment from 'react-moment';
 // import 'moment-timezone';
 import { NavLink } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 const ActiveInterviewSessionList = (props) => {
 
@@ -38,7 +40,14 @@ const ActiveInterviewSessionList = (props) => {
                                 </td>
                                 <td>
                                     <NavLink title="Edit Session" to={`/admin/interviewSession/${item.InterviewSessionId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
-                                    <a title="Delete" className="btn btn-default btn-sm " onClick={()=>props.deleteInterviewSession(item.InterviewSessionId)} > <i className="glyphicon glyphicon-trash text-danger"></i> </a>
+                                    <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({
+                                        title: 'Confirm.',                       
+                                        message: 'Are you sure to delete?',        
+                                        confirmLabel: 'Confirm',                   
+                                        cancelLabel: 'Cancel',                     
+                                        onConfirm: () => props.deleteInterviewSession(item.InterviewSessionId) 
+                                        
+                                    })}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                 </td>
                             </tr>
                         )

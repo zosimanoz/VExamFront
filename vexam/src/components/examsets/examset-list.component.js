@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { Accordion, Panel } from 'react-bootstrap';
 import { Redirect, match, matchPath } from 'react-router-dom';
 
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
 const ExamSetList = (props) => {
 
@@ -33,7 +35,14 @@ const ExamSetList = (props) => {
                                 <td>
                                     <NavLink to={`/admin/setquestions/${item.ExamSetId}`} title="View" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-eye-open text-success"></i></NavLink>
                                     <NavLink to={`/admin/examsets/${item.ExamSetId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
-                                    <a title="Delete" className="btn btn-default btn-sm " onClick={() => props.deleteExamSet(item.ExamSetId)}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
+                                     <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({
+                                        title: 'Confirm.',                       
+                                        message: 'Are you sure to delete?',        
+                                        confirmLabel: 'Confirm',                   
+                                        cancelLabel: 'Cancel',                     
+                                        onConfirm: () => props.deleteExamSet(item.ExamSetId)
+                                        
+                                    })}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
                                 </td>
                                 <td>
                                     <NavLink to={`/admin/examsets/${item.ExamSetId}/questions`} title="Add questions" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-danger"></i></NavLink>
