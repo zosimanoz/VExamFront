@@ -192,9 +192,12 @@ class QuizQuestionList extends React.Component {
 
 
     renderQuestionsList = (key) => {
+        alert();
+        console.log(key.Question.SN);
         let i = 0;
         return (
             <div className="quiz-question-detail">
+               
                 <Question content={key.Question.Question} index={++i} />
 
                 <div className="options">
