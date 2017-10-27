@@ -107,7 +107,7 @@ const VexamRoutes = (props) => (
             <AdminLayout exact path="/admin/categories" component={QuestionCategoryIndex} heading="Question Category" authed={props.authed} />
             <AdminLayout exact path="/admin/categories/add" component={AddQuestionCategory} {...props} heading="Add Question Category" authed={props.authed} />
             <AdminLayout exact path="/admin/categories/:id" component={AddQuestionCategory} {...props} heading="Edit Question Category" authed={props.authed} />
-            <AdminLayout exact path="/admin/complexities" component={QuestionCategoryIndex} heading="Question Complexity" authed={props.authed} />
+            <AdminLayout exact path="/admin/complexities" component={QuestionComplexityIndex} heading="Question Complexity" authed={props.authed} />
             <AdminLayout exact path="/admin/complexity/add" component={AddQuestionComplexity} {...props} heading="Add Question Complexity" authed={props.authed} />
             <AdminLayout exact path="/admin/complexity/:id" component={AddQuestionComplexity} {...props} heading="Edit Question Complexity" authed={props.authed} />
             <AdminLayout exact path="/admin/jobs" component={JobIndex} heading="Jobs" authed={props.authed} />
