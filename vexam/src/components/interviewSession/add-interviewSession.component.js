@@ -8,9 +8,7 @@ import theme from 'react-quill/dist/quill.snow.css';
 
 import { fetchInterviewSessionById, updateInterviewSession, saveInterviewSession} from '../../actions/interviewSession.action';
 
-import DatePicker from 'react-datepicker';
 import Moment from 'react-moment';
-require('react-datepicker/dist/react-datepicker.css');
 
 class AddInterviewSession extends React.Component {
     constructor(props) {

@@ -24,7 +24,6 @@ import './menu.css';
 
 
 const AdminLayout = ({ component: Component, ...rest }) => {
-  console.log(rest)
   if (rest.authed) {
     return (
       <DefaultLayout {...rest} component={matchProps => (

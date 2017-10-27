@@ -63,7 +63,32 @@ import ExamWrapper from '../components/examsample/ExamWrapper.container';
 const Home = (props) => {
     return (
         <Panel header={props.heading}>
-            <h1>Home</h1>
+            <div className="col-md-4">
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <span><h2 className="dashboard-h2">20</h2></span>
+                        <span className="dashboard-count-span">Question Sets</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="col-md-4">
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <span><h2 className="dashboard-h2">30</h2></span>
+                        <span className="dashboard-count-span">Interviewees</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="col-md-4">
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <span><h2 className="dashboard-h2">10</h2></span>
+                        <span className="dashboard-count-span">Vacancies</span>
+                    </div>
+                </div>
+            </div>
         </Panel>
     );
 }
@@ -127,14 +152,14 @@ const VexamRoutes = (props) => (
             <AdminLayout exact path="/admin/interviewsession/history" component={InterviewSessionIndex} heading="Interview Sessions History" authed={props.authed} />
             <AdminLayout exact path="/admin/interviewSession/add" component={AddInterviewSession} {...props} heading="Add Interview Session" authed={props.authed} />
             <AdminLayout exact path="/admin/interviewSession/:id" component={AddInterviewSession} {...props} heading="Edit Interview Session" authed={props.authed} />
-            <AdminLayout exact path="/admin/interviewSession/:id/jobs" component={AddSessionJobs} {...props} authed={props.authed} />
-            <AdminLayout exact path="/admin/interviewSessionHistory/:id/jobs" component={SessionJobs} {...props} authed={props.authed} />
-            <AdminLayout exact path="/admin/interviewSession/:id/interviewees" component={AddInterviewees} {...props} authed={props.authed} />
-            <AdminLayout exact path="/admin/interviewSessionHistory/:id/interviewees" component={Interviewees} {...props} authed={props.authed} />
-            <AdminLayout exact path="/admin/checkanswers" component={AllInterviewSessions} />
-            <AdminLayout exact path="/admin/interviewSessions/:id/attended/interviewees" component={ExamAttendedInterviewee} {...props} authed={props.authed} />
-            <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/answersheet" component={AnswerSheetContainer} {...props} authed={props.authed} />
-            <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/all/answersheet" component={AllQuestions} {...props} authed={props.authed} />
+            <AdminLayout exact path="/admin/interviewSession/:id/jobs" component={AddSessionJobs} {...props} authed={props.authed} heading="Add Session Jobs" />
+            <AdminLayout exact path="/admin/interviewSessionHistory/:id/jobs" component={SessionJobs} {...props} authed={props.authed} heading="Jobs" />
+            <AdminLayout exact path="/admin/interviewSession/:id/interviewees" component={AddInterviewees} {...props} authed={props.authed} heading="Interviewees" />
+            <AdminLayout exact path="/admin/interviewSessionHistory/:id/interviewees" component={Interviewees} {...props} authed={props.authed} heading="Interviewees" />
+            <AdminLayout exact path="/admin/checkanswers" component={AllInterviewSessions} authed={props.authed} heading="Interview Sessions" />
+            <AdminLayout exact path="/admin/interviewSessions/:id/attended/interviewees" component={ExamAttendedInterviewee} {...props} authed={props.authed} heading="Interviewees" />
+            <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/answersheet" component={AnswerSheetContainer} {...props} authed={props.authed} heading="Answersheet" />
+            <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/all/answersheet" component={AllQuestions} {...props} authed={props.authed} heading="All Answers" />
             <DefaultLayout exact path="/admin/logout" component={Logout} />
 
             <Route exact path="/admin/test"

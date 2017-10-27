@@ -14,14 +14,16 @@ import ExamControlComponent from './ExamControlComponent.component'
 
 import '../exam/exam.css'
 
+
 class ExamWrapper extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            questions : null
+            questions: null
         }
     }
+
 
 
     componentWillReceiveProps = (new_props) => {
@@ -35,6 +37,9 @@ class ExamWrapper extends React.Component {
     }
 
     render() {
+        window.onbeforeunload = function (e) {
+            return window.confirm('Your progress will be cleared on reload. Are you sure you want to leave the page?');
+        }
         return (
             <div>
                 <div className="navbar navbar-default navbar-fixed-top clearfix">
@@ -42,7 +47,7 @@ class ExamWrapper extends React.Component {
                         <div id="countdown" className="pull-left countdownHolder">
                             <span className="Timeleft">Time Left: </span>
                             <span className="timer-div">
-                                <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList ={this.props.quizQuestions}/>
+                                <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList={this.props.quizQuestions} />
                             </span>
                         </div>
                     </div>
@@ -62,6 +67,13 @@ class ExamWrapper extends React.Component {
             </div>
         )
     }
+
+
+    componentWillUnmount = () => {
+        window.onbeforeunload = function (e) {
+            // unbind the reload event on index page
+        }
+    }
 }
 
 
@@ -73,4 +85,4 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps,{ getExamQuestions, logout, submitFinalAnswers })(ExamWrapper);
+export default connect(mapStateToProps, { getExamQuestions, logout, submitFinalAnswers })(ExamWrapper);

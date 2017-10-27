@@ -14,20 +14,12 @@ import store from './store/index.store';
 
 import setAuthorizationToken from './utils/setAuthorizationToken';
 
-import CheckBrowserRefresh from './utils/RefreshHandler';
-
-
 import axios from 'axios';
 
 import { API_URL } from './utils/url';
 import qs from 'qs'
 
-
-window.onbeforeunload = function (e) {
-    return window.confirm('Your progress will be cleared on reload. Are you sure you want to leave the page?');
-}
-
-
+ 
 
 if (localStorage.access_token) {
     // dispatch an action to get the current user
