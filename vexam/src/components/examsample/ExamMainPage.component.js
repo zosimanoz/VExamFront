@@ -2,7 +2,8 @@ import React from 'react'
 import update from 'react-addons-update'
 
 import { connect } from 'react-redux'
-import range from 'lodash/range'
+import range from 'lodash/range';
+import { HashLoader } from 'react-spinners';
 
 
 import { getExamQuestions } from '../../actions/examQuiz.action'
@@ -34,7 +35,8 @@ class ExamMainPage extends React.Component {
             pageOfItems: [],
             subjectiveAnswers: {},
             text: '',
-            pager: {}
+            pager: {},
+            loading: false
         };
 
         this.onChangePage = this.onChangePage.bind(this);
@@ -53,15 +55,21 @@ class ExamMainPage extends React.Component {
                 startIndex: 0,
                 endIndex: 3,
                 pages: new_props.questionsList.slice(0, 4)
-            }
+            },
+            loading: false
         });
     }
 
     componentDidMount() {
-        if (this.props.user) {
-            console.log('user --->',this.props.user.IntervieweeId);
-            this.props.getExamQuestions(this.props.user.IntervieweeId);
-        }
+        this.setState({
+            pager: {},
+            loading: true
+        }, () => {
+            if (this.props.user) {
+                this.props.getExamQuestions(this.props.user.IntervieweeId)
+            }
+        });
+
     }
 
 
@@ -197,7 +205,21 @@ class ExamMainPage extends React.Component {
     }
 
 
-    render() {
+    renderLoader() {
+        return (
+            <div className="col-md-12">
+                <div className='sweet-loading'>
+                    <HashLoader
+                        color={'#123abc'}
+                        loading={this.state.loading}
+                    />
+                </div>
+            </div>
+        )
+    }
+
+
+    renderQuizset() {
         return (
             <div>
                 <div className="col-md-8">
@@ -222,11 +244,18 @@ class ExamMainPage extends React.Component {
                 <div className="col-md-4">
                     <div id="scorecard" className="menu">
                         <ul>
-                            {this.props.questionsList ? this.renderQuestionJumpIndex() : 'Loading'}
+                            {this.state.pager.pages ? this.renderQuestionJumpIndex() : this.renderLoader()}
                         </ul>
                     </div>
                 </div>
             </div>
+        )
+    }
+
+
+    render() {
+        return (
+            this.state.loading ? this.renderLoader() : this.renderQuizset()
         )
     }
 

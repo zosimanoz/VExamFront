@@ -92,6 +92,7 @@ class ExamControlComponent extends Component {
         // get the question list and pass it to the api
         this.props.submitFinalAnswers(this.props.questionsList);
         this.props.logout();
+
         return (
             <Redirect to="/" />
         )
@@ -115,7 +116,7 @@ class ExamControlComponent extends Component {
                         message: 'Are you sure to submit answersheet?',              
                         confirmLabel: 'Yes',                           
                         cancelLabel: 'No',                             
-                        onConfirm: () => this.submitAnswers  
+                        onConfirm: () => this.submitAnswers()  
                     })}> Submit</a>
 
 

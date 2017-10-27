@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './css/styles.css';
 
 import { connect } from 'react-redux';
 
@@ -39,21 +40,11 @@ class App extends Component {
 
 
   render() {
-
-    ///
-    // if (this.props.authReducer.authenticated) {
-      return (
-        <Router>
-          <VexamRoutes authed={this.props.authReducer.authenticated} />
-        </Router>
-      )
-    /*} else {
-      return (<Router>
+    return (
+      <Router>
         <VexamRoutes authed={this.props.authReducer.authenticated} />
-      </Router>);
-
-      return (<Loader />)
-    }*/
+      </Router>
+    )
   }
 }
 

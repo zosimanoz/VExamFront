@@ -32,6 +32,7 @@
     "react-rte": "^0.15.0",
     "react-scripts": "1.0.10",
     "react-spinkit": "^3.0.0",
+    "react-spinners": "^0.1.9",
     "react-transitive-number": "^3.0.1",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
