@@ -22,8 +22,8 @@ const ExamSetList = (props) => {
                     <tr>
                         <th>S.N</th>
                         <th>Title</th>
+                        <th>Set Questions</th>
                         <th>Actions</th>
-                        <th>#</th>
                     </tr>
                 </thead>
                 <tbody id="form-list-client-body">
@@ -34,6 +34,9 @@ const ExamSetList = (props) => {
                                 <td>{item.Title}</td>
                                 <td>
                                     <NavLink to={`/admin/setquestions/${item.ExamSetId}`} title="View" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-eye-open text-success"></i></NavLink>
+                                     <NavLink to={`/admin/examsets/${item.ExamSetId}/questions`} title="Add questions" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-danger"></i></NavLink>
+                                </td>
+                                <td>
                                     <NavLink to={`/admin/examsets/${item.ExamSetId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
                                      <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({
                                         title: 'Confirm.',                       
@@ -43,9 +46,7 @@ const ExamSetList = (props) => {
                                         onConfirm: () => props.deleteExamSet(item.ExamSetId)
                                         
                                     })}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
-                                </td>
-                                <td>
-                                    <NavLink to={`/admin/examsets/${item.ExamSetId}/questions`} title="Add questions" className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-danger"></i></NavLink>
+                                   
                                 </td>
                             </tr>
                         )
