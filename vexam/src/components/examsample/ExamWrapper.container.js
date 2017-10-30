@@ -20,26 +20,34 @@ class ExamWrapper extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            questions: null
+            questions: null,
+            ExamDuration:90,
+            jobTitle:''
         }
+        
     }
-
-
+    
 
     componentWillReceiveProps = (new_props) => {
+        console.log('examwrapper prop revieved ->' ,new_props)
         this.setState({
-            questions: new_props.quizQuestions
+            questions: new_props.quizQuestions,
+            ExamDuration: new_props.quizQuestions.questions[0].ExamSet.ExamDuration,
+            jobTitle:new_props.quizQuestions.questions[0].ExamSet.JobTitle 
         });
     }
 
+
     componentDidMount() {
         this.props.getExamQuestions();
+         
     }
 
     render() {
         window.onbeforeunload = function (e) {
             return window.confirm('Your progress will be cleared on reload. Are you sure you want to leave the page?');
         }
+     console.log('jobTitle -->',this.state.jobTitle);
         return (
             <div>
                 <div className="navbar navbar-default navbar-fixed-top clearfix">
@@ -47,7 +55,7 @@ class ExamWrapper extends React.Component {
                         <div id="countdown" className="pull-left countdownHolder">
                             <span className="Timeleft">Time Left: </span>
                             <span className="timer-div">
-                                <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList={this.props.quizQuestions} />
+                                <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList={this.props.quizQuestions} examDuration={this.state.ExamDuration} />
                             </span>
                         </div>
                     </div>
@@ -61,7 +69,7 @@ class ExamWrapper extends React.Component {
 
                 <div className="container quiz-container">
                     <div className="row clearfix">
-                        <ExamMainPage questionsList={this.state.questions} />
+                        <ExamMainPage questionsList={this.state.questions} jobTitle={this.state.jobTitle} />
                     </div>
                 </div>
             </div>

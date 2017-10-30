@@ -16,7 +16,7 @@ class CountDownTimer extends Component {
     }
 
     render() {
-        
+        var examDuration = this.props.examDuration *60 *1000
         // Random component 
         const Completionist = () => <span>Time Up!</span>;
 
@@ -40,7 +40,7 @@ class CountDownTimer extends Component {
                     <div id="countdown" className="pull-left countdownHolder">
                         <span className="Timeleft">Time Left: </span>
                         <span className="timer-div">*/
-                            <Countdown date={Date.now() + 720000} renderer={renderer} />
+                            <Countdown date={Date.now() + examDuration} renderer={renderer} />
                         /*</span>
                     </div>
                 </div>
