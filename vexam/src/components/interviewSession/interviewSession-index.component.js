@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ActiveInterviewSessionList from './active-InterviewSession.component';
-
+import Loader from '../loader/loader.component';
 
 import { fetchActiveInterviewSessions,deleteInterviewSession } from '../../actions/interviewSession.action';
 
@@ -58,13 +58,19 @@ class InterviewSessionIndex extends React.Component {
     }
 
     render() {
-         let interviewSessionsComponent;
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
+        
+        let interviewSessionsComponent;
         if (this.props.interviewSessions) {
             interviewSessionsComponent =  <ActiveInterviewSessionList interviewSessions={this.props.interviewSessions} deleteInterviewSession = {this.deleteInterviewSession} />
         } else {
             interviewSessionsComponent = this.EmptyMessage()
         }
-       
+
         return (
             <Panel header={this.props.heading}>
                 <form id="form-list-client">
@@ -80,9 +86,9 @@ class InterviewSessionIndex extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log("maptostate...",state.interviewSessionReducer.interviewSessions)
     return {
-        interviewSessions: state.interviewSessionReducer.interviewSessions
+        interviewSessions: state.interviewSessionReducer.interviewSessions,
+        loader: state.loaderReducer
     }
 }
 

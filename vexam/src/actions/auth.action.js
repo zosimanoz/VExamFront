@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { API_URL } from '../utils/url';
 
+import { setLoader } from './loader.action';
+
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -109,8 +111,10 @@ export function login(creds) {
 
   return dispatch => {
     dispatch(signInStart());
+    dispatch(setLoader(true));
     return axios.post(`${API_URL}/api/v1/token/interviewee`, data)
       .then((res) => {
+        dispatch(setLoader(false));
         const token = res.data.access_token;
         localStorage.setItem('access_token', token);
         setAuthorizationToken(token);
@@ -126,8 +130,10 @@ export function login(creds) {
 
 export function logout() {
   return dispatch => {
+    dispatch(setLoader(true));
     return axios.post(`${API_URL}/api/v1/logout`)
       .then((res) => {
+        dispatch(setLoader(false));
         localStorage.removeItem('access_token');
         setAuthorizationToken(false);
         dispatch(removeCurrentUser({}));
@@ -191,8 +197,10 @@ export function adminLogin(creds) {
 
   return dispatch => {
     dispatch(signInAdminStart());
+    dispatch(setLoader(true));
     return axios.post(`${API_URL}/api/v1/token/user`, data)
       .then((res) => {
+        dispatch(setLoader(false));
         const token = res.data.access_token;
         localStorage.setItem('access_token', token);
         setAuthorizationToken(token);

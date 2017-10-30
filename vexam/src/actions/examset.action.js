@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { API_URL } from '../utils/url';
-
+import { setLoader } from './loader.action';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
 
@@ -63,7 +63,6 @@ export const addExamSet = (examset) => {
 
 
 export const setQuestionIdByExamSet = (setQuestions) => {
-    console.log("fetchSetQuestionIdByExamSet ", setQuestions);
     return {
         type: SET_QUESTIONID_BY_EXAM_SET,
         payload: {
@@ -74,7 +73,6 @@ export const setQuestionIdByExamSet = (setQuestions) => {
 
 
 export const setQuestionsByExamSet = (setQuestions) => {
-    console.log("fetchSetQuestionsByExamSet ", setQuestions);
     return {
         type: SET_QUESTIONS_BY_EXAM_SET,
         payload: {
@@ -101,7 +99,6 @@ export const setUpdatedExamSet = (examset) => {
 
 
 export const setExamSetById = (examset) => {
-    console.log("action examset0", examset);
     return {
         type: GET_EXAMSETBYID,
         payload: {
@@ -156,21 +153,24 @@ export const fetchExamSets = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
+        dispatch(setLoader(true));
         fetch(`${API_URL}/api/v1/examset/get/all`)
             .then(res => res.json())
-            .then(data => dispatch(setExamSets(data.Data)))
+            .then(data => {
+                dispatch(setLoader(false));
+                dispatch(setExamSets(data.Data));
+            })
     }
 }
 
 
-export function testFunction(){
+export function testFunction() {
     console.log('blubalabuului')
 }
 
 
 // Save department
 export function saveExamSet(data) {
-    console.log(data)
     return dispatch => {
         return fetch(`${API_URL}/api/v1/examset/new/set`, {
             method: 'post',
@@ -190,16 +190,24 @@ export function saveExamSet(data) {
 export function fetchExamSetById(id) {
 
     return dispatch => {
+        dispatch(setLoader(true));
         fetch(`${API_URL}/api/v1/examset/get/${id}`)
             .then(res => res.json())
-            .then(data => dispatch(setExamSetById(data.Data)))
+            .then(data => {
+                dispatch(setLoader(false));
+                dispatch(setExamSetById(data.Data));
+            })
     }
 }
 
 export function fetchSetQuestionsByExamSet(id) {
     return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/examset/question/get/${id}`)
-            .then(res => dispatch(setQuestionsByExamSet(res.data.Data)))
+            .then(res => { 
+                dispatch(setLoader(false));
+                dispatch(setQuestionsByExamSet(res.data.Data))
+            })
             .catch((err) => {
                 dispatch(questionBankError(err.response.message))
             });

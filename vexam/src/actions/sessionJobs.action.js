@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../utils/url';
+import { setLoader } from './loader.action';
+
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs'
@@ -15,8 +17,8 @@ export const SESSION_ERROR = 'SESSION_ERROR'
 export const setInterviewSessions = (sessionJobs) => {
     return {
         type: SET_SESSION_JOBS,
-        payload:{
-            sessionJobs:sessionJobs
+        payload: {
+            sessionJobs: sessionJobs
         }
     }
 }
@@ -33,7 +35,7 @@ export function sessionError(error) {
 export const addSessionJob = (sessionJob) => {
     return {
         type: ADD_SESSION_JOBS,
-         payload: {
+        payload: {
             sessionJob: sessionJob
         }
     }
@@ -43,14 +45,14 @@ export const addSessionJob = (sessionJob) => {
 export const setUpdatedSessionJob = (sessionJob) => {
     return {
         type: UPDATE_SESSION_JOB,
-         payload: {
+        payload: {
             sessionJob: sessionJob
         }
     }
 }
 
 export const setJobsBySessionId = (sessionJobs) => {
-    console.log("action session jobs1",sessionJobs);
+    console.log("action session jobs1", sessionJobs);
     return {
         type: GET_SESSION_JOB_BYID,
         payload: {
@@ -62,7 +64,7 @@ export const setJobsBySessionId = (sessionJobs) => {
 export const deleteSessionJobById = (sessionJobId) => {
     return {
         type: DELETE_SESSION_JOB,
-          payload: {
+        payload: {
             sessionJobId: sessionJobId
         }
     }
@@ -73,8 +75,12 @@ export const deleteSessionJobById = (sessionJobId) => {
 
 export const fetchSessionJobBySessionId = (id) => {
     return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/sessionwisejob/session/${id}`)
-            .then(res => dispatch(setJobsBySessionId(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setJobsBySessionId(res.data.Data))
+            })
             .catch((err) => {
                 dispatch(sessionError(err.response.message))
             });
@@ -83,7 +89,7 @@ export const fetchSessionJobBySessionId = (id) => {
 
 // Save department
 export function saveSessionJob(data) {
-    console.log('add session job',data);
+    console.log('add session job', data);
     return dispatch => {
         return axios({
             method: 'POST',
@@ -94,10 +100,10 @@ export function saveSessionJob(data) {
                 "Accept": "application/json"
             }
         })
-        .then((res) =>{
-            data.SessionwiseJobId = res.data.Data;
-            dispatch(addSessionJob(data))
-        })
+            .then((res) => {
+                data.SessionwiseJobId = res.data.Data;
+                dispatch(addSessionJob(data))
+            })
             .catch((err) => {
                 dispatch(sessionError(err.response.data))
             });

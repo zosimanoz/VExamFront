@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { API_URL } from '../utils/url';
+import { setLoader } from './loader.action';
 
 //Get current questons for the user
 export const FETCH_EXAM_QUESTIONS_START = 'FETCH_EXAM_QUESTIONS_START';
@@ -60,8 +61,10 @@ export function saveAnswerSuccess(data) {
 export function getExamQuestions(intervieweeId) {
   return dispatch => {
     dispatch(fetchExamQuestionStart());
+    dispatch(setLoader(true));
     axios.get(`${API_URL}/api/v1/interviewee/interview/questions/${intervieweeId}`)
       .then((res) => {
+        dispatch(setLoader(false));
         dispatch(fetchExamQuestionsSuccess(res.data.Data));
       }).catch((err) => {
         dispatch(fetchExamQuestionsFailure(err.response.data))

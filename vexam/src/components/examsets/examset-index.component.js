@@ -4,8 +4,8 @@ import { Panel } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 import ExamSetList from './examset-list.component';
-
-import { fetchExamSets, deleteExamSet} from '../../actions/examset.action';
+import Loader from '../loader/loader.component';
+import { fetchExamSets, deleteExamSet } from '../../actions/examset.action';
 import { connect } from 'react-redux';
 
 
@@ -19,32 +19,32 @@ class ExamSet extends React.Component {
     }
 
     render() {
-        // let questionsets = [{
-        //     QuestionSetId : 1,
-        //     Title : 'Question set one',
-        //     Deleted: false 
-        // }]
 
-        console.log(this.props)
-        
-         return (
+
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
+        return (
             <Panel header={this.props.heading}>
-                    <div className="pull-right">
-                        <NavLink exact to="/admin/examsets/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Question Set</NavLink>
-                    </div>
+                <div className="pull-right">
+                    <NavLink exact to="/admin/examsets/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Question Set</NavLink>
+                </div>
 
-                    <ExamSetList examsets={this.props.examsets} deleteExamSet={this.props.deleteExamSet}/>
+                <ExamSetList examsets={this.props.examsets} deleteExamSet={this.props.deleteExamSet} />
 
             </Panel>
-         );
+        );
     }
 }
 
 
 const mapStateToProps = (state) => {
     return {
-        examsets: state.examsets.examsetList
+        examsets: state.examsets.examsetList,
+        loader: state.loaderReducer
     }
 }
 
-export default connect(mapStateToProps,{fetchExamSets, deleteExamSet})(ExamSet);
+export default connect(mapStateToProps, { fetchExamSets, deleteExamSet })(ExamSet);

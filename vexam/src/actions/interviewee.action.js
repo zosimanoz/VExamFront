@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../utils/url';
+import { setLoader } from './loader.action';
+
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -11,7 +13,7 @@ export const GET_INTERVIEWEE_BYID = 'GET_INTERVIEWEE_BYID'
 export const UPDATE_INTERVIEWEE = 'UPDATE_INTERVIEWEE'
 export const DELETE_INTERVIEWEE = 'DELETE_INTERVIEWEE'
 export const GET_INTERVIEWEE_BY_SSESSIONID = 'GET_INTERVIEWEE_BY_SSESSIONID'
-export const INTERVIEWEE_ERROR= 'INTERVIEWEE_ERROR'
+export const INTERVIEWEE_ERROR = 'INTERVIEWEE_ERROR'
 
 
 export const error = (error) => {
@@ -24,7 +26,7 @@ export const error = (error) => {
 }
 
 export const setInterviewees = (interviewees) => {
- console.log('121212',interviewees);
+    console.log('121212', interviewees);
     return {
         type: SET_INTERVIEWEE,
         payload: {
@@ -35,7 +37,7 @@ export const setInterviewees = (interviewees) => {
 
 
 export const addInterviewee = (interviewee) => {
-    console.log('interviewee-added',interviewee)
+    console.log('interviewee-added', interviewee)
     return {
         type: ADD_INTERVIEWEE,
         payload: {
@@ -75,9 +77,13 @@ export const deleteIntervieweeById = (IntervieweeId) => {
 
 
 export const fetchInterviewees = () => {
-   return dispatch => {
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewee/get/all`)
-            .then(res => dispatch(setInterviewees(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setInterviewees(res.data.Data))
+            })
             .catch((err) => {
                 dispatch(error(err.response.data))
             });
@@ -85,10 +91,12 @@ export const fetchInterviewees = () => {
 }
 
 export const fetchIntervieweesBySessionId = (id) => {
-    console.log('session id to fetch interviewees',id);
-   return dispatch => {
+    console.log('session id to fetch interviewees', id);
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewee/get/session/${id}`)
             .then((res) => {
+                dispatch(setLoader(false));
                 dispatch(setInterviewees(res.data.Data))
             })
             .catch((err) => {
@@ -97,11 +105,13 @@ export const fetchIntervieweesBySessionId = (id) => {
     }
 }
 export const fetchExamAttendedIntervieweesBySessionId = (id) => {
-    console.log('session id to fetch interviewees',id);
-   return dispatch => {
+    console.log('session id to fetch interviewees', id);
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewee/session/${id}/exam/attended`)
             .then((res) => {
-                dispatch(setInterviewees(res.data.Data))
+                dispatch(setLoader(false));
+                dispatch(setInterviewees(res.data.Data));
             })
             .catch((err) => {
                 dispatch(error(err.response))
@@ -110,8 +120,8 @@ export const fetchExamAttendedIntervieweesBySessionId = (id) => {
 }
 
 export function saveInterviewee(data) {
-    console.log('------------------------->',data)
- return dispatch => {
+    console.log('------------------------->', data)
+    return dispatch => {
         return axios({
             method: 'POST',
             url: `${API_URL}/api/v1/interviewee/new`,
@@ -130,9 +140,13 @@ export function saveInterviewee(data) {
 
 
 export function fetchIntervieweeById(id) {
- return dispatch => {
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}api/v1/interviewee/get/${id}`)
-            .then(res => dispatch(setIntervieweeById(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setIntervieweeById(res.data.Data));
+            })
             .catch((err) => {
                 dispatch(error(err.response.Message))
             });
@@ -142,7 +156,7 @@ export function fetchIntervieweeById(id) {
 
 export function updateInterviewee(data) {
 
- return dispatch => {
+    return dispatch => {
         return axios({
             method: 'PUT',
             url: `${API_URL}/api/v1/interviewee/update`,
@@ -162,7 +176,7 @@ export function updateInterviewee(data) {
 
 export function deleteInterviewee(id) {
 
- return dispatch => {
+    return dispatch => {
         return axios({
             method: 'PUT',
             url: `${API_URL}/api/v1/interviewee/delete/${id}`,

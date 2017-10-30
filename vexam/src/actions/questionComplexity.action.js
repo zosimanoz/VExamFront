@@ -1,4 +1,5 @@
 import { API_URL } from '../utils/url';
+import { setLoader } from './loader.action';
 
 export const SET_QUESTION_COMPLEXITY = 'SET_QUESTION_COMPLEXITY'
 export const ADD_QUESTION_COMPLEXITY = 'ADD_QUESTION_COMPLEXITY'
@@ -10,13 +11,13 @@ export const DELETE_QUESTION_COMPLEXITY = 'DELETE_QUESTION_COMPLEXITY'
 
 // handle the post response
 function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+    if (response.ok) {
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
 }
 
 
@@ -71,9 +72,13 @@ export const fetchQuestionComplexityList = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
+        dispatch(setLoader(true));
         fetch(`${API_URL}/api/v1/question/complexity/get/all`)
             .then(res => res.json())
-            .then(data => dispatch(setQuestionComplexity(data.Data)))
+            .then(data => {
+                dispatch(setLoader(false))
+                dispatch(setQuestionComplexity(data.Data))
+            })
     }
 }
 
@@ -91,13 +96,13 @@ export function saveQuestionComplexity(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addQuestionComplexity(data.Data)));;
+            .then(data => dispatch(addQuestionComplexity(data.Data)));;
     }
 }
 
 
 
-export function fetchQuestionComplexityById(id){
+export function fetchQuestionComplexityById(id) {
     return dispatch => {
         fetch(`${API_URL}/api/v1/question/complexity/get/${id}`)
             .then(res => res.json())
@@ -106,8 +111,8 @@ export function fetchQuestionComplexityById(id){
 }
 
 
-export function updateQuestionComplexity(data){
-     return dispatch => {
+export function updateQuestionComplexity(data) {
+    return dispatch => {
         return fetch(`${API_URL}/api/v1/question/complexity/update`, {
             method: 'put',
             dataType: 'json',
@@ -117,22 +122,22 @@ export function updateQuestionComplexity(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdateQuestionComplexity(data.Data)));
+            .then(data => dispatch(setUpdateQuestionComplexity(data.Data)));
     }
 }
 
 
-export function deleteQuestionComplexity(id){
+export function deleteQuestionComplexity(id) {
 
     return dispatch => {
         return fetch(`${API_URL}/api/v1/question/complexity/delete/${id}`, {
             method: 'put',
-           dataType: 'json',
+            dataType: 'json',
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(deleteQuestionComplexityById(id)));
+            .then(data => dispatch(deleteQuestionComplexityById(id)));
     }
 }

@@ -5,7 +5,7 @@ import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import theme from 'react-quill/dist/quill.snow.css';
-
+import Loader from '../loader/loader.component';
 import { fetchIntervieweesBySessionId } from '../../actions/interviewee.action';
 
 
@@ -15,7 +15,7 @@ class Interviewees extends React.Component {
     }
 
     componentDidMount = (props) => {
-       if (this.props.match.params.id) {
+        if (this.props.match.params.id) {
             this.props.fetchIntervieweesBySessionId(this.props.match.params.id);
         }
     }
@@ -32,7 +32,7 @@ class Interviewees extends React.Component {
                             <th>Email Address</th>
                             <th>Contact Number</th>
                             <th>Job</th>
-                           
+
                         </tr>
                     </thead>
                     <tbody >
@@ -45,39 +45,45 @@ class Interviewees extends React.Component {
         )
     }
 
-    RenderIntervieweeTable () {
+    RenderIntervieweeTable() {
         return (
-        <div className="clearfix">
-            <table className="table table-bordered table-condensed table-hover">
-                 <thead>
+            <div className="clearfix">
+                <table className="table table-bordered table-condensed table-hover">
+                    <thead>
                         <tr>
                             <th>S.N</th>
                             <th>Interviewee Name</th>
                             <th>Email Address</th>
                             <th>Contact Number</th>
                             <th>Job</th>
-                          
+
                         </tr>
                     </thead>
-                <tbody id="form-list-client-body">
-                    {
-                        this.props.intervieweeList.map((item,i) =>
-                            <tr key={i}>
-                                <td>{i+1}</td>
-                                <td>{item.FullName}</td>
-                                <td>{item.EmailAddress}</td>
-                                 <td>{item.ContactNumber}</td>
-                                 <td>{item.JobTitle}</td>
-                            </tr>
-                        )
-                    }
-                </tbody>
-            </table>
-        </div>
-    )
-}
+                    <tbody id="form-list-client-body">
+                        {
+                            this.props.intervieweeList.map((item, i) =>
+                                <tr key={i}>
+                                    <td>{i + 1}</td>
+                                    <td>{item.FullName}</td>
+                                    <td>{item.EmailAddress}</td>
+                                    <td>{item.ContactNumber}</td>
+                                    <td>{item.JobTitle}</td>
+                                </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
 
     render() {
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
+
         let intervieweeListComponent;
         if (this.props.intervieweeList) {
             intervieweeListComponent = this.RenderIntervieweeTable()
@@ -91,25 +97,25 @@ class Interviewees extends React.Component {
                     <span> {this.props.heading}</span>
                 </div>
                 <div className="panel-body">
-                {intervieweeListComponent}
+                    {intervieweeListComponent}
                 </div>
             </div>
-       )
+        )
     }
 }
 
 const mapStateToProps = (state, props) => {
-    console.log('sdfsdfsdfsdfsd sdf sdf', state.intervieweeReducer.intervieweeList);
     if (props.match.params.id) {
         return {
-            intervieweeList: state.intervieweeReducer.intervieweeList
-            
+            intervieweeList: state.intervieweeReducer.intervieweeList,
+            loader: state.loaderReducer
         }
     }
     return {
-        intervieweeList: null
+        intervieweeList: null,
+        loader: state.loaderReducer
     }
 }
 
 
-export default connect(mapStateToProps, {fetchIntervieweesBySessionId })(Interviewees);
+export default connect(mapStateToProps, { fetchIntervieweesBySessionId })(Interviewees);

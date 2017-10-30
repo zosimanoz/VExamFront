@@ -3,7 +3,7 @@ import update from 'react-addons-update'
 
 import { connect } from 'react-redux'
 import range from 'lodash/range';
-import { HashLoader } from 'react-spinners';
+import Loader from '../loader/loader.component';
 
 
 import { getExamQuestions } from '../../actions/examQuiz.action'
@@ -208,12 +208,7 @@ class ExamMainPage extends React.Component {
     renderLoader() {
         return (
             <div className="col-md-12">
-                <div className='sweet-loading'>
-                    <HashLoader
-                        color={'#123abc'}
-                        loading={this.state.loading}
-                    />
-                </div>
+                <Loader loading={this.state.loading} />
             </div>
         )
     }

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../utils/url';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
-import qs from 'qs'
+import qs from 'qs';
+        import { setLoader } from './loader.action';
+
 
 export const SET_INTERVIEW_SESSION = 'SET_INTERVIEW_SESSION'
 export const ADD_INTERVIEW_SESSION = 'ADD_INTERVIEW_SESSION'
@@ -89,8 +91,12 @@ export const deleteInterviewSessionById = (interviewSessionId) => {
 
 export const fetchInterviewSessionHistory = () => {
        return dispatch => {
+           dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/history`)
-            .then(res => dispatch(setInterviewSessions(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setInterviewSessions(res.data.Data));
+            })
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
             });
@@ -100,8 +106,12 @@ export const fetchInterviewSessionHistory = () => {
 
 export const fetchActiveInterviewSessions = () => {
        return dispatch => {
+           dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/active`)
-            .then(res => dispatch(setInterviewSessions(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setInterviewSessions(res.data.Data));
+            })
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
             });
@@ -110,8 +120,12 @@ export const fetchActiveInterviewSessions = () => {
 
 export const fetchAllInterviewSessions = () => {
        return dispatch => {
+           dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/get`)
-            .then(res => dispatch(setInterviewSessions(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setInterviewSessions(res.data.Data));
+            })
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
             });
@@ -144,8 +158,12 @@ export function saveInterviewSession(data) {
 
 export const fetchInterviewSessionById = (id) => {
     return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/get/${id}`)
-            .then(res => dispatch(setInterviewSessionById(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setInterviewSessionById(res.data.Data));
+            })
             .catch((err) => {
                 dispatch(interviewSessionError(err.response.message))
             });

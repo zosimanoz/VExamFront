@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_URL } from '../utils/url';
-
+import { setLoader } from './loader.action';
 
 export const SET_QUESTION_CATEGORY = 'SET_QUESTION_CATEGORY'
 export const ADD_QUESTION_CATEGORY = 'ADD_QUESTION_CATEGORY'
@@ -55,8 +55,12 @@ export const fetchQuestionCategoryList = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/question/category/get/all`)
-            .then(res => dispatch(setQuestionCategories(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setQuestionCategories(res.data.Data))
+            })
     }
 }
 
@@ -75,13 +79,13 @@ export function saveQuestionCategory(data) {
                 "Accept": "application/json"
             }
         })
-        .then(res => dispatch(addQuestionCategory(res.data.Data)));;
+            .then(res => dispatch(addQuestionCategory(res.data.Data)));;
     }
 }
 
 
 
-export function fetchQuestionCategoryById(id){
+export function fetchQuestionCategoryById(id) {
     return dispatch => {
         axios.get(`${API_URL}/api/v1/question/category/get/${id}`)
             .then(res => dispatch(setQuestionCategoryById(res.data.Data)))
@@ -89,10 +93,10 @@ export function fetchQuestionCategoryById(id){
 }
 
 
-export function updateQuestionCategory(data){
-     return dispatch => {
-        return axios({ 
-            url: `${API_URL}/api/v1/question/category/update`, 
+export function updateQuestionCategory(data) {
+    return dispatch => {
+        return axios({
+            url: `${API_URL}/api/v1/question/category/update`,
             method: 'put',
             dataType: 'json',
             data: JSON.stringify(data),
@@ -101,12 +105,12 @@ export function updateQuestionCategory(data){
                 "Accept": "application/json"
             }
         })
-        .then(res => dispatch(setUpdateQuestionCategory(res.data.Data)));
+            .then(res => dispatch(setUpdateQuestionCategory(res.data.Data)));
     }
 }
 
 
-export function deleteQuestionCategory(id){
+export function deleteQuestionCategory(id) {
 
     return dispatch => {
         return axios({
@@ -118,6 +122,6 @@ export function deleteQuestionCategory(id){
                 "Accept": "application/json"
             }
         })
-        .then(res => dispatch(deleteQuestionCategoryById(id)));
+            .then(res => dispatch(deleteQuestionCategoryById(id)));
     }
 }

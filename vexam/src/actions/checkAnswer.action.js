@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../utils/url';
-
+import { setLoader } from './loader.action';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 
@@ -11,7 +11,7 @@ export const GET_INTERVIEWEE_BYID = 'GET_INTERVIEWEE_BYID'
 export const UPDATE_INTERVIEWEE = 'UPDATE_INTERVIEWEE'
 export const DELETE_INTERVIEWEE = 'DELETE_INTERVIEWEE'
 export const GET_INTERVIEWEE_BY_SSESSIONID = 'GET_INTERVIEWEE_BY_SSESSIONID'
-export const INTERVIEWEE_ERROR= 'INTERVIEWEE_ERROR'
+export const INTERVIEWEE_ERROR = 'INTERVIEWEE_ERROR'
 
 
 export const error = (error) => {
@@ -24,7 +24,7 @@ export const error = (error) => {
 }
 
 export const answerSheet = (answersheet) => {
- console.log('121212',answersheet);
+    console.log('121212', answersheet);
     return {
         type: SET_ANSWERSHEET,
         payload: {
@@ -75,11 +75,12 @@ export const deleteIntervieweeById = (IntervieweeId) => {
 
 
 export const fetchAllAnswersheetByIntervieweeId = (id) => {
-    console.log('fetchAllAnswersheetByIntervieweeId',id);
-   return dispatch => {
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/checkanswer/all/answersheet/examineer/${id}`)
             .then((res) => {
-                dispatch(answerSheet(res.data.Data))
+                dispatch(setLoader(false));
+                dispatch(answerSheet(res.data.Data));
             })
             .catch((err) => {
                 dispatch(error(err.response))
@@ -87,11 +88,13 @@ export const fetchAllAnswersheetByIntervieweeId = (id) => {
     }
 }
 export const fetchSubjectiveAnswersheetByIntervieweeId = (id) => {
-    console.log('fetchSubjectiveAnswersheetByIntervieweeId',id);
-   return dispatch => {
+    console.log('fetchSubjectiveAnswersheetByIntervieweeId', id);
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/checkanswer/subjective/answersheet/examineer/${id}`)
             .then((res) => {
-                dispatch(answerSheet(res.data.Data))
+                dispatch(setLoader(false));
+                dispatch(answerSheet(res.data.Data));
             })
             .catch((err) => {
                 dispatch(error(err.response))
@@ -100,11 +103,13 @@ export const fetchSubjectiveAnswersheetByIntervieweeId = (id) => {
 }
 
 export const fetchObjectiveAnswersheetByIntervieweeId = (id) => {
-    console.log('fetchObjectiveAnswersheetByIntervieweeId',id);
-   return dispatch => {
+    console.log('fetchObjectiveAnswersheetByIntervieweeId', id);
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/checkanswer/objective/answersheet/examineer/${id}`)
             .then((res) => {
-                dispatch(answerSheet(res.data.Data))
+                dispatch(setLoader(false));
+                dispatch(answerSheet(res.data.Data));
             })
             .catch((err) => {
                 dispatch(error(err.response))
@@ -116,7 +121,7 @@ export const fetchObjectiveAnswersheetByIntervieweeId = (id) => {
 
 // Save department
 export function saveInterviewee(data) {
- return dispatch => {
+    return dispatch => {
         return axios({
             method: 'POST',
             url: `${API_URL}/api/v1/interviewee/new`,
@@ -135,9 +140,13 @@ export function saveInterviewee(data) {
 
 
 export function fetchIntervieweeById(id) {
- return dispatch => {
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}api/v1/interviewee/get/${id}`)
-            .then(res => dispatch(setIntervieweeById(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setIntervieweeById(res.data.Data));
+            })
             .catch((err) => {
                 dispatch(error(err.response.Message))
             });
@@ -147,7 +156,7 @@ export function fetchIntervieweeById(id) {
 
 export function updateInterviewee(data) {
 
- return dispatch => {
+    return dispatch => {
         return axios({
             method: 'PUT',
             url: `${API_URL}/api/v1/interviewee/update`,
@@ -167,7 +176,7 @@ export function updateInterviewee(data) {
 
 export function deleteInterviewee(id) {
 
- return dispatch => {
+    return dispatch => {
         return axios({
             method: 'PUT',
             url: `${API_URL}/api/v1/interviewee/delete/${id}`,

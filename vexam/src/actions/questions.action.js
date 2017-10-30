@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../utils/url';
+import { setLoader } from './loader.action';
 
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -82,8 +83,12 @@ export const filteredQuestion = (questions) => {
 
 export const fetchQuestions = () => {
     return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/questionbank/select`)
-            .then(res => dispatch(setQuestions(res.data.Data)))
+            .then(res => {
+                dispatch(setLoader(false));
+                dispatch(setQuestions(res.data.Data))
+            })
             .catch((err) => {
                 dispatch(questionBankError(err.response.data))
             });
@@ -145,17 +150,17 @@ export function updateQuestion(data) {
 export function deleteQuestion(id) {
 
     return dispatch => {
-                return axios({
+        return axios({
             method: 'PUT',
             url: `${API_URL}/api/v1/questionbank/delete/${id}`,
-          
+
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
         })
-        .then(res => dispatch(deleteQuestionById(id)))
-        .catch((err) => {
+            .then(res => dispatch(deleteQuestionById(id)))
+            .catch((err) => {
                 dispatch(questionBankError(err.response.data))
             });
     }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { setLoader } from './loader.action';
 export const GET_EXAM_INFO = 'GET_EXAM_INFO';
 export const GET_EXAM_INFO_FAIL = 'GET_EXAM_INFO_FAIL';
 

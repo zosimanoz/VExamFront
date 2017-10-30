@@ -5,9 +5,10 @@ import { NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import JobList from './job-list.component';
+import Loader from '../loader/loader.component';
 
 
-import { fetchJobTypes,deleteJobType } from '../../actions/jobTypes.action';
+import { fetchJobTypes, deleteJobType } from '../../actions/jobTypes.action';
 
 class JobIndex extends React.Component {
     constructor(props) {
@@ -33,6 +34,11 @@ class JobIndex extends React.Component {
             );
     }
     render() {
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
         return (
             <Panel header={this.props.heading}>
                 <form id="form-list-client">
@@ -40,7 +46,7 @@ class JobIndex extends React.Component {
                         <NavLink exact to="/admin/job/add" className="btn btn-primary btn-sm"><i className="glyphicon glyphicon-plus"></i>Add Job</NavLink>
                     </div>
 
-                    <JobList jobTypes = {this.props.jobTypes}  deleteJobType = {this.deleteJobType} />
+                    <JobList jobTypes={this.props.jobTypes} deleteJobType={this.deleteJobType} />
 
                 </form>
             </Panel>
@@ -50,8 +56,9 @@ class JobIndex extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        jobTypes: state.jobTypes
+        jobTypes: state.jobTypes,
+        loader: state.loaderReducer
     }
 }
 
-export default connect(mapStateToProps, { fetchJobTypes,deleteJobType })(JobIndex);
+export default connect(mapStateToProps, { fetchJobTypes, deleteJobType })(JobIndex);

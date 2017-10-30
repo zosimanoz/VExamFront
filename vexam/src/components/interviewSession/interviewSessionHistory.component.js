@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ActiveInterviewSessionList from './active-InterviewSession.component';
-
+import Loader from '../loader/loader.component';
 
 import { fetchInterviewSessionHistory } from '../../actions/interviewSession.action';
 
@@ -89,7 +89,11 @@ class InterviewSessionIndex extends React.Component {
         )
     }
     render() {
-        console.log('interviewsession history', this.state.InterviewSessions)
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
 
         return (
             <Panel header={this.props.heading}>
@@ -103,7 +107,8 @@ class InterviewSessionIndex extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
-        interviewSessions: state.interviewSessionReducer.interviewSessions
+        interviewSessions: state.interviewSessionReducer.interviewSessions,
+        loader: state.loaderReducer
     }
 
 }

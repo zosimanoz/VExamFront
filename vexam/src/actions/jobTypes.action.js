@@ -1,4 +1,5 @@
 import { API_URL } from '../utils/url';
+import { setLoader } from './loader.action';
 
 
 export const SET_JOBTYPES = 'SET_JOBTYPES'
@@ -12,13 +13,13 @@ export const DELETE_JOBTYPE = 'DELETE_JOBTYPE'
 
 // handle the post response
 function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+    if (response.ok) {
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
 }
 
 
@@ -74,9 +75,13 @@ export const fetchJobTypes = () => {
     // thunk middle ware help in calling actions as funcitons
 
     return dispatch => {
+        dispatch(setLoader(true));
         fetch(`${API_URL}/api/v1/jobs/get/all`)
             .then(res => res.json())
-            .then(data => dispatch(setJobTypes(data.Data)))
+            .then(data => {
+                dispatch(setLoader(false));
+                dispatch(setJobTypes(data.Data))
+            })
     }
 }
 
@@ -94,13 +99,13 @@ export function saveJobType(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addJobType(data.Data)));;
+            .then(data => dispatch(addJobType(data.Data)));;
     }
 }
 
 
 
-export function fetchJobTypeById(id){
+export function fetchJobTypeById(id) {
     return dispatch => {
         fetch(`${API_URL}/api/v1/jobs/get/${id}`)
             .then(res => res.json())
@@ -109,8 +114,8 @@ export function fetchJobTypeById(id){
 }
 
 
-export function updateJobType(data){
-     return dispatch => {
+export function updateJobType(data) {
+    return dispatch => {
         return fetch(`${API_URL}/api/v1/jobs/update`, {
             method: 'put',
             dataType: 'json',
@@ -120,22 +125,22 @@ export function updateJobType(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdatedJobType(data.Data)));
+            .then(data => dispatch(setUpdatedJobType(data.Data)));
     }
 }
 
 
-export function deleteJobType(id){
+export function deleteJobType(id) {
 
     return dispatch => {
         return fetch(`${API_URL}/api/v1/jobs/delete/${id}`, {
             method: 'put',
-           dataType: 'json',
+            dataType: 'json',
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(deleteJobTypeById(id)));
+            .then(data => dispatch(deleteJobTypeById(id)));
     }
 }

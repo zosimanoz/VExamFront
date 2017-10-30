@@ -6,9 +6,10 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import AddDepartment from './add-department.component';
 import QuestionComplexityList from './questionComplexity-list.component';
+import Loader from '../loader/loader.component';
 
 
-import { fetchQuestionComplexityList ,deleteQuestionComplexity} from '../../actions/questionComplexity.action';
+import { fetchQuestionComplexityList, deleteQuestionComplexity } from '../../actions/questionComplexity.action';
 
 class QuestionComplexityIndex extends React.Component {
     constructor(props) {
@@ -29,11 +30,14 @@ class QuestionComplexityIndex extends React.Component {
             .then((res) => {
                 this.setState({ loading: false });
                 this.setState({ done: true });
-            },
-            (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-            );
+            }, (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false })));
     }
     render() {
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
         return (
             <Panel header={this.props.heading}>
                 <form id="form-list-client">
@@ -51,8 +55,9 @@ class QuestionComplexityIndex extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        questionComplexities: state.questionComplexities
+        questionComplexities: state.questionComplexities,
+        loader: state.loaderReducer
     }
 }
 
-export default connect(mapStateToProps, { fetchQuestionComplexityList,deleteQuestionComplexity })(QuestionComplexityIndex);
+export default connect(mapStateToProps, { fetchQuestionComplexityList, deleteQuestionComplexity })(QuestionComplexityIndex);

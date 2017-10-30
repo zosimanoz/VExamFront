@@ -214,8 +214,6 @@ class ExamQuestions extends React.Component {
                     </div>
                 </div>
 
-
-
                 <div className="clearfix"></div>
 
                 <div className="btn-form-margin-top div-add-question">
@@ -227,8 +225,6 @@ class ExamQuestions extends React.Component {
     }
 
     render() {
-
-        console.log('store', store)
         return (
             <Panel header={this.props.heading}>
                 {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
