@@ -22,7 +22,7 @@ class ExamWrapper extends React.Component {
         this.state = {
             questions: null,
             ExamDuration:90,
-            jobTitle:''
+            jobTitle:'Software Engineer'
         }
         
     }
@@ -32,8 +32,8 @@ class ExamWrapper extends React.Component {
         console.log('examwrapper prop revieved ->' ,new_props)
         this.setState({
             questions: new_props.quizQuestions,
-            ExamDuration: new_props.quizQuestions.questions[0].ExamSet.ExamDuration,
-            jobTitle:new_props.quizQuestions.questions[0].ExamSet.JobTitle 
+            ExamDuration:new_props.quizQuestions.length >0 ? new_props.quizQuestions.questions[0].ExamSet.ExamDuration : 90,
+            jobTitle:new_props.quizQuestions.length >0 ? new_props.quizQuestions.questions[0].ExamSet.JobTitle : 'Software Engineer'
         });
     }
 
