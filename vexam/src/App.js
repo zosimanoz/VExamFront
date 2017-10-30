@@ -6,7 +6,7 @@ import './css/styles.css';
 import { connect } from 'react-redux';
 
 import {
-  BrowserRouter as Router, Route, NavLink, Switch, Link, matchPath
+  HashRouter as Router, Route, NavLink, Switch, Link, matchPath
 } from 'react-router-dom';
 
 import Admin from './layouts/admin.layout';
@@ -25,12 +25,6 @@ import LoginWrapper from './components/auth/LoginWrapper.container'
 // import Admin from './components/admin/admin.container';
 
 import VexamRoutes from './routes/VexamRoutes';
-
-
-
-const Loader = () => (
-  <div>Loading...</div>
-)
 
 class App extends Component {
 
