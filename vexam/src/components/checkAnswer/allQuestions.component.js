@@ -7,7 +7,9 @@ import RawHtml from "react-raw-html"
 
 import theme from 'react-quill/dist/quill.snow.css';
 
-import { fetchAllAnswersheetByIntervieweeId} from '../../actions/checkAnswer.action';
+import Loader from '../loader/loader.component';
+
+import { fetchAllAnswersheetByIntervieweeId } from '../../actions/checkAnswer.action';
 
 
 class AllQuestions extends React.Component {
@@ -15,66 +17,63 @@ class AllQuestions extends React.Component {
         super(props);
     }
 
-    componentDidMount = (props) => {
-       if (this.props.match.params.id) {
-            this.props.fetchAllAnswersheetByIntervieweeId(this.props.match.params.id);
-        }
-    }
 
     EmptyMessage() {
         return (
             <div className="clearfix">
+                No answers found
+            </div>
+        )
+    }
+
+    RenderAnswersheetTable(props) {
+
+        return (
+            <div className="clearfix ScrollStyle">
                 <table className="table table-bordered table-condensed table-hover">
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>JobTitle</th>
-                            <th>Exam Set Title</th>
-                            
+                            <th>Title</th>
+                            <th>Marks</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody >
-                        <tr>
-                            <td colSpan="3">There are no job vacancies added in this session.</td>
-                        </tr>
+                    <tbody id="form-list-client-body">
+                        {
+                            this.props.listQuestions.map((item, i) =>
+                                <tr key={i}>
+                                    <td>{i + 1}</td>
+                                    <td><RawHtml.span>{item.Question.Question}</RawHtml.span></td>
+                                    <td>{item.Question.Marks}</td>
+                                    <td></td>
+                                </tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </div>
         )
     }
 
-    RenderAnswersheetTable() {
-        return (
-        <div className="clearfix">
-          {
-                        this.props.questionList.map((item,i) =>
-                            <tr key={i}>
-                                <td>{i+1}</td>
-                                <td><RawHtml.span>{item.Question.Question}</RawHtml.span></td>
-                                <td>{item.Question.Marks}</td>
-                            </tr>
-                        )
-            }
-        </div>
-    )
-}
-
 
     render() {
-        let sessionjobListComponent;
-        if (this.props.questionList) {
-            sessionjobListComponent = this.RenderAnswersheetTable()
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
+
+        let questionListComponent;
+        if (this.props.listQuestions && this.props.listQuestions.length > 0) {
+            questionListComponent = this.RenderAnswersheetTable()
         } else {
-            sessionjobListComponent = this.EmptyMessage()
+            questionListComponent = this.EmptyMessage()
         }
         return (
             <div className="panel panel-default">
-                <div className="panel-heading">
-                    <NavLink to={`/admin/interviewsession/history`} ><span>&larr; Back &nbsp;</span></NavLink>
-                    <span> {this.props.heading}</span>
-                </div>
                 <div className="panel-body">
-                {sessionjobListComponent}
+                    {questionListComponent}
                 </div>
             </div>
         )
@@ -82,18 +81,18 @@ class AllQuestions extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log('state...',state);
-      if (props.match.params.id) {
+    if (props.match.params.id) {
         return {
-            questionList: state.answersheetReducer.answersheet
-            
+            //   questionList: state.answersheetReducer.answersheet,
+            loader: state.loaderReducer
         }
     }
     return {
-        questionList: null
+        // questionList: null,
+        loader: state.loaderReducer
     }
 }
 
 
-export default connect(mapStateToProps, { fetchAllAnswersheetByIntervieweeId})(AllQuestions
+export default connect(mapStateToProps, { fetchAllAnswersheetByIntervieweeId })(AllQuestions
 );

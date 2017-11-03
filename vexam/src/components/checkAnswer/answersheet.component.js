@@ -1,38 +1,107 @@
 import React from 'react'
 
-import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel,Tabs,Tab } from 'react-bootstrap';
-import { NavLink} from 'react-router-dom';
+import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem, Panel, Tabs, Tab } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
+import AllQuestions from './allQuestions.component';
+import SubjectiveQuestions from './subjectiveQuestions.component';
+import ObjectiveQuestions from './objectiveQuestions.component';
 
 import { fetchExamAttendedIntervieweesBySessionId } from '../../actions/interviewee.action';
-
+import { fetchSubjectiveAnswersheetByIntervieweeId, fetchAllAnswersheetByIntervieweeId } from '../../actions/checkAnswer.action';
 
 class AnswerSheetContainer extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            key: 1,
+            listQuestions: null,
+            answerType: null,
+            allQuestions: null
+        }
+
+        this.handleSelect = this.handleSelect.bind(this);
     }
-    AllQuestionsTab() {
+
+    componentWillReceiveProps = (newProps) => {
+        this.setState({
+            listQuestions : newProps.questionList
+        });
+    }
+
+    componentDidMount = (props) => {
+        if (this.props.match.params.id) {
+            this.props.fetchAllAnswersheetByIntervieweeId(this.props.match.params.id);
+        }
+    }
+
+    handleSelect(key) {
+        this.setState({ key: key });
+        this.setState({ key: key }, () => {
+            if (this.state.key == 1) {
+                this.setState({
+                    listQuestions: this.props.questionList
+                });
+            } else if (this.state.key == 2) {
+                let arr = this.props.questionList.filter((item) => {
+                    if (item.Question.QuestionTypeId == 1) {
+                        return item;
+                    }
+                });
+                this.setState({
+                    listQuestions: arr
+                });
+            } else {
+                let arr = this.props.questionList.filter((item) => {
+                    if (item.Question.QuestionTypeId == 2) {
+                        return item;
+                    }
+                });
+                this.setState({
+                    listQuestions: arr
+                });
+            }
+        });
+    }
+
+    TabAllQuestions() {
         return (
-           <div>
-               List of all questions here.
-           </div>
+            <div>
+                <AllQuestions {...this.props} {...this.state} />
+            </div>
         )
     }
 
+    TabSubjectiveQuestions() {
+        return (
+            <div>
+                <SubjectiveQuestions {...this.props} {...this.state} />
+            </div>
+        )
+    }
+
+    TabObjectiveQuestions() {
+        return (
+            <div>
+                <ObjectiveQuestions {...this.props} {...this.state} />
+            </div> 
+        )
+    }
+
+
     QuestionTabs() {
         return (
-            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-                <Tab eventKey={1} title="All Questions">{this. AllQuestionsTab()}</Tab>
-                <Tab eventKey={2} title="Subjective Questions">Tab 2 content</Tab>
-                <Tab eventKey={3} title="Objective Questions">Tab 3 content</Tab>
+            <Tabs activeKey={this.state.key} onSelect={this.handleSelect} defaultActiveKey="1" id="uncontrolled-tab-example">
+                <Tab eventKey={1} title="All Questions">{this.TabAllQuestions()}</Tab>
+                <Tab eventKey={2} title="Subjective Questions">{this.TabSubjectiveQuestions()}</Tab>
+                <Tab eventKey={3} title="Objective Questions">{this.TabObjectiveQuestions()}</Tab>
             </Tabs>
         )
     }
 
     render() {
-
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
@@ -41,6 +110,9 @@ class AnswerSheetContainer extends React.Component {
                 </div>
                 <div className="panel-body">
                     {this.QuestionTabs()}
+
+                <button className="btn btn-primary pull-right">Save</button>
+                    
                 </div>
             </div>
         )
@@ -48,11 +120,10 @@ class AnswerSheetContainer extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log('sdfsdfsdfsdfsd sdf sdf', state.intervieweeReducer.intervieweeList);
     if (props.match.params.id) {
         return {
-            intervieweeList: state.intervieweeReducer.intervieweeList
-
+            intervieweeList: state.intervieweeReducer.intervieweeList,
+            questionList: state.answersheetReducer.answersheet
         }
     }
     return {
@@ -61,4 +132,4 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { fetchExamAttendedIntervieweesBySessionId })(AnswerSheetContainer);
+export default connect(mapStateToProps, { fetchExamAttendedIntervieweesBySessionId, fetchSubjectiveAnswersheetByIntervieweeId, fetchAllAnswersheetByIntervieweeId })(AnswerSheetContainer);

@@ -3,7 +3,7 @@ import { Panel } from 'react-bootstrap';
 import classnames from 'classnames';
 import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import Loader from '../loader/loader.component';
 import theme from 'react-quill/dist/quill.snow.css';
 
 import { fetchExamAttendedIntervieweesBySessionId } from '../../actions/interviewee.action';
@@ -69,7 +69,7 @@ class ExamAttendedInterviewee extends React.Component {
                                     <td>{item.ContactNumber}</td>
                                     <td>{item.JobTitle}</td>
                                     <td>
-                                        <NavLink title="Answersheet" to={`/admin/interviewSessions/${item.InterviewSessionId}/attended/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list text-primary"></i></NavLink>
+                                        <NavLink title="Answersheet" to={`/admin/interviewSessions/interviewees/${item.IntervieweeId}/answersheet`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list text-primary"></i></NavLink>
                                     </td>
                                 </tr>
                             )
@@ -81,6 +81,12 @@ class ExamAttendedInterviewee extends React.Component {
     }
 
     render() {
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
+
         let intervieweeListComponent;
         if (this.props.intervieweeList) {
             intervieweeListComponent = this.RenderIntervieweeTable()
@@ -102,15 +108,15 @@ class ExamAttendedInterviewee extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log('sdfsdfsdfsdfsd sdf sdf', state.intervieweeReducer.intervieweeList);
     if (props.match.params.id) {
         return {
-            intervieweeList: state.intervieweeReducer.intervieweeList
-
+            intervieweeList: state.intervieweeReducer.intervieweeList,
+            loader: state.loaderReducer
         }
     }
     return {
-        intervieweeList: null
+        intervieweeList: null,
+        loader: state.loaderReducer
     }
 }
 

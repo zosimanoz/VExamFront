@@ -4,6 +4,7 @@ import { Bootstrap, Grid, Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem,
 import { NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
+import Loader from '../loader/loader.component';
 
 
 import { fetchAllInterviewSessions } from '../../actions/interviewSession.action';
@@ -13,7 +14,7 @@ class AllInterviewSessions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            InterviewSessions : null
+            InterviewSessions: null
         }
     }
 
@@ -21,9 +22,9 @@ class AllInterviewSessions extends React.Component {
         this.props.fetchAllInterviewSessions();
     }
 
-    componentWillReceiveProps(new_props){
+    componentWillReceiveProps(new_props) {
         this.setState({
-            InterviewSessions : new_props.interviewSessions
+            InterviewSessions: new_props.interviewSessions
         })
     }
 
@@ -52,7 +53,7 @@ class AllInterviewSessions extends React.Component {
 
 
     InterviewSessions() {
-       console.log(this.state.InterviewSessions)
+        console.log(this.state.InterviewSessions)
         return (
             <table className="table table-bordered table-condensed table-hover">
                 <thead>
@@ -83,11 +84,14 @@ class AllInterviewSessions extends React.Component {
         )
     }
     render() {
-        console.log('interviewsession history', this.state.InterviewSessions)
-
+        if (this.props.loader.loading) {
+            return (
+                <Loader loading={this.props.loader.loading} />
+            );
+        }
         return (
             <Panel header={this.props.heading}>
-                { this.state.InterviewSessions ? this.InterviewSessions(): this.EmptyMessage() }
+                {this.state.InterviewSessions ? this.InterviewSessions() : this.EmptyMessage()}
             </Panel>
         );
     }
@@ -97,7 +101,8 @@ class AllInterviewSessions extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
-        interviewSessions: state.interviewSessionReducer.interviewSessions
+        interviewSessions: state.interviewSessionReducer.interviewSessions,
+        loader: state.loaderReducer
     }
 
 }

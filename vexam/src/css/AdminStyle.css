@@ -380,3 +380,20 @@ h1.page-header {
 }
 
 
+.float-left {
+	float: left;
+}
+
+.clearboth {
+	clear:both;
+}
+
+
+.ScrollStyle{
+    max-height: 295px;
+    overflow-y: scroll;
+}
+
+.error-message {
+	color: red;
+}
