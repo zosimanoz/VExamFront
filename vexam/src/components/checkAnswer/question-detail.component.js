@@ -1,14 +1,15 @@
 import React from 'react'
 
 import RawHtml from "react-raw-html"
-
+import { connect } from 'react-redux'
+import { assignMarks } from "../../actions/checkAnswer.action"
 // we didn't use class because this is a presentational stateless component
 
 // React has a popular pattern to divide the component into two: presentational and container
 // Container component are responsible for how things work and presentational component are 
 // mainly used for how things look in the application
 
-
+import store from '../../store/index.store';
 class QuestionComponent extends React.Component {
 
     constructor(props) {
@@ -17,19 +18,18 @@ class QuestionComponent extends React.Component {
         this.state = {
             error: null
         }
-
         this.handleMarksChange = this.handleMarksChange.bind(this);
     }
 
     validateAnswer(answerVal) {
-        if(answerVal === ''){
+        if (answerVal === '') {
             return true;
         }
         var re = new RegExp("(^[0-9]\.[0-9]*$)|(^[0-9])");
         return re.test(answerVal);
     }
 
-    handleMarksChange(e) {
+    handleMarksChange = (setQuestionId) => (e) => {
 
         var regTestResult = this.validateAnswer(e.target.value);
 
@@ -38,10 +38,23 @@ class QuestionComponent extends React.Component {
                 this.setState({
                     error: "You can't give marks more than the full marks of the question."
                 });
-            }else {
+            } else {
                 this.setState({
                     error: null
                 });
+
+
+                const newOptions = this.props.listQuestions.map((item, qid) => {
+                    if (setQuestionId !== item.Question.SetQuestionId) {
+                        return item
+                    } else {
+                        item.Question.MarksObtained = e.target.value;
+                        // item.Question.ExaminerId = this.props.user.UserId;
+                        return item
+                    }
+                });
+                console.log('new options',newOptions);
+                this.setState({ listQuestions: newOptions });
             }
         } else {
             this.setState({
@@ -73,6 +86,23 @@ class QuestionComponent extends React.Component {
 
     }
 
+
+
+    // handleIsAnswerCheckBox = (setQuestionId) => (e) => {
+    //     // store.dispatch(assignMarks(setQuestionId,evt.target.value));
+
+    //     const newOptions = this.props.listQuestions.map((item, qid) => {
+    //         if (setQuestionId !== item.Question.SetQuestionId) {
+    //             return item
+    //         } else {
+    //             item.Question.MarksObtained = e.target.value;
+    //             item.Question.ExaminerId = this.props.user.UserId;
+    //             return item
+    //         }
+    //     });
+    //     this.setState({ listQuestions: newOptions });
+    // }
+
     render() {
         return (
             <div className="clearfix">
@@ -82,12 +112,17 @@ class QuestionComponent extends React.Component {
                             <RawHtml.span>
                                 {this.props.questionInfo.Question.Question}
                             </RawHtml.span>
+
                         </div>
                         <div className="pull-right span-question-marks">Marks : {this.props.questionInfo.Question.Marks}</div>
                         <div className="clearboth div-answer"> <span className="span-question-index"><b> => </b></span> <RawHtml.span> {this.props.questionInfo.Question.subjectiveAnswer}</RawHtml.span></div>
 
                         <div>
-                            Marks : <input type="text" onChange={this.handleMarksChange} />
+                            Marks : <input
+                                name="MarksObtained"
+                                type="text"
+                                value={this.props.questionInfo.Question.MarksObtained == 0 ? '' : this.props.questionInfo.Question.MarksObtained}
+                                onChange={this.handleMarksChange(this.props.questionInfo.Question.SetQuestionId)} />
                             <span className="error-message">{this.state.error ? this.state.error : null}</span>
                         </div>
                     </div>
@@ -99,4 +134,17 @@ class QuestionComponent extends React.Component {
 }
 
 
-export default QuestionComponent;
+//export default QuestionComponent;
+
+
+
+const mapStateToProps = (state, props) => {
+    return {
+        user: state.authReducer.user
+    }
+}
+
+
+
+export default connect(mapStateToProps, { assignMarks })(QuestionComponent);
+

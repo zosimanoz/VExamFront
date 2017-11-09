@@ -18,7 +18,7 @@ import { filterQuestionForExamSet } from '../../actions/questions.action'
 import { fetchQuestionCategoryList } from '../../actions/questionCategory.action'
 import { fetchQuestionComplexityList } from '../../actions/questionComplexity.action'
 
-import { saveExamSetQuestions, fetchSetQuestionsByExamSet, addQuestionToExamSet, emptySetQuestionList } from '../../actions/examset.action'
+import { saveExamSetQuestions, fetchSetQuestionsByExamSet, addQuestionToExamSet, emptySetQuestionList,resetExamSetQuestions } from '../../actions/examset.action'
 
 import QuestionList from './questionList.component'
 
@@ -51,6 +51,7 @@ class ExamQuestions extends React.Component {
         this.props.fetchQuestionCategoryList();
         this.props.fetchQuestionComplexityList();
         this.props.fetchSetQuestionsByExamSet(this.props.match.params.id);
+        store.dispatch(resetExamSetQuestions());
     }
 
     componentWillReceiveProps(nextProps) {
@@ -266,4 +267,4 @@ const mapStateToProps = (state, props) => {
 
 
 
-export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, fetchSetQuestionsByExamSet, saveExamSetQuestions })(ExamQuestions);
+export default connect(mapStateToProps, { filterQuestionForExamSet, fetchQuestionCategoryList, fetchQuestionComplexityList, fetchSetQuestionsByExamSet, saveExamSetQuestions,resetExamSetQuestions })(ExamQuestions);

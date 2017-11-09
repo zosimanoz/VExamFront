@@ -90,7 +90,7 @@ class ExamControlComponent extends Component {
 
     submitAnswers() {
         // get the question list and pass it to the api
-        this.props.submitFinalAnswers(this.props.questionsList);
+        this.props.submitFinalAnswers(this.props.questionsList,this.props.user.IntervieweeId);
         this.props.logout();
 
         return (

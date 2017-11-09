@@ -25,33 +25,80 @@ class AllQuestions extends React.Component {
             </div>
         )
     }
+       renderOption(option){
+     
+        var answerOption =""
+        if(option.IsAnswer && option.AnswerByInterviewees){
+            answerOption= <span className="glyphicon glyphicon-ok text-success" >&nbsp;</span>
+        }else if(option.IsAnswer && !option.AnswerByInterviewees){
+               answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        }
+        else if(!option.IsAnswer && option.AnswerByInterviewees){
+             answerOption= <span className="glyphicon glyphicon-ok text-danger">&nbsp;</span>
+        }
+        else if(!option.IsAnswer && !option.AnswerByInterviewees){
+            answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        }
+        return(
+            <li className="answerOption">
+                {answerOption}
+                {option.IsAnswer ? <label className="text-success">{option.AnswerOption}</label> : <label>{option.AnswerOption}</label>}
+             </li>
+        )
+    }
+    renderQuestionOptions(options) {
+        return (
+            <div>
+                <ul>
+                    {options.map((item, i) =>
+
+                        <li className="answerOption">
+                            <input
+                                type="checkbox"
+                                className="quizcheckBox"
+                                disabled={true}
+                                checked={item.AnswerByInterviewees}
+                            />
+                            {item.IsAnswer ? <label className="text-success">{item.AnswerOption}</label> : <label>{item.AnswerOption}</label>}
+
+
+                        </li>
+                    )}
+                </ul>
+            </div>
+        )
+    }
+
+    renderSubjectiveAnswer(subjectiveAnswer) {
+        return (
+            <div className="div-subjective-question-detail pull-left">
+                <RawHtml.span>{subjectiveAnswer}</RawHtml.span>
+            </div>
+        )
+    }
 
     RenderAnswersheetTable(props) {
-
         return (
             <div className="clearfix ScrollStyle">
-                <table className="table table-bordered table-condensed table-hover">
-                    <thead>
-                        <tr>
-                            <th>S.N</th>
-                            <th>Title</th>
-                            <th>Marks</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="form-list-client-body">
-                        {
-                            this.props.listQuestions.map((item, i) =>
-                                <tr key={i}>
-                                    <td>{i + 1}</td>
-                                    <td><RawHtml.span>{item.Question.Question}</RawHtml.span></td>
-                                    <td>{item.Question.Marks}</td>
-                                    <td></td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+                <div className="alert alert-info fade in">
+                   <p>View all the answers submitted by Interviewee.</p>
+                   <p> To Provide marks to the questions please select "Subjective Questions" Tab and mark the answers.</p>
+                </div>
+                {
+                    this.props.listQuestions.map((item, i) =>
+                        <div className="panel panel-default">
+                            <div className="panel-body">
+                                <div className="div-subjective-question-detail">
+                                    <span className="span-question-index"><b>{i + 1}. &nbsp;</b></span>
+                                      <span className="pull-right span-question-marks">Marks :{item.Question.MarksObtained}/ {item.Question.Marks}</span>
+                                    <RawHtml.span>{item.Question.Question}</RawHtml.span>
+                                    {item.Question.QuestionTypeId === 2 ? item.Options.map(this.renderOption) : this.renderSubjectiveAnswer(item.Question.subjectiveAnswer)}
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+
             </div>
         )
     }
@@ -71,11 +118,10 @@ class AllQuestions extends React.Component {
             questionListComponent = this.EmptyMessage()
         }
         return (
-            <div className="panel panel-default">
-                <div className="panel-body">
-                    {questionListComponent}
-                </div>
+            <div>
+                {questionListComponent}
             </div>
+
         )
     }
 }

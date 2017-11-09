@@ -26,35 +26,49 @@ class ObjectiveQuestions extends React.Component {
         )
     }
 
+    renderOption(option){
+     
+        var answerOption =""
+        if(option.IsAnswer && option.AnswerByInterviewees){
+            answerOption= <span className="glyphicon glyphicon-ok text-success" >&nbsp;</span>
+        }else if(option.IsAnswer && !option.AnswerByInterviewees){
+               answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        }
+        else if(!option.IsAnswer && option.AnswerByInterviewees){
+             answerOption= <span className="glyphicon glyphicon-ok text-danger">&nbsp;</span>
+        }
+        else if(!option.IsAnswer && !option.AnswerByInterviewees){
+            answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        }
+        return(
+            <li className="answerOption">
+                {answerOption}
+                {option.IsAnswer ? <label className="text-success">{option.AnswerOption}</label> : <label>{option.AnswerOption}</label>}
+             </li>
+        )
+    }
+
     RenderAnswersheetTable() {
         return (
             <div className="clearfix ScrollStyle">
-                <table className="table table-bordered table-condensed table-hover">
-                    <thead>
-                        <tr>
-                            <th>S.N</th>
-                            <th>Title</th>
-                            <th>Marks</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="form-list-client-body">
-                      
-                  
-                        {
-                            this.props.listQuestions.map((item, i) =>
-                             
-                                <tr key={i}>
-                                    <td>{i + 1}</td>
-                                    <td><RawHtml.span>{item.Question.Question}</RawHtml.span></td>
-                                    <td>{item.Question.Marks}</td>
-                                    <td></td>
-                                </tr>
-                           
-                            )
-                        }
-                    </tbody>
-                </table>
+                <div className="alert alert-info fade in">
+                    <strong>Note!</strong> Objective Questions are automatically checked and marked by the system.
+                </div>
+                {
+                    this.props.listQuestions.map((item, i) =>
+                        <div className="panel panel-default" key={i}>
+                            <div className="panel-body">
+                                <div className="div-subjective-question-detail">
+                                    <span className="span-question-index"><b>{i + 1}. &nbsp;</b></span>
+                                       <span className="pull-right span-question-marks">Marks :{item.Question.MarksObtained}/ {item.Question.Marks}</span>
+                                    <RawHtml.span>{item.Question.Question}</RawHtml.span>
+                                    {item.Question.QuestionTypeId === 2 ?  item.Options.map(this.renderOption) : ''}
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+
             </div>
         )
     }
@@ -71,14 +85,13 @@ class ObjectiveQuestions extends React.Component {
         if (this.props.listQuestions && this.props.listQuestions.length > 0) {
             questionListComponent = this.RenderAnswersheetTable()
         } else {
-            questionListComponent =  this.RenderEmptyMessage()
+            questionListComponent = this.RenderEmptyMessage()
         }
         return (
-            <div className="panel panel-default">
-                <div className="panel-body">
+                <div>
                     {questionListComponent}
                 </div>
-            </div>
+            
         )
     }
 }
@@ -95,5 +108,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { })(ObjectiveQuestions
+export default connect(mapStateToProps, {})(ObjectiveQuestions
 );

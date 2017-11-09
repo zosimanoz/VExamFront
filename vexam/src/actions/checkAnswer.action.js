@@ -12,7 +12,7 @@ export const UPDATE_INTERVIEWEE = 'UPDATE_INTERVIEWEE'
 export const DELETE_INTERVIEWEE = 'DELETE_INTERVIEWEE'
 export const GET_INTERVIEWEE_BY_SSESSIONID = 'GET_INTERVIEWEE_BY_SSESSIONID'
 export const INTERVIEWEE_ERROR = 'INTERVIEWEE_ERROR'
-
+export const ASSIGN_MARKS = 'ASSIGN_MARKS'
 
 export const error = (error) => {
     return {
@@ -71,7 +71,6 @@ export const deleteIntervieweeById = (IntervieweeId) => {
         }
     }
 }
-
 
 
 export const fetchAllAnswersheetByIntervieweeId = (id) => {
@@ -190,3 +189,47 @@ export function deleteInterviewee(id) {
             });
     }
 }
+
+
+export function assignMarks(setQuestionId, marks)  {
+    alert('foo');
+    return {
+        type: ASSIGN_MARKS,
+        payload: {
+             SetQuestionId: setQuestionId,
+             Marks:marks
+        }
+    }
+}
+
+
+export function saveMarks(data) {
+    console.log('data to save->',data);
+    return dispatch => {
+        return axios.post(`${API_URL}/api/v1/checkanswer/check/subjectiveanswer`, JSON.stringify(data), {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res =>alert(3))
+        .catch((err) => {
+                console.log('errror', err)
+        });
+    }
+}
+
+export function autoCheckObjectiveQuestions(intervieweeId) {
+   alert(intervieweeId);
+  return dispatch => {
+  return  axios.get(`${API_URL}/api/v1/checkanswer/check/objectiveanswer/${intervieweeId}`)
+      .then((res) => {
+       alert('checked objective answers');
+      }).catch((err) => {
+        alert('error');
+      });
+  }
+}
+
+
+

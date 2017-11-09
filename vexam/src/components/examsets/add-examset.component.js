@@ -1,13 +1,13 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import classnames from 'classnames';
-import { Redirect, match, matchPath,NavLink } from 'react-router-dom';
+import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
-import { fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById,updateExamSet} from '../../actions/examset.action';
+import { fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById, updateExamSet } from '../../actions/examset.action';
 import { fetchJobTypes } from '../../actions/jobTypes.action';
 
 
@@ -17,11 +17,11 @@ class AddExamSet extends React.Component {
     }
 
     componentDidMount = (props) => {
-         this.props.fetchJobTypes();
+        this.props.fetchJobTypes();
         if (this.props.match.params.id) {
             this.props.fetchExamSetById(this.props.match.params.id);
         }
-      
+
     }
 
 
@@ -29,10 +29,10 @@ class AddExamSet extends React.Component {
         ExamSetId: this.props.examset ? this.props.examset.ExamSetId : null,
         Title: this.props.examset ? this.props.examset.Title : '',
         Description: this.props.examset ? this.props.examset.Description : '',
-        TotalMark: this.props.examset ? this.props.examset.TotalMark: '',
-        JobTitleId : this.props.examset ? this.props.examset.JobTitleId: '',
-        CreatedBy: this.props.examset ? this.props.examset.CreatedBy: 2,
-        ExamDuration:this.props.examset ? this.props.examset.ExamDuration: 90,
+        TotalMark: this.props.examset ? this.props.examset.TotalMark : '',
+        JobTitleId: this.props.examset ? this.props.examset.JobTitleId : '',
+        CreatedBy: this.props.examset ? this.props.examset.CreatedBy : 2,
+        ExamDuration: this.props.examset ? this.props.examset.ExamDuration : 90,
         errors: {},
         loading: false,
         done: false
@@ -40,16 +40,16 @@ class AddExamSet extends React.Component {
 
     componentWillReceiveProps = (new_props) => {
         this.setState({
-        ExamSetId: new_props.examset ? new_props.examset.ExamSetId : null,
-        Title: new_props.examset ? new_props.examset.Title : '',
-        Description: new_props.examset ? new_props.examset.Description : '',
-        TotalMark: new_props.examset ? new_props.examset.TotalMark: '',
-        JobTitleId : new_props.examset ? new_props.examset.JobTitleId: '',
-        CreatedBy: new_props.examset ? new_props.examset.CreatedBy: 2,
-        ExamDuration:new_props.examset ? new_props.examset.ExamDuration: 90,
-        errors: {},
-        loading: false,
-        done: false
+            ExamSetId: new_props.examset ? new_props.examset.ExamSetId : null,
+            Title: new_props.examset ? new_props.examset.Title : '',
+            Description: new_props.examset ? new_props.examset.Description : '',
+            TotalMark: new_props.examset ? new_props.examset.TotalMark : '',
+            JobTitleId: new_props.examset ? new_props.examset.JobTitleId : '',
+            CreatedBy: new_props.examset ? new_props.examset.CreatedBy : 2,
+            ExamDuration: new_props.examset ? new_props.examset.ExamDuration : 90,
+            errors: {},
+            loading: false,
+            done: false
         });
     }
     handleChange = (e) => {
@@ -70,19 +70,42 @@ class AddExamSet extends React.Component {
 
     }
 
-        // handleDurationChange(e){
-        //     this.setState({  
-        //            ExamDuration: e.target.value
-        //         });
-        //     // const re = /^[0-9\b]+$/;
-        //     // if (e.target.value == '' || re.test(e.target.value)) {
-        //     //     this.setState({  
-        //     //        ExamDuration: e.target.value
-        //     //     });
-        //     // }
-        // }
+    validateExamDuration(examDuration) {
+        if (examDuration === '') {
+            return true;
+        }
+        var re = new RegExp("(^[0-9]+$)");
+        return re.test(examDuration);
+    }
 
-    
+    handleExamDurationChange = (e) => {
+        var regTestResult = this.validateExamDuration(e.target.value);
+
+        if (regTestResult) {
+            if (!!this.state.errors[e.target.name]) {
+                let errors = Object.assign({}, this.state.errors);
+                delete errors[e.target.name];
+
+                this.setState({
+                    [e.target.name]: e.target.value,
+                    errors
+                });
+            } else {
+                this.setState({
+                    [e.target.name]: e.target.value
+                });
+            }
+        } else {
+             let errors = {};
+             errors.ExamDuration= "Only positive and numeric values are allowed."
+            this.setState({
+                errors
+            });
+        }
+    }
+
+
+
     handleChangeForEditor = (value) => {
         this.setState({
             Description: value
@@ -124,27 +147,27 @@ class AddExamSet extends React.Component {
 
         if (isValid) {
 
-            const {ExamSetId, Title, Description, TotalMark, CreatedBy,JobTitleId,ExamDuration} = this.state;
+            const { ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId, ExamDuration } = this.state;
 
             this.setState({ loading: true });
 
-            if(ExamSetId) {
-                this.props.updateExamSet({ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId,ExamDuration })
-                .then((res)=>{ 
-                    this.setState({ loading: false });
-                    this.setState({ done: true });
-                 },
+            if (ExamSetId) {
+                this.props.updateExamSet({ ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId, ExamDuration })
+                    .then((res) => {
+                        this.setState({ loading: false });
+                        this.setState({ done: true });
+                    },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                 );
+                    );
             }
             else {
-            this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId,ExamDuration })
-                .then(() => {
-                    this.setState({ done: true });
-                    this.setState({ loading: false })
-                },
-                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                );
+                this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId, ExamDuration })
+                    .then(() => {
+                        this.setState({ done: true });
+                        this.setState({ loading: false })
+                    },
+                    (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                    );
             }
         }
 
@@ -154,7 +177,7 @@ class AddExamSet extends React.Component {
 
 
     renderForm() {
-        {console.log('title',this.state.Title)}
+        { console.log('title', this.state.Title) }
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
 
@@ -178,7 +201,7 @@ class AddExamSet extends React.Component {
                             type="text"
                             name="ExamDuration"
                             value={this.state.ExamDuration}
-                            onChange={this.handleChange}
+                            onChange={this.handleExamDurationChange}
                             placeholder="Enter Exam Duration."
                             className="form-control" />
                         <span className="form-error">{this.state.errors.ExamDuration}</span>
@@ -196,7 +219,7 @@ class AddExamSet extends React.Component {
                     </div>
                 </div>
 
-                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                {/*<div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
                     <div className={classnames('field', { errors: !!this.state.errors.TotalMark })}>
                         <label>Total Marks</label>
                         <input
@@ -208,12 +231,12 @@ class AddExamSet extends React.Component {
                             className="form-control" />
                         <span className="form-error">{this.state.errors.TotalMark}</span>
                     </div>
-                </div>
+                </div>*/}
 
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
                     <div className={classnames('field', { errors: !!this.state.errors.JobTitleId })}>
                         <label>Job Title </label>
-                           <select name="JobTitleId" className="form-control" onChange={this.handleChange.bind(this)}>
+                        <select name="JobTitleId" className="form-control" onChange={this.handleChange.bind(this)}>
                             <option value="0">--Select Job Title--</option>
                             {this.props.jobs.map((job, idx) => (
                                 <option selected={job.JobTitleId === this.state.JobTitleId ? true : false} value={job.JobTitleId}>{job.JobTitle}</option>
@@ -226,7 +249,7 @@ class AddExamSet extends React.Component {
 
                 <div className="btn-form-margin-top div-add-question">
                     <button className="btn btn-success btn-sm">Save</button>
-                     <NavLink to={`/admin/examsets`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
+                    <NavLink to={`/admin/examsets`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
                 </div>
             </form>
         )
@@ -235,7 +258,7 @@ class AddExamSet extends React.Component {
     render() {
         return (
             <Panel header={this.props.heading}>
-              {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
+                {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
             </Panel>
         )
     }
@@ -243,19 +266,19 @@ class AddExamSet extends React.Component {
 
 
 
-const mapStateToProps = (state,props) => {
+const mapStateToProps = (state, props) => {
     if (props.match.params.id) {
         return {
             examset: state.examsets.examset,
-              jobs:state.jobTypes
+            jobs: state.jobTypes
         }
     }
 
     return {
-       // examset: null,
-          jobs:state.jobTypes
+        // examset: null,
+        jobs: state.jobTypes
     }
 }
 
 
-export default connect(mapStateToProps,{fetchJobTypes,fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById,updateExamSet})(AddExamSet);
+export default connect(mapStateToProps, { fetchJobTypes, fetchExamSets, saveExamSet, fetchExamSetById, deleteExamSetById, updateExamSet })(AddExamSet);

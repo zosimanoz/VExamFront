@@ -102,6 +102,7 @@ class AnswerSheetContainer extends React.Component {
     }
 
     render() {
+        console.log('answersheet to view all props',this.state )
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
@@ -110,9 +111,6 @@ class AnswerSheetContainer extends React.Component {
                 </div>
                 <div className="panel-body">
                     {this.QuestionTabs()}
-
-                <button className="btn btn-primary pull-right">Save</button>
-                    
                 </div>
             </div>
         )

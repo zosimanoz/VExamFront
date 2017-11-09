@@ -38,7 +38,7 @@ class AllInterviewSessions extends React.Component {
                             <th>Title</th>
                             <th>Start Date</th>
                             <th>End Date</th>
-                            <th >Action</th>
+                            <th>Interviewees</th>
                         </tr>
                     </thead>
                     <tbody >
@@ -62,7 +62,7 @@ class AllInterviewSessions extends React.Component {
                         <th>Title</th>
                         <th>Start Date</th>
                         <th>End Date</th>
-                        <th colSpan="2">Action</th>
+                        <th>Interviewees</th>
                     </tr>
                 </thead>
                 <tbody id="form-list-client-body">

@@ -120,7 +120,6 @@ export const fetchExamAttendedIntervieweesBySessionId = (id) => {
 }
 
 export function saveInterviewee(data) {
-    console.log('------------------------->', data)
     return dispatch => {
         return axios({
             method: 'POST',

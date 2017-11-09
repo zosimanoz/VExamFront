@@ -83,7 +83,6 @@ class ExamQuestionList extends React.Component {
 
 
     onAddSubjectiveAnswer(question, answer) {
-
         let arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == question.Question.QuestionId
         });

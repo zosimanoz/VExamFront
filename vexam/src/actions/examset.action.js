@@ -19,6 +19,7 @@ export const SET_QUESTIONS_BY_EXAM_SET = 'SET_QUESTIONS_BY_EXAM_SET'
 export const QUESTION_BANK_ERROR = 'QUESTION_BANK_ERROR'
 export const SET_QUESTIONID_BY_EXAM_SET = 'SET_QUESTIONID_BY_EXAM_SET'
 export const EMPTY_SET_QUESTION_LIST = 'EMPTY_SET_QUESTION_LIST'
+export const REST_EXAM_SET_QUESTIONS = 'REST_EXAM_SET_QUESTIONS'
 
 
 // handle the post response
@@ -51,7 +52,11 @@ export const emptySetQuestionList = () => {
         type: EMPTY_SET_QUESTION_LIST
     }
 }
-
+export const resetExamSetQuestions =() =>{
+     return {
+        type: REST_EXAM_SET_QUESTIONS
+    }
+}
 export const addExamSet = (examset) => {
     return {
         type: ADD_EXAMSET,

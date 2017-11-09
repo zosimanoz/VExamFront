@@ -72,8 +72,21 @@ export function getExamQuestions(intervieweeId) {
   }
 }
 
+// export function autoCheckObjectiveQuestions(intervieweeId) {
+//    alert(intervieweeId);
+//   return dispatch => {
+//     axios.get(`${API_URL}/api/v1/checkanswer/check/objectiveanswer/${intervieweeId}`)
+//       .then((res) => {
+//        alert('checked objective answers');
+//       }).catch((err) => {
+//         alert('error');
+//         dispatch(fetchExamQuestionsFailure(err.response.data))
+//       });
+//   }
+// }
 
-export function submitFinalAnswers(questions) {
+export function submitFinalAnswers(questions,intervieweeId) {
+  console.log('submitting answer here-->',questions);
   return dispatch => {
     dispatch(saveAnswersStart());
     return axios.post(`${API_URL}/api/v1/answer/save`, JSON.stringify(questions), {
@@ -81,7 +94,9 @@ export function submitFinalAnswers(questions) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
-    }).then(res => dispatch(saveAnswerSuccess(res.data.Data)));;
+    }).then(res => {
+      dispatch(saveAnswerSuccess(res.data.Data));
+});
 
 
   }

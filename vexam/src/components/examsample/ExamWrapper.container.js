@@ -47,7 +47,6 @@ class ExamWrapper extends React.Component {
         window.onbeforeunload = function (e) {
             return window.confirm('Your progress will be cleared on reload. Are you sure you want to leave the page?');
         }
-     console.log('jobTitle -->',this.state.jobTitle);
         return (
             <div>
                 <div className="navbar navbar-default navbar-fixed-top clearfix">

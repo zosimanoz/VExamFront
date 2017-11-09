@@ -390,10 +390,17 @@ h1.page-header {
 
 
 .ScrollStyle{
-    max-height: 295px;
+    max-height: 450px;
     overflow-y: scroll;
 }
 
 .error-message {
 	color: red;
+}
+
+
+
+.option-Checkbox-white{
+	color: white;
+	
 }
