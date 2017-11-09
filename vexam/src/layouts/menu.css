@@ -13,7 +13,8 @@
 /* make ALL links (main and submenu) have padding and background color */
 .mainmenu a {
   display: block;
-  background-color: #eff0f2;
+  /*background-color: #eff0f2;*/
+   background-color: #ccc;
   text-decoration: none;
   padding: 10px;
   color: #000;
@@ -30,18 +31,29 @@
   we're changing the submenu's max-height from 0 to 200px;
 */
 
-.mainmenu li:hover .submenu {
+.mainmenu li .submenu {
   display: block;
   max-height: 200px;
+  background-color: #eff0f2;
+  border-bottom: 1px solid #ccc;
 }
 
+.mainmenu li {
+   border: 1px solid #eff0f2;
+}
+.mainmenu li .submenu li {
+  padding-left: 20px;
+ 
+  /*background-color: #ccc;*/
+}
 /*
   we now overwrite the background-color for .submenu links only.
   CSS reads down the page, so code at the bottom will overwrite the code at the top.
 */
 
 .submenu a {
-  background-color: #ccc;
+  background-color: #eff0f2;
+   border-bottom: 1px solid #ccc;
 }
 
 /* hover behaviour for links inside .submenu */

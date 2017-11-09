@@ -13,20 +13,20 @@ const SideBar = () => (
       <li><NavLink to='/admin/examsets' activeClassName="active"><span className="glyphicon glyphicon-question-sign"></span> <span className="hidden-xs">Exam Sets</span></NavLink></li>
       {/*<li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span></NavLink></li>*/}
 
-      <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
+      <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Interview Sessions</span></NavLink>
         <ul className="submenu">
-          <li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Active Sessions</span></NavLink></li>
-          <li><NavLink to='/admin/interviewsession/history' activeClassName="active"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">Session History</span></NavLink></li>
+          <li><NavLink to='/admin/interviewsessions' activeClassName="active"><span className="hidden-xs">Active Sessions</span></NavLink></li>
+          <li><NavLink to='/admin/interviewsession/history' activeClassName="active"><span className="hidden-xs">Session History</span></NavLink></li>
         </ul>
       </li>
 
       <li><NavLink to='/admin/checkanswers' activeClassName="active"><span className="glyphicon glyphicon-pencil"></span> <span className="hidden-xs">Check Answersheet </span></NavLink></li>
-      <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span> <span className="glyphicon glyphicon-chevron-down" style={{ float: 'right' }}  ></span></NavLink>
+      <li><NavLink to='#' activeClassName="active"><span className="glyphicon glyphicon-cog"></span> <span className="hidden-xs">Settings</span></NavLink>
         <ul className="submenu">
-          <li><NavLink to="/admin/departments" activeClassName="active"><span className="glyphicon glyphicon-home"></span> <span className="hidden-xs">Departments</span></NavLink></li>
-          <li><NavLink to='/admin/categories' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Categories</span></NavLink></li>
-          <li><NavLink to='/admin/complexities' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Question Complexity</span></NavLink></li>
-          <li><NavLink to='/admin/jobs' activeClassName="active"><span className="glyphicon glyphicon-bell"></span> <span className="hidden-xs">Jobs</span></NavLink></li>
+          <li><NavLink to="/admin/departments" activeClassName="active"> <span className="hidden-xs">Departments</span></NavLink></li>
+          <li><NavLink to='/admin/categories' activeClassName="active"> <span className="hidden-xs">Categories</span></NavLink></li>
+          <li><NavLink to='/admin/complexities' activeClassName="active"><span className="hidden-xs">Question Complexity</span></NavLink></li>
+          <li><NavLink to='/admin/jobs' activeClassName="active"><span className="hidden-xs">Jobs</span></NavLink></li>
         </ul>
       </li>
 
