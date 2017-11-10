@@ -1,12 +1,12 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import classnames from 'classnames';
-import { Redirect, match, matchPath,NavLink } from 'react-router-dom';
+import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import theme from 'react-quill/dist/quill.snow.css';
 
-import { fetchInterviewSessionById, updateInterviewSession, saveInterviewSession} from '../../actions/interviewSession.action';
+import { fetchInterviewSessionById, updateInterviewSession, saveInterviewSession } from '../../actions/interviewSession.action';
 
 import Moment from 'react-moment';
 
@@ -16,7 +16,7 @@ class AddInterviewSession extends React.Component {
     }
 
     componentDidMount = (props) => {
-        console.log('props',this.props);
+        console.log('props', this.props);
         if (this.props.match.params.id) {
             this.props.fetchInterviewSessionById(this.props.match.params.id);
         }
@@ -24,11 +24,11 @@ class AddInterviewSession extends React.Component {
 
 
     state = {
-        InterviewSessionId: this.props.interviewSession ?this.props.interviewSession.InterviewSessionId : null,
+        InterviewSessionId: this.props.interviewSession ? this.props.interviewSession.InterviewSessionId : null,
         Title: this.props.interviewSession ? this.props.interviewSession.Title : '',
         SessionStartDate: this.props.interviewSession ? this.props.interviewSession.SessionStartDate : '',
-        SessionEndDate: this.props.interviewSession ? this.props.interviewSession.SessionEndDate: '',
-        CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy: 2,
+        SessionEndDate: this.props.interviewSession ? this.props.interviewSession.SessionEndDate : '',
+        CreatedBy: 2,
         errors: {},
         loading: false,
         done: false
@@ -36,15 +36,15 @@ class AddInterviewSession extends React.Component {
 
     componentWillReceiveProps = (new_props) => {
         this.setState({
-        InterviewSessionId: new_props.interviewSession ? new_props.interviewSession.InterviewSessionId : null,
-        Title: new_props.interviewSession ? new_props.interviewSession.Title : '',
-        SessionStartDate: new_props.interviewSession ? new_props.interviewSession.SessionStartDate : '',
-        SessionEndDate: new_props.interviewSession ? new_props.interviewSession.SessionEndDate: '',
-        CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy: 2,
-        errors: {},
-        loading: false,
-        done: false
-       });
+            InterviewSessionId: new_props.interviewSession ? new_props.interviewSession.InterviewSessionId : null,
+            Title: new_props.interviewSession ? new_props.interviewSession.Title : '',
+            SessionStartDate: new_props.interviewSession ? new_props.interviewSession.SessionStartDate : '',
+            SessionEndDate: new_props.interviewSession ? new_props.interviewSession.SessionEndDate : '',
+            CreatedBy: new_props.interviewSession ? new_props.interviewSession.CreatedBy : 2,
+            errors: {},
+            loading: false,
+            done: false
+        });
     }
 
     handleChange = (e) => {
@@ -69,6 +69,11 @@ class AddInterviewSession extends React.Component {
 
 
     handleFormSubmit = (e) => {
+
+         this.setState({ 
+                CreatedBy: this.props.user.UserId
+            });
+
         e.preventDefault();
 
         // validate the form here
@@ -77,7 +82,7 @@ class AddInterviewSession extends React.Component {
         if (this.state.Title === '') {
             errors.Title = 'Title cannot be empty';
         }
-     
+
         if (this.state.SessionStartDate === '') {
             errors.SessionStartDate = 'Session Start Date is required';
         }
@@ -96,27 +101,29 @@ class AddInterviewSession extends React.Component {
         if (isValid) {
             debugger;
 
-            const {InterviewSessionId, Title, SessionStartDate, SessionEndDate ,CreatedBy} = this.state;
+            const { InterviewSessionId, Title, SessionStartDate, SessionEndDate, CreatedBy } = this.state;
 
-            this.setState({ loading: true });
+            this.setState({ 
+                loading: true
+            });
 
-            if(InterviewSessionId) {
-                this.props.updateInterviewSession({InterviewSessionId, Title, SessionStartDate, SessionEndDate ,CreatedBy})
-                .then((res)=>{ 
-                    this.setState({ loading: false });
-                    this.setState({ done: true });
-                 },
+            if (InterviewSessionId) {
+                this.props.updateInterviewSession({ InterviewSessionId, Title, SessionStartDate, SessionEndDate, CreatedBy })
+                    .then((res) => {
+                        this.setState({ loading: false });
+                        this.setState({ done: true });
+                    },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                 );
+                    );
             }
             else {
-            this.props.saveInterviewSession({ Title, SessionStartDate, SessionEndDate,CreatedBy })
-                .then(() => {
-                    this.setState({ done: true });
-                    this.setState({ loading: false })
-                },
-                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                );
+                this.props.saveInterviewSession({ Title, SessionStartDate, SessionEndDate, CreatedBy })
+                    .then(() => {
+                        this.setState({ done: true });
+                        this.setState({ loading: false })
+                    },
+                    (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                    );
             }
 
 
@@ -129,7 +136,6 @@ class AddInterviewSession extends React.Component {
 
 
     renderForm() {
-        {console.log('title',this.state)}
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
 
@@ -146,7 +152,7 @@ class AddInterviewSession extends React.Component {
                     </div>
                 </div>
 
-                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
                     <div className={classnames('field', { errors: !!this.state.errors.SessionStartDate })}>
                         <label>Start Date</label>
                         <input
@@ -175,7 +181,7 @@ class AddInterviewSession extends React.Component {
 
                 <div className="btn-form-margin-top div-add-question">
                     <button className="btn btn-success btn-sm">Save</button>
-                     <NavLink to={`/admin/interviewsessions`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
+                    <NavLink to={`/admin/interviewsessions`} className="btn btn-danger btn-sm btn-right-margin"><span>Cancel</span></NavLink>
                 </div>
             </form>
         )
@@ -184,21 +190,24 @@ class AddInterviewSession extends React.Component {
     render() {
         return (
             <Panel header={this.props.heading}>
-              {this.state.done ? <Redirect to="/admin/interviewsessions" /> : this.renderForm()}
+                {this.state.done ? <Redirect to="/admin/interviewsessions" /> : this.renderForm()}
             </Panel>
         )
     }
 }
 
-const mapStateToProps = (state,props) => {
+const mapStateToProps = (state, props) => {
     if (props.match.params.id) {
         return {
-            interviewSession: state.interviewSessionReducer.interviewSession        }
+            interviewSession: state.interviewSessionReducer.interviewSession,
+            user: state.authReducer.user
+        }
     }
     return {
-       interviewSession:null
+        interviewSession: null,
+        user: state.authReducer.user
     }
 }
 
 
-export default connect(mapStateToProps,{fetchInterviewSessionById, updateInterviewSession, saveInterviewSession})(AddInterviewSession);
+export default connect(mapStateToProps, { fetchInterviewSessionById, updateInterviewSession, saveInterviewSession })(AddInterviewSession);
