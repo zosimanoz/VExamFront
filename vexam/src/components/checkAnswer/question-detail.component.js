@@ -25,13 +25,17 @@ class QuestionComponent extends React.Component {
         if (answerVal === '') {
             return true;
         }
-        var re = new RegExp("(^[0-9]\.[0-9]*$)|(^[0-9])");
+        var re = new RegExp("(^\.[0-9]*$|^[0-9]\.[0-9]*$)|(^[0-9])");
         return re.test(answerVal);
     }
 
     handleMarksChange = (setQuestionId) => (e) => {
 
-        var regTestResult = this.validateAnswer(e.target.value);
+        const str = e.target.value
+     
+        var regTestResult = this.validateAnswer(str);
+
+        // var regTestResult = this.validateAnswer(e.target.value);
 
         if (regTestResult) {
             if (e.target.value > this.props.questionInfo.Question.Marks) {
@@ -53,7 +57,7 @@ class QuestionComponent extends React.Component {
                         return item
                     }
                 });
-                console.log('new options',newOptions);
+                console.log('new options', newOptions);
                 this.setState({ listQuestions: newOptions });
             }
         } else {
@@ -122,7 +126,10 @@ class QuestionComponent extends React.Component {
                                 name="MarksObtained"
                                 type="text"
                                 value={this.props.questionInfo.Question.MarksObtained == 0 ? '' : this.props.questionInfo.Question.MarksObtained}
-                                onChange={this.handleMarksChange(this.props.questionInfo.Question.SetQuestionId)} />
+                                onChange={
+                                    this.handleMarksChange(this.props.questionInfo.Question.SetQuestionId)
+                                }
+                            />
                             <span className="error-message">{this.state.error ? this.state.error : null}</span>
                         </div>
                     </div>

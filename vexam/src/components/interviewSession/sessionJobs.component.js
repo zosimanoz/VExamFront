@@ -33,7 +33,7 @@ class AddSessionJobs extends React.Component {
         JobTitleId: this.props.sessionJobs ? this.props.sessionJobs.JobTitleId : '',
         JobTitle: this.props.sessionJobs ? this.props.sessionJobs.JobTitle : '',
         ExamSetId: this.props.sessionJobs ? this.props.sessionJobs.ExamSetId : '',
-        CreatedBy: this.props.sessionJobs ? this.props.sessionJobs.CreatedBy : '2',
+        CreatedBy: this.props.sessionJobs ? this.props.sessionJobs.CreatedBy : this.props.user.UserId,
         errors: {},
         loading: false,
         done: false
@@ -47,7 +47,7 @@ class AddSessionJobs extends React.Component {
             JobTitleId: new_props.sessionJobs ? new_props.sessionJobs.JobTitleId : '',
             JobTitle: new_props.sessionJobs ? new_props.sessionJobs.JobTitle : '',
             ExamSetId: new_props.sessionJobs ? new_props.sessionJobs.ExamSetId : '',
-            CreatedBy: new_props.sessionJobs ? this.props.sessionJobs.CreatedBy : '2',
+            CreatedBy: new_props.sessionJobs ? this.props.sessionJobs.CreatedBy : this.props.user.UserId,
             errors: {},
             loading: false,
             done: false
@@ -249,18 +249,20 @@ class AddSessionJobs extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log('sdfsdfsdfsdfsd sdf sdf', state.sessionJobReducer.sessionJobList);
+  
     if (props.match.params.id) {
         return {
             sessionJobList: state.sessionJobReducer.sessionJobList,
             jobs: state.jobTypes,
-            examsets: state.examsets.examsetList
+            examsets: state.examsets.examsetList,
+            user: state.authReducer.user
         }
     }
     return {
         sessionJobList: null,
         jobs: state.jobTypes,
-        examsets: state.examsets.examsetList
+        examsets: state.examsets.examsetList,
+        user: state.authReducer.user
     }
 }
 

@@ -31,7 +31,7 @@ class AddQuestion extends React.Component {
         QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : '',
         Question: this.props.question ? this.props.question.Question : '',
         Marks: this.props.question ? this.props.question.Marks : '',
-        PreparedBy: 2,
+        PreparedBy: this.props.user.UserId,
         errors: {},
         loading: false,
         done: false,
@@ -77,7 +77,7 @@ class AddQuestion extends React.Component {
                 QuestionComplexityId: new_props.questions ? new_props.questions.Question.QuestionComplexityId : '',
                 Question: new_props.questions ? new_props.questions.Question.Question : '',
                 Marks: new_props.questions ? new_props.questions.Question.Marks : '',
-                PreparedBy: 2,
+                PreparedBy: new_props.user.UserId,
                 errors: {},
                 loading: false,
                 done: false,
@@ -416,14 +416,16 @@ function mapStateToProps(state, props) {
         return {
             complexityList: state.questionComplexities,
             categoryList: state.questionCategories,
-            questions: state.questions.QuestionWithOptions
+            questions: state.questions.QuestionWithOptions,
+            user: state.authReducer.user
         }
     }
 
     return {
         questions: null,
         complexityList: state.questionComplexities,
-        categoryList: state.questionCategories
+        categoryList: state.questionCategories,
+        user: state.authReducer.user
     }
 }
 

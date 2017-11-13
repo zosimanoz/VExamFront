@@ -36,7 +36,7 @@ class AddInterviewees extends React.Component {
         Address: this.props.interviewees ? this.props.interviewees.Address : '',
         JobTitleId: this.props.interviewees ? this.props.interviewees.JobTitleId : '',
         JobTitle: this.props.interviewees ? this.props.interviewees.JobTitle : '',
-        CreatedBy: this.props.interviewees ? this.props.interviewees.CreatedBy : '2',
+        CreatedBy: this.props.interviewees ? this.props.interviewees.CreatedBy : this.props.user.UserId,
         errors: {},
         loading: false,
         done: false
@@ -56,7 +56,7 @@ class AddInterviewees extends React.Component {
             Address: new_props.interviewees ? new_props.interviewees.Address : '',
             JobTitleId: new_props.interviewees ? new_props.interviewees.JobTitleId : '',
             JobTitle: new_props.interviewees ? new_props.interviewees.JobTitle : '',
-            CreatedBy: new_props.interviewees ? new_props.interviewees.CreatedBy : '2',
+            CreatedBy: new_props.interviewees ? new_props.interviewees.CreatedBy : this.props.user.UserId,
             errors: {},
             loading: false,
             done: false
@@ -381,13 +381,15 @@ const mapStateToProps = (state, props) => {
     if (props.match.params.id) {
         return {
             intervieweeList: state.intervieweeReducer.intervieweeList,
-            jobs: state.jobTypes
+            jobs: state.jobTypes,
+            user: state.authReducer.user
             
         }
     }
     return {
         intervieweeList: null,
-        jobs: state.jobTypes
+        jobs: state.jobTypes,
+        user: state.authReducer.user
     }
 }
 

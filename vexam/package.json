@@ -22,6 +22,7 @@
     "react-countdown-clock": "^2.0.0",
     "react-countdown-now": "^1.2.0",
     "react-dom": "^15.6.1",
+    "react-images": "^0.5.11",
     "react-moment": "^0.6.5",
     "react-quill": "^1.1.0",
     "react-raw-html": "^0.4.0",

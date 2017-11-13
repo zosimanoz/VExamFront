@@ -10,8 +10,6 @@ class QuestionList extends Component {
     handleClick = () => {
         const { QuestionId, addQuestionToExamSet, deleteQuestionFromExamSet, isInExamSet } = this.props;
 
-
-
         if (isInExamSet) {
             deleteQuestionFromExamSet(QuestionId);
         } else {
@@ -21,9 +19,7 @@ class QuestionList extends Component {
 
     render() {
         const { QuestionId,Question,QuestionCategoryName,QuestionComplexityName, QuestionTypeName,isInExamSet } = this.props;
-
-        console.log('is in exam set', isInExamSet)
-
+        
         return (
            <tr className="options" key={QuestionId}>
                 <td><button className={isInExamSet ? 'btn btn-danger btn-xs' : 'btn btn-primary btn-xs' } type="button" onClick={this.handleClick}>{isInExamSet ? 'x': '+'}</button></td>

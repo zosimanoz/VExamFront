@@ -27,7 +27,7 @@ class AddInterviewees extends React.Component {
         Title: this.props.interviewSession ? this.props.interviewSession.Title : '',
         SessionStartDate: this.props.interviewSession ? this.props.interviewSession.SessionStartDate : '',
         SessionEndDate: this.props.interviewSession ? this.props.interviewSession.SessionEndDate : '',
-        CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy : 2,
+        CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy : this.props.user.UserId,
         errors: {},
         loading: false,
         done: false
@@ -39,7 +39,7 @@ class AddInterviewees extends React.Component {
             Title: new_props.interviewSession ? new_props.interviewSession.Title : '',
             SessionStartDate: new_props.interviewSession ? new_props.interviewSession.SessionStartDate : '',
             SessionEndDate: new_props.interviewSession ? new_props.interviewSession.SessionEndDate : '',
-            CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy : 2,
+            CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy : this.props.user.UserId,
             errors: {},
             loading: false,
             done: false
@@ -248,11 +248,13 @@ const mapStateToProps = (state, props) => {
     console.log('sdfsdfsdfsdfsd sdf sdf', state.interviewSessions);
     if (props.match.params.id) {
         return {
-            interviewSession: state.interviewSessions.interviewSession
+            interviewSession: state.interviewSessions.interviewSession,
+            user: state.authReducer.user
         }
     }
     return {
-        interviewSession: null
+        interviewSession: null,
+        user: state.authReducer.user
     }
 }
 

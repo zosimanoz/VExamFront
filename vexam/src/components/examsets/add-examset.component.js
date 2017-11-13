@@ -31,7 +31,7 @@ class AddExamSet extends React.Component {
         Description: this.props.examset ? this.props.examset.Description : '',
         TotalMark: this.props.examset ? this.props.examset.TotalMark : '',
         JobTitleId: this.props.examset ? this.props.examset.JobTitleId : '',
-        CreatedBy: this.props.examset ? this.props.examset.CreatedBy : 2,
+        CreatedBy: this.props.examset ? this.props.examset.CreatedBy : this.props.user.UserId,
         ExamDuration: this.props.examset ? this.props.examset.ExamDuration : 90,
         errors: {},
         loading: false,
@@ -45,7 +45,7 @@ class AddExamSet extends React.Component {
             Description: new_props.examset ? new_props.examset.Description : '',
             TotalMark: new_props.examset ? new_props.examset.TotalMark : '',
             JobTitleId: new_props.examset ? new_props.examset.JobTitleId : '',
-            CreatedBy: new_props.examset ? new_props.examset.CreatedBy : 2,
+            CreatedBy: new_props.examset ? new_props.examset.CreatedBy : this.props.user.UserId,
             ExamDuration: new_props.examset ? new_props.examset.ExamDuration : 90,
             errors: {},
             loading: false,
@@ -115,9 +115,6 @@ class AddExamSet extends React.Component {
 
     handleFormSubmit = (e) => {
         e.preventDefault();
-
-
-
 
         // validate the form here
 
@@ -256,6 +253,7 @@ class AddExamSet extends React.Component {
     }
 
     render() {
+       console.log(this.props.user.UserId) 
         return (
             <Panel header={this.props.heading}>
                 {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
@@ -276,7 +274,8 @@ const mapStateToProps = (state, props) => {
 
     return {
         // examset: null,
-        jobs: state.jobTypes
+        jobs: state.jobTypes,
+        user: state.authReducer.user
     }
 }
 

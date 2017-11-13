@@ -81,6 +81,15 @@ li.answerOption {
     margin-left: 10px;
 }
 
+
+.option-img img {
+    width: 40%;
+    height: 40%;
+    margin-left: 12px;
+    border: 1px solid #aaa;
+    padding: 5px;
+}
+
 .ql-toolbar.ql-snow + .ql-container.ql-snow {
     min-height: 180px;
 }

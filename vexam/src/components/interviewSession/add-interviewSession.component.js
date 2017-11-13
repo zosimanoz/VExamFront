@@ -28,7 +28,7 @@ class AddInterviewSession extends React.Component {
         Title: this.props.interviewSession ? this.props.interviewSession.Title : '',
         SessionStartDate: this.props.interviewSession ? this.props.interviewSession.SessionStartDate : '',
         SessionEndDate: this.props.interviewSession ? this.props.interviewSession.SessionEndDate : '',
-        CreatedBy: 2,
+        CreatedBy: this.props.interviewSession ? this.props.interviewSession.CreatedBy : this.props.user.UserId,
         errors: {},
         loading: false,
         done: false
@@ -40,7 +40,7 @@ class AddInterviewSession extends React.Component {
             Title: new_props.interviewSession ? new_props.interviewSession.Title : '',
             SessionStartDate: new_props.interviewSession ? new_props.interviewSession.SessionStartDate : '',
             SessionEndDate: new_props.interviewSession ? new_props.interviewSession.SessionEndDate : '',
-            CreatedBy: new_props.interviewSession ? new_props.interviewSession.CreatedBy : 2,
+            CreatedBy: new_props.interviewSession ? new_props.interviewSession.CreatedBy : this.props.user.UserId,
             errors: {},
             loading: false,
             done: false
