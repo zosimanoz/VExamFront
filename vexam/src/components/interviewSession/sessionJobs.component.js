@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import theme from 'react-quill/dist/quill.snow.css';
 
-import { fetchSessionJobBySessionId, updateSessionJob, saveSessionJob,deleteSessionJob } from '../../actions/sessionJobs.action';
+import { fetchSessionJobBySessionId, updateSessionJob, saveSessionJob, deleteSessionJob, checkJobExists } from '../../actions/sessionJobs.action';
 import { fetchJobTypes } from '../../actions/jobTypes.action';
 import { fetchExamSets } from '../../actions/examset.action';
 
@@ -133,6 +133,8 @@ class AddSessionJobs extends React.Component {
 
             this.setState({ loading: true });
 
+
+
             if (SessionwiseJobId) {
                 this.props.updateSessionJob({ SessionwiseJobId, InterviewSessionId, JobTitleId, ExamSetId, CreatedBy, ExamSetTitle, JobTitle })
                     .then((res) => {
@@ -143,13 +145,34 @@ class AddSessionJobs extends React.Component {
                     );
             }
             else {
-                this.props.saveSessionJob({ InterviewSessionId, JobTitleId, ExamSetId, CreatedBy, ExamSetTitle, JobTitle })
-                    .then(() => {
-                        this.setState({ done: true });
-                        this.setState({ loading: false })
+                this.props.checkJobExists({ InterviewSessionId, JobTitleId, ExamSetId })
+                    .then((res) => {
+                        console.log("result-exists--->", this.props);
+                        if (this.props.jobExists) {
+
+                            let errors = {};
+                         
+                                errors.ExamSetId = 'Already exists';
+
+                                errors.JobTitleId = 'Already exists';
+
+                            this.setState({
+                                errors
+                            });
+                            return;
+                        } else {
+                            this.props.saveSessionJob({ InterviewSessionId, JobTitleId, ExamSetId, CreatedBy, ExamSetTitle, JobTitle })
+                                .then(() => {
+                                    this.setState({ done: true });
+                                    this.setState({ loading: false })
+                                },
+                                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                                );
+                        }
                     },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                     );
+
             }
         }
 
@@ -224,7 +247,7 @@ class AddSessionJobs extends React.Component {
     render() {
         let sessionjobListComponent;
         if (this.props.sessionJobList) {
-            sessionjobListComponent = <SessionJobList sessionJobs={this.props.sessionJobList} editJob={this.editJob} deleteJob= {this.deleteJob} />
+            sessionjobListComponent = <SessionJobList sessionJobs={this.props.sessionJobList} editJob={this.editJob} deleteJob={this.deleteJob} />
         } else {
             sessionjobListComponent = this.EmptyMessage()
         }
@@ -249,22 +272,24 @@ class AddSessionJobs extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  
+
     if (props.match.params.id) {
         return {
             sessionJobList: state.sessionJobReducer.sessionJobList,
             jobs: state.jobTypes,
             examsets: state.examsets.examsetList,
-            user: state.authReducer.user
+            user: state.authReducer.user,
+            jobExists: state.sessionJobReducer.jobExists
         }
     }
     return {
         sessionJobList: null,
         jobs: state.jobTypes,
         examsets: state.examsets.examsetList,
-        user: state.authReducer.user
+        user: state.authReducer.user,
+        jobExists: state.sessionJobReducer.jobExists
     }
 }
 
 
-export default connect(mapStateToProps, { fetchSessionJobBySessionId, fetchJobTypes, fetchExamSets, updateSessionJob, saveSessionJob,deleteSessionJob })(AddSessionJobs);
+export default connect(mapStateToProps, { fetchSessionJobBySessionId, fetchJobTypes, fetchExamSets, updateSessionJob, saveSessionJob, deleteSessionJob, checkJobExists })(AddSessionJobs);

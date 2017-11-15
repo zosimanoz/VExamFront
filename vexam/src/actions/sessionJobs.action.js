@@ -12,6 +12,7 @@ export const GET_SESSION_JOB_BYID = 'GET_SESSION_JOB_BYID'
 export const UPDATE_SESSION_JOB = 'UPDATE_SESSION_JOB'
 export const DELETE_SESSION_JOB = 'DELETE_SESSION_JOB'
 export const SESSION_ERROR = 'SESSION_ERROR'
+export const CHECK_JOBS = 'CHECK_JOBS'
 
 
 export const setInterviewSessions = (sessionJobs) => {
@@ -66,6 +67,15 @@ export const deleteSessionJobById = (sessionJobId) => {
         type: DELETE_SESSION_JOB,
         payload: {
             sessionJobId: sessionJobId
+        }
+    }
+}
+
+export const checkJobs = (result) => {
+    return {
+        type: CHECK_JOBS,
+        payload: {
+            result: result
         }
     }
 }
@@ -138,6 +148,25 @@ export function deleteSessionJob(id) {
                 "Accept": "application/json"
             }
         }).then(res => dispatch(deleteSessionJobById(id)))
+            .catch((err) => {
+                dispatch(sessionError(err.response.Message))
+            });
+    }
+}
+
+export const checkJobExists = (data) => {
+    console.log('check job called', data);
+    return dispatch => {
+        dispatch(setLoader(true));
+        return axios({
+            method: 'POST',
+            url: `${API_URL}/api/v1/sessionwisejob/check/existance`,
+            data: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "Accept": "application/json"
+            }
+        }).then(res => dispatch(checkJobs(res.data.Data)))
             .catch((err) => {
                 dispatch(sessionError(err.response.Message))
             });

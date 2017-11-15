@@ -1,4 +1,4 @@
-import { GET_SESSION_JOB_BYID, ADD_SESSION_JOBS, UPDATE_SESSION_JOB,DELETE_SESSION_JOB } from '../actions/sessionJobs.action';
+import { GET_SESSION_JOB_BYID, ADD_SESSION_JOBS, UPDATE_SESSION_JOB, DELETE_SESSION_JOB, CHECK_JOBS } from '../actions/sessionJobs.action';
 
 export default function sessionJobReducer(state = [], action = {}) {
     switch (action.type) {
@@ -37,6 +37,14 @@ export default function sessionJobReducer(state = [], action = {}) {
             return {
                 ...state,
                 sessionJobList: state.sessionJobList.filter(item => item.SessionwiseJobId !== action.payload.sessionJobId)
+            }
+            break;
+        }
+        case CHECK_JOBS: {
+            console.log('result for job check',action.payload.result);
+            return {
+                ...state,
+                jobExists: action.payload.result
             }
             break;
         }
