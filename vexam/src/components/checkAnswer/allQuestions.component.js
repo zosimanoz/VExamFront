@@ -3,7 +3,10 @@ import { Panel } from 'react-bootstrap';
 import classnames from 'classnames';
 import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import RawHtml from "react-raw-html"
+import RawHtml from "react-raw-html";
+
+import Lightbox from 'react-images';
+import { API_URL } from '../../utils/url';
 
 import theme from 'react-quill/dist/quill.snow.css';
 
@@ -25,33 +28,47 @@ class AllQuestions extends React.Component {
             </div>
         )
     }
-       renderOption(option){
-     
-        var answerOption =""
-        if(option.IsAnswer && option.AnswerByInterviewees){
-            answerOption= <span className="glyphicon glyphicon-ok text-success" >&nbsp;</span>
-        }else if(option.IsAnswer && !option.AnswerByInterviewees){
-               answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
-        }
-        else if(!option.IsAnswer && option.AnswerByInterviewees){
-             answerOption= <span className="glyphicon glyphicon-ok text-danger">&nbsp;</span>
-        }
-        else if(!option.IsAnswer && !option.AnswerByInterviewees){
-            answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
-        }
-        return(
-            <li className="answerOption">
-                {answerOption}
-                {option.IsAnswer ? <label className="text-success">{option.AnswerOption}</label> : <label>{option.AnswerOption}</label>}
-             </li>
+
+    renderImage(item) {
+        return (
+            <div>
+                <img className="answer-img" src={API_URL + item.Attachment} />
+            </div>
         )
     }
+
+    renderOption(option) {
+
+        var answerOption = "";
+        if (option.IsAnswer && option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok text-success" >&nbsp;</span>
+        } else if (option.IsAnswer && !option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        }
+        else if (!option.IsAnswer && option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok text-danger">&nbsp;</span>
+        }
+        else if (!option.IsAnswer && !option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        }
+
+        return (
+            <div>
+                <li className="answerOption">
+                    {answerOption}
+                    {option.IsAnswer ? <label className="text-success">{option.AnswerOption}</label> : <label>{option.AnswerOption}</label>}
+                    {option.Attachment != '' ? this.renderImage(option) : ''}
+                </li>
+            </div>
+        )
+    }
+
+
     renderQuestionOptions(options) {
         return (
             <div>
                 <ul>
                     {options.map((item, i) =>
-
                         <li className="answerOption">
                             <input
                                 type="checkbox"
@@ -60,8 +77,6 @@ class AllQuestions extends React.Component {
                                 checked={item.AnswerByInterviewees}
                             />
                             {item.IsAnswer ? <label className="text-success">{item.AnswerOption}</label> : <label>{item.AnswerOption}</label>}
-
-
                         </li>
                     )}
                 </ul>
@@ -78,11 +93,12 @@ class AllQuestions extends React.Component {
     }
 
     RenderAnswersheetTable(props) {
+        var self = this;
         return (
             <div className="clearfix ScrollStyle">
                 <div className="alert alert-info fade in">
-                   <p>View all the answers submitted by Interviewee.</p>
-                   <p> To Provide marks to the questions please select "Subjective Questions" Tab and mark the answers.</p>
+                    <p>View all the answers submitted by Interviewee.</p>
+                    <p> To Provide marks to the questions please select "Subjective Questions" Tab and mark the answers.</p>
                 </div>
                 {
                     this.props.listQuestions.map((item, i) =>
@@ -90,9 +106,9 @@ class AllQuestions extends React.Component {
                             <div className="panel-body">
                                 <div className="div-subjective-question-detail">
                                     <span className="span-question-index"><b>{i + 1}. &nbsp;</b></span>
-                                      <span className="pull-right span-question-marks">Marks :{item.Question.MarksObtained}/ {item.Question.Marks}</span>
+                                    <span className="pull-right span-question-marks">Marks :{item.Question.MarksObtained}/ {item.Question.Marks}</span>
                                     <RawHtml.span>{item.Question.Question}</RawHtml.span>
-                                    {item.Question.QuestionTypeId === 2 ? item.Options.map(this.renderOption) : this.renderSubjectiveAnswer(item.Question.subjectiveAnswer)}
+                                    {item.Question.QuestionTypeId === 2 ? item.Options.map(this.renderOption.bind(this)) : this.renderSubjectiveAnswer(item.Question.subjectiveAnswer)}
                                 </div>
                             </div>
                         </div>
@@ -121,7 +137,6 @@ class AllQuestions extends React.Component {
             <div>
                 {questionListComponent}
             </div>
-
         )
     }
 }

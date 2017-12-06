@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Redirect, match, matchPath, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import RawHtml from "react-raw-html"
-
+import { API_URL } from '../../utils/url';
 import theme from 'react-quill/dist/quill.snow.css';
 
 import Loader from '../loader/loader.component';
@@ -26,25 +26,34 @@ class ObjectiveQuestions extends React.Component {
         )
     }
 
-    renderOption(option){
-     
-        var answerOption =""
-        if(option.IsAnswer && option.AnswerByInterviewees){
-            answerOption= <span className="glyphicon glyphicon-ok text-success" >&nbsp;</span>
-        }else if(option.IsAnswer && !option.AnswerByInterviewees){
-               answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+    renderImage(item) {
+        return (
+            <div>
+                <img className="answer-img" src={API_URL + item.Attachment} />
+            </div>
+        )
+    }
+
+    renderOption(option) {
+
+        var answerOption = ""
+        if (option.IsAnswer && option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok text-success" >&nbsp;</span>
+        } else if (option.IsAnswer && !option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
         }
-        else if(!option.IsAnswer && option.AnswerByInterviewees){
-             answerOption= <span className="glyphicon glyphicon-ok text-danger">&nbsp;</span>
+        else if (!option.IsAnswer && option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok text-danger">&nbsp;</span>
         }
-        else if(!option.IsAnswer && !option.AnswerByInterviewees){
-            answerOption= <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
+        else if (!option.IsAnswer && !option.AnswerByInterviewees) {
+            answerOption = <span className="glyphicon glyphicon-ok option-Checkbox-white">&nbsp;</span>;
         }
-        return(
+        return (
             <li className="answerOption">
                 {answerOption}
                 {option.IsAnswer ? <label className="text-success">{option.AnswerOption}</label> : <label>{option.AnswerOption}</label>}
-             </li>
+                {option.Attachment != '' ? this.renderImage(option) : ''}
+            </li>
         )
     }
 
@@ -60,9 +69,9 @@ class ObjectiveQuestions extends React.Component {
                             <div className="panel-body">
                                 <div className="div-subjective-question-detail">
                                     <span className="span-question-index"><b>{i + 1}. &nbsp;</b></span>
-                                       <span className="pull-right span-question-marks">Marks :{item.Question.MarksObtained}/ {item.Question.Marks}</span>
+                                    <span className="pull-right span-question-marks">Marks :{item.Question.MarksObtained}/ {item.Question.Marks}</span>
                                     <RawHtml.span>{item.Question.Question}</RawHtml.span>
-                                    {item.Question.QuestionTypeId === 2 ?  item.Options.map(this.renderOption) : ''}
+                                    {item.Question.QuestionTypeId === 2 ? item.Options.map(this.renderOption.bind(this)) : ''}
                                 </div>
                             </div>
                         </div>
@@ -88,10 +97,10 @@ class ObjectiveQuestions extends React.Component {
             questionListComponent = this.RenderEmptyMessage()
         }
         return (
-                <div>
-                    {questionListComponent}
-                </div>
-            
+            <div>
+                {questionListComponent}
+            </div>
+
         )
     }
 }

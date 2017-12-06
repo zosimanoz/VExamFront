@@ -6,7 +6,7 @@ import CountDownTimer from '../timer/timer.component'
 import ExamPage from './ExamPage.container'
 import ExamControls from './ExamControls.component'
 
-import './exam.css'
+
 
 class ExamMain extends React.Component {
 

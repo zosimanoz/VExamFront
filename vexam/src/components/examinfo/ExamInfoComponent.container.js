@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './examinfo.css'
 
-import ExamWrapper from '../examsample/ExamWrapper.container'
+import ExamWrapper from '../exam/ExamWrapper.container'
 
 
 import { getExamInfo } from '../../actions/examinfo.action'

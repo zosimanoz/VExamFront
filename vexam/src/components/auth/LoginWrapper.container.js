@@ -17,7 +17,7 @@ import AdminLogin from './AdminLogin.component';
 import UserLogin from './UserLogin.component';
 
 import Admin from '../../layouts/admin.layout';
-import ExamWrapper from '../examsample/ExamWrapper.container';
+import ExamWrapper from '../exam/ExamWrapper.container';
 
 
 import PrivateRoute from '../../utils/PrivateRouter';

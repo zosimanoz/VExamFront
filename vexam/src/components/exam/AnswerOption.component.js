@@ -7,30 +7,30 @@ class AnswerOption extends React.Component {
 
     constructor(props) {
         super(props);
-     
+
         this.state = {
-			lightboxIsOpen: false,
-			currentImage: 0
+            lightboxIsOpen: false,
+            currentImage: 0
         };
 
         this.closeLightbox = this.closeLightbox.bind(this);
         this.openLightbox = this.openLightbox.bind(this);
     }
 
-    openLightbox (index, event) {
-		event.preventDefault();
-		this.setState({
-			currentImage: index,
-			lightboxIsOpen: true
-		});
-}
+    openLightbox(index, event) {
+        event.preventDefault();
+        this.setState({
+            currentImage: index,
+            lightboxIsOpen: true
+        });
+    }
 
-closeLightbox () {
-		this.setState({
-			currentImage: 0,
-			lightboxIsOpen: false
-		});
-}
+    closeLightbox() {
+        this.setState({
+            currentImage: 0,
+            lightboxIsOpen: false
+        });
+    }
 
 
 
@@ -38,16 +38,15 @@ closeLightbox () {
     renderAttachment = () => {
         let i = 0;
         return (<div className="option-img">
-            
+
             <img src={API_URL + this.props.attachment} onClick={(e) => this.openLightbox(i, e)} />
 
             <Lightbox
-            images={[{ src: API_URL + this.props.attachment }]}
-            isOpen={this.state.lightboxIsOpen}
-            onClose={this.closeLightbox}
+                images={[{ src: API_URL + this.props.attachment }]}
+                isOpen={this.state.lightboxIsOpen}
+                onClose={this.closeLightbox}
             />
 
-      
         </div>)
     }
 
@@ -59,7 +58,7 @@ closeLightbox () {
                     className="quizcheckBox"
                     name="checkBoxGroup"
                     id={this.props.answerType}
-                    data-optionId = {this.props.optionId}
+                    data-optionId={this.props.optionId}
                     data-questionId={this.props.questionId}
                     value={this.props.optionId}
                     disabled={this.props.answer}

@@ -12,7 +12,7 @@ import CountDownTimer from '../timer/timer.component'
 import ExamMainPage from './ExamMainPage.component'
 import ExamControlComponent from './ExamControlComponent.component'
 
-import '../exam/exam.css'
+import './exam.css'
 
 
 class ExamWrapper extends React.Component {

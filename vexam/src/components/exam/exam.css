@@ -32,6 +32,7 @@
     overflow: hidden;
     padding: 0px;
     margin: 0;
+    position: fixed;
 }
 
 #scorecard li {
@@ -100,6 +101,14 @@ li.answerOption {
 
 .span-question-index{
     float:left;
+}
+
+.subjective-question-img img {
+    width: 40%;
+    height: 40%;
+    margin-left: 12px;
+    border: 1px solid #aaa;
+    padding: 5px;
 }
 
 

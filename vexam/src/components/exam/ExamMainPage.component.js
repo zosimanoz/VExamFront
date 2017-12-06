@@ -13,7 +13,7 @@ import Pagination from '../common/pagination.component'
 import ExamQuestionList from './ExamQuestionList.component'
 
 
-import '../exam/exam.css'
+import './exam.css'
 
 
 class ExamMainPage extends React.Component {

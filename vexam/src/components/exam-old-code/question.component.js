@@ -1,7 +1,5 @@
 import React from 'react'
 
-import RawHtml from "react-raw-html"
-
 // we didn't use class because this is a presentational stateless component
 
 // React has a popular pattern to divide the component into two: presentational and container
@@ -11,9 +9,7 @@ import RawHtml from "react-raw-html"
 
 const Question = (props) => {
     return (
-        <div>
-            <span className="span-question-index"><b>{props.sn}. &nbsp;</b></span><RawHtml.span>{props.content}</RawHtml.span>
-        </div>
+        <p className="question"> {props.index}.{props.content}</p>
     )
 }
 

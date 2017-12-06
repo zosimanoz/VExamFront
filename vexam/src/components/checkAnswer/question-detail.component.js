@@ -25,6 +25,9 @@ class QuestionComponent extends React.Component {
         if (answerVal === '') {
             return true;
         }
+        if (parseInt(answerVal) < 0){
+            return false;
+        }
         var re = new RegExp("(^\.[0-9]*$|^[0-9]\.[0-9]*$)|(^[0-9])");
         return re.test(answerVal);
     }

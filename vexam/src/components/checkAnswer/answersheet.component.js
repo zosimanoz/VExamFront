@@ -19,10 +19,14 @@ class AnswerSheetContainer extends React.Component {
             key: 1,
             listQuestions: null,
             answerType: null,
-            allQuestions: null
+            allQuestions: null,
+            lightboxIsOpen: false,
+            currentImage: 0
         }
 
         this.handleSelect = this.handleSelect.bind(this);
+        //   this.closeLightbox = this.closeLightbox.bind(this);
+        // this.openLightbox = this.openLightbox.bind(this);
     }
 
     componentWillReceiveProps = (newProps) => {
@@ -36,6 +40,27 @@ class AnswerSheetContainer extends React.Component {
             this.props.fetchAllAnswersheetByIntervieweeId(this.props.match.params.id);
         }
     }
+
+
+    //  openLightbox(index, event) {
+    //     event.preventDefault();
+    //     this.setState({
+    //         currentImage: index,
+    //         lightboxIsOpen: true
+    //     });
+    // }
+
+    // test() {
+    //     alert('test')
+    // }
+
+    // closeLightbox() {
+  
+    //     this.setState({
+    //         currentImage: 0,
+    //         lightboxIsOpen: false
+    //     });
+    // }
 
     handleSelect(key) {
         this.setState({ key: key });

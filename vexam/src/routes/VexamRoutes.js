@@ -55,7 +55,7 @@ import AdminLogin from '../components/auth/AdminLogin.component';
 import UserLogin from '../components/auth/UserLogin.component';
 
 
-import ExamWrapper from '../components/examsample/ExamWrapper.container';
+import ExamWrapper from '../components/exam/ExamWrapper.container';
 
 
 

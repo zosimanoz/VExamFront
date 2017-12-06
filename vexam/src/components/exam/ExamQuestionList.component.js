@@ -10,7 +10,7 @@ import ReactQuill from 'react-quill';
 import theme from 'react-quill/dist/quill.snow.css';
 
 
-import '../exam/exam.css'
+import './exam.css'
 
 import { setAnswersToStore } from '../../actions/answers.action'
 import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
@@ -143,10 +143,9 @@ class ExamQuestionList extends React.Component {
 
     renderQuestionsList = (key) => {
         let i = 0;
-    
         return (
             <div className="quiz-question-detail" key={key.Question.SetQuestionId}>
-                <Question index={this.state.index} content={key.Question.Question} key={key.Question.SetQuestionId} sn={key.Question.SN}/>
+                <Question index={this.state.index} content={key.Question.Question} key={key.Question.SetQuestionId} sn={key.Question.SN} attachment={key.Question.Attachment}/>
 
                 <div className="options clear">
                     {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key)}
