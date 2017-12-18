@@ -114,6 +114,7 @@ class AddExamSet extends React.Component {
 
 
     handleFormSubmit = (e) => {
+       console.log('props',this.props);
         e.preventDefault();
 
         // validate the form here
@@ -125,9 +126,9 @@ class AddExamSet extends React.Component {
         if (this.state.Description === '') {
             errors.Description = 'Description cannot be left empty.';
         }
-        if (this.state.TotalMark === '') {
-            errors.TotalMark = 'Total marks cannot be left empty.';
-        }
+        // if (this.state.TotalMark === '') {
+        //     errors.TotalMark = 'Total marks cannot be left empty.';
+        // }
         if (this.state.JobTitleId == '') {
             errors.JobTitleId = 'Select job title.';
         }
@@ -143,13 +144,13 @@ class AddExamSet extends React.Component {
         const isValid = Object.keys(errors).length === 0;
 
         if (isValid) {
-
-            const { ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId, ExamDuration } = this.state;
+            debugger;
+            const { ExamSetId, Title, Description,  CreatedBy, JobTitleId, ExamDuration } = this.state;
 
             this.setState({ loading: true });
 
             if (ExamSetId) {
-                this.props.updateExamSet({ ExamSetId, Title, Description, TotalMark, CreatedBy, JobTitleId, ExamDuration })
+                this.props.updateExamSet({ ExamSetId, Title, Description, CreatedBy, JobTitleId, ExamDuration })
                     .then((res) => {
                         this.setState({ loading: false });
                         this.setState({ done: true });
@@ -158,7 +159,7 @@ class AddExamSet extends React.Component {
                     );
             }
             else {
-                this.props.saveExamSet({ Title, Description, TotalMark, CreatedBy, JobTitleId, ExamDuration })
+                this.props.saveExamSet({ Title, Description, CreatedBy, JobTitleId, ExamDuration })
                     .then(() => {
                         this.setState({ done: true });
                         this.setState({ loading: false })
@@ -175,6 +176,7 @@ class AddExamSet extends React.Component {
 
     renderForm() {
         { console.log('title', this.state.Title) }
+      
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
 

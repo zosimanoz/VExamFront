@@ -180,7 +180,7 @@ class ExamQuestions extends React.Component {
             let data = {
                 QuestionId: questionId,
                 ExamSetId: this.props.match.params.id,
-                CreatedBy: 2
+                CreatedBy: this.props.user.UserId
             }
 
             QuestionsForSet.push(data);
@@ -189,7 +189,6 @@ class ExamQuestions extends React.Component {
 
         this.props.saveExamSetQuestions({ QuestionsForSet })
             .then(() => {
-                console.log('ajax success')
                 this.setState({ done: true });
                 this.setState({ loading: false })
             },
@@ -253,7 +252,6 @@ function checkSetQuestins(state) {
 
 const mapStateToProps = (state, props) => {
     checkSetQuestins(state);
-    console.log('-->', state);
     return ({
         ...state,
         questionsList: state.questions.QuestionList,
@@ -262,6 +260,7 @@ const mapStateToProps = (state, props) => {
         questionTypeList: state.questionTypes,
         //allAddedInExamSet: allAddedInExamSet(state, props),
         examsets: state.examsets,
+          user: state.authReducer.user
     })
 }
 

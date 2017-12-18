@@ -1,7 +1,7 @@
 {
   "name": "vexam",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
