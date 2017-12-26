@@ -29,10 +29,9 @@
 
 #scorecard ul {
     background: #fff;
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding: 0px;
     margin: 0;
-    position: fixed;
 }
 
 #scorecard li {

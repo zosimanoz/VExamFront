@@ -39,7 +39,7 @@ class ExamMainPage extends React.Component {
             loading: false
         };
 
-        this.onChangePage = this.onChangePage.bind(this);
+        //this.onChangePage = this.onChangePage.bind(this);
     }
 
 
@@ -215,6 +215,7 @@ class ExamMainPage extends React.Component {
 
 
     renderQuizset() {
+        console.log("this state pager",this.state)
         return (
             <div>
                 <div className="col-md-8">
@@ -231,7 +232,7 @@ class ExamMainPage extends React.Component {
                             }
 
                             <div className="pager">
-                                <Pagination parentState={this.state} setPager={this.setPager.bind(this)} items={this.props.questionsList} pager={this.state.pager} onChangePage={this.onChangePage} />
+                                <Pagination parentState={this.state} setPager={this.setPager.bind(this)} items={this.props.questionsList} pager={this.state.pager} onChangePage={this.onChangePage.bind(this)} />
                             </div>
                         </div>
                     </div>
