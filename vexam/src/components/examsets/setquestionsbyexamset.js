@@ -60,9 +60,8 @@ class SetQuestions extends React.Component {
                                     <td>{i + 1}</td>
                                     <td>
                                         <RawHtml.span>{item.Question}</RawHtml.span>
-                                      
                                         <br/>
-                                        <img src={API_URL + item.Attachment} style={{ float: 'left',width:'40%' }}/>
+                                        <img src= {item.Attachment == "" ? "" : API_URL + item.Attachment} style={{ float: 'left',width:'40%' }}/>
                                     </td>
                                     <td>{item.QuestionTypeName}</td>
                                     <td>{item.QuestionCategoryName} </td>
