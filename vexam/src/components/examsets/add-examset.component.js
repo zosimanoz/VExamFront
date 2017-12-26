@@ -144,7 +144,7 @@ class AddExamSet extends React.Component {
         const isValid = Object.keys(errors).length === 0;
 
         if (isValid) {
-            debugger;
+        
             const { ExamSetId, Title, Description,  CreatedBy, JobTitleId, ExamDuration } = this.state;
 
             this.setState({ loading: true });
@@ -255,7 +255,7 @@ class AddExamSet extends React.Component {
     }
 
     render() {
-       console.log(this.props.user.UserId) 
+    //    console.log(this.props.user.UserId) 
         return (
             <Panel header={this.props.heading}>
                 {this.state.done ? <Redirect to="/admin/examsets" /> : this.renderForm()}
