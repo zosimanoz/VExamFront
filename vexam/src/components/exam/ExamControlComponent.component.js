@@ -111,7 +111,7 @@ class ExamControlComponent extends Component {
     render() {
         if (this.props.auth.authenticated) {
             return (
-                <div>
+                <div className="pull-right">
                     <a title="Submit" className="btn btn-success btnSubmitScore" onClick={() => confirmAlert({
                         message: 'Are you sure to submit answersheet?',              
                         confirmLabel: 'Yes',                           

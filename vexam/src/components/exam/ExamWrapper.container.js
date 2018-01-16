@@ -49,21 +49,16 @@ class ExamWrapper extends React.Component {
         }
         return (
             <div>
-                <div className="navbar navbar-default navbar-fixed-top clearfix">
-                    <div className="col-md-4">
-                        <div id="countdown" className="pull-left countdownHolder">
-                            <span className="Timeleft">Time Left: </span>
-                            <span className="timer-div">
-                                <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList={this.props.quizQuestions} examDuration={this.state.ExamDuration} />
-                            </span>
+                <div className="navbar navbar-default navbar-fixed-top clearfix col-md-12">
+                    <div className="pull-left">
+                        <h3>Postition: {this.state.jobTitle} </h3>
                         </div>
-                    </div>
-
-                    <div className="col-md-5 pull-right">
-                        <div className="pull-right">
-                            <ExamControlComponent />
+                    <div className="pull-left div-counter">
+                        (
+                            <CountDownTimer logout={this.props.logout} submitFinalAnswers={this.props.submitFinalAnswers} questionsList={this.props.quizQuestions} examDuration={this.state.ExamDuration} />
+                        )
                         </div>
-                    </div>
+                           <ExamControlComponent />
                 </div>
 
                 <div className="container quiz-container">

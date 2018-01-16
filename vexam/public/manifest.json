@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
+  "short_name": "Verscend Exams",
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon-64.ico",
       "sizes": "192x192",
       "type": "image/png"
     }

@@ -109,7 +109,13 @@ li.answerOption {
     border: 1px solid #aaa;
     padding: 5px;
 }
-
-
+.div-counter{
+    padding: 10px 0px 10px 0px;
+    margin-top: 5px;
+}
+h3 {
+    margin-top:10px !important;
+   
+}
 
 
