@@ -100,8 +100,8 @@ export function clearErrors() {
   }
 }
 
-export function clearErrorMessages(){
-  return dispatch=>{
+export function clearErrorMessages() {
+  return dispatch => {
     dispatch(clearErrors());
   }
 }
@@ -129,16 +129,23 @@ export function login(creds) {
 
 
 export function logout() {
-  return dispatch => {
-    dispatch(setLoader(true));
-    return axios.post(`${API_URL}/api/v1/logout`)
-      .then((res) => {
-        dispatch(setLoader(false));
-        localStorage.removeItem('access_token');
-        setAuthorizationToken(false);
-        dispatch(removeCurrentUser({}));
-      }).catch((err) => {
-      });
+  let token = localStorage.getItem('access_token');
+
+  if (!token || token === '') {
+    return;
+  } else {
+    return dispatch => {
+      dispatch(setLoader(true));
+      var data = qs.stringify({ 'accessToken': token });
+      return axios.post(`${API_URL}/api/v1/logout`, data)
+        .then((res) => {
+          dispatch(setLoader(false));
+          localStorage.removeItem('access_token');
+          setAuthorizationToken(false);
+          dispatch(removeCurrentUser({}));
+        }).catch((err) => {
+        });
+    }
   }
 }
 
@@ -172,19 +179,19 @@ export const loadUserFromToken = () => {
     return;
   } else {
     return (dispatch) => {
-     dispatch(meFromTokenStart());
+      dispatch(meFromTokenStart());
       var data = qs.stringify({ 'accessToken': token });
       return axios({
         method: 'post',
         url: `${API_URL}/api/v1/token/decode`,
         data: data
       })
-      .then((res) => {
-        dispatch(meFromTokenSuccess(res.data.Data));
-      }).catch(error => {
-        console.log(error);
-      })
-   }
+        .then((res) => {
+          dispatch(meFromTokenSuccess(res.data.Data));
+        }).catch(error => {
+          console.log(error);
+        })
+    }
   }
 }
 
@@ -201,7 +208,7 @@ export function adminLogin(creds) {
     return axios.post(`${API_URL}/api/v1/token/user`, data)
       .then((res) => {
         dispatch(setLoader(false));
-      
+
         const token = res.data.access_token;
         localStorage.setItem('access_token', token);
         setAuthorizationToken(token);
