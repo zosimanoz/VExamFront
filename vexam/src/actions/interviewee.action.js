@@ -26,7 +26,6 @@ export const error = (error) => {
 }
 
 export const setInterviewees = (interviewees) => {
-    console.log('121212', interviewees);
     return {
         type: SET_INTERVIEWEE,
         payload: {

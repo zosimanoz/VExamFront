@@ -30,6 +30,7 @@ const SideBar = () => (
         </ul>
       </li>
 
+      <li><NavLink to='/admin/users' activeClassName="active" title="User Management"><span className="glyphicon glyphicon-user"></span> <span className="hidden-xs">User Management </span></NavLink></li>
     </ul>
   </nav>
 )

@@ -57,8 +57,8 @@ import UserLogin from '../components/auth/UserLogin.component';
 
 import ExamWrapper from '../components/exam/ExamWrapper.container';
 
-
-
+import UsersIndex from '../components/users/user-index.container';
+import AddUser from '../components/users/add-users.component';
 
 const Home = (props) => {
     return (
@@ -147,7 +147,6 @@ const VexamRoutes = (props) => (
             <AdminLayout exact path="/admin/setquestions/:id" component={SetQuestions} {...props} heading="Set Questions" authed={props.authed} />
             <AdminLayout exact path="/admin/examsets/:id/questions" component={ExamQuestions} {...props} heading="Examset Questions" authed={props.authed} />
             <AdminLayout exact path="/admin/settings" component={Projects} />
-            <AdminLayout exact path="/admin/users" component={Projects} />
             <AdminLayout exact path="/admin/interviewsessions" component={InterviewSessions} heading="Interview Sessions" authed={props.authed} />
             <AdminLayout exact path="/admin/interviewsession/history" component={InterviewSessionIndex} heading="Interview Sessions History" authed={props.authed} />
             <AdminLayout exact path="/admin/interviewSession/add" component={AddInterviewSession} {...props} heading="Add Interview Session" authed={props.authed} />
@@ -160,6 +159,9 @@ const VexamRoutes = (props) => (
             <AdminLayout exact path="/admin/interviewSessions/:id/attended/interviewees" component={ExamAttendedInterviewee} {...props} authed={props.authed} heading="Interviewees" />
             <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/answersheet" component={AnswerSheetContainer} {...props} authed={props.authed} heading="Answersheet" />
             <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/all/answersheet" component={AllQuestions} {...props} authed={props.authed} heading="All Answers" />
+            
+            <AdminLayout exact path="/admin/users" component={UsersIndex} {...props} heading="User Management" authed={props.authed} />
+              <AdminLayout exact path="/admin/users/add" component={AddUser} {...props} heading="Add New User" authed={props.authed} />
             <DefaultLayout exact path="/admin/logout" component={Logout} />
 
             <Route exact path="/admin/test"

@@ -201,11 +201,13 @@ export function adminLogin(creds) {
     return axios.post(`${API_URL}/api/v1/token/user`, data)
       .then((res) => {
         dispatch(setLoader(false));
+      
         const token = res.data.access_token;
         localStorage.setItem('access_token', token);
         setAuthorizationToken(token);
         dispatch(loadUserFromToken());
       }).catch((err) => {
+        console.log('errr object----->', err)
         dispatch(signInAdminFailure(err.response.data))
       });
   }
