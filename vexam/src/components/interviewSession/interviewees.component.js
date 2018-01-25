@@ -8,62 +8,44 @@ import theme from 'react-quill/dist/quill.snow.css';
 
 import { fetchIntervieweesBySessionId, updateInterviewee, saveInterviewee, deleteInterviewee } from '../../actions/interviewee.action';
 import { fetchJobTypes } from '../../actions/jobTypes.action';
+import { fetchExamSetsByJobId } from '../../actions/examset.action';
 
 import IntervieweeList from './intervieweeList.component';
 
 class AddInterviewees extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            InterviewSessionId: this.props.match.params.id,
+            IntervieweeId: '',
+            FirstName: '',
+            MiddleName: '',
+            LastName: '',
+            FullName: '',
+            EmailAddress: '',
+            ContactNumber: '',
+            Address: '',
+            JobTitleId: '',
+            ExamSetId: '',
+            JobTitle: '',
+            CreatedBy: this.props.user.UserId,
+            errors: {},
+            loading: false,
+            done: false
+        }
     }
 
     componentDidMount = (props) => {
         this.props.fetchJobTypes();
+
         if (this.props.match.params.id) {
             this.props.fetchIntervieweesBySessionId(this.props.match.params.id);
         }
     }
 
-
-    state = {
-        InterviewSessionId: this.props.match.params.id,
-        IntervieweeId: this.props.interviewees ? this.props.interviewees.IntervieweeId : '',
-        FirstName: this.props.interviewees ? this.props.interviewees.FirstName : '',
-        MiddleName: this.props.interviewees ? this.props.interviewees.MiddleName : '',
-        LastName: this.props.interviewees ? this.props.interviewees.LastName : '',
-        FullName: this.props.interviewees ? this.props.interviewees.FullName : '',
-        EmailAddress: this.props.interviewees ? this.props.interviewees.EmailAddress : '',
-        ContactNumber: this.props.interviewees ? this.props.interviewees.ContactNumber : '',
-        Address: this.props.interviewees ? this.props.interviewees.Address : '',
-        JobTitleId: this.props.interviewees ? this.props.interviewees.JobTitleId : '',
-        JobTitle: this.props.interviewees ? this.props.interviewees.JobTitle : '',
-        CreatedBy: this.props.interviewees ? this.props.interviewees.CreatedBy : this.props.user.UserId,
-        errors: {},
-        loading: false,
-        done: false
-    }
-
-
-    componentWillReceiveProps = (new_props) => {
-        this.setState({
-            InterviewSessionId: this.props.match.params.id,
-            IntervieweeId: new_props.interviewees ? new_props.interviewees.IntervieweeId : '',
-            FirstName: new_props.interviewees ? new_props.interviewees.FirstName : '',
-            MiddleName: new_props.interviewees ? new_props.interviewees.MiddleName : '',
-            LastName: new_props.interviewees ? new_props.interviewees.LastName : '',
-            FullName: new_props.interviewees ? new_props.interviewees.FullName : '',
-            EmailAddress: new_props.interviewees ? new_props.interviewees.EmailAddress : '',
-            ContactNumber: new_props.interviewees ? new_props.interviewees.ContactNumber : '',
-            Address: new_props.interviewees ? new_props.interviewees.Address : '',
-            JobTitleId: new_props.interviewees ? new_props.interviewees.JobTitleId : '',
-            JobTitle: new_props.interviewees ? new_props.interviewees.JobTitle : '',
-            CreatedBy: new_props.interviewees ? new_props.interviewees.CreatedBy : this.props.user.UserId,
-            errors: {},
-            loading: false,
-            done: false
-        });
-    }
     editInterviewee = (intervieweeObject) => {
-        console.log(intervieweeObject);
+       
         this.setState({
             InterviewSessionId: intervieweeObject.InterviewSessionId,
             IntervieweeId: intervieweeObject.IntervieweeId,
@@ -75,10 +57,12 @@ class AddInterviewees extends React.Component {
             ContactNumber: intervieweeObject.ContactNumber,
             Address: intervieweeObject.Address,
             JobTitleId: intervieweeObject.JobTitleId,
+            ExamSetId: intervieweeObject.ExamSetId,
+            ExamSetTitle:intervieweeObject.ExamSetTitle,
             JobTitle: intervieweeObject.JobTitle,
             CreatedBy: intervieweeObject.CreatedBy,
         });
-
+         this.props.fetchExamSetsByJobId(intervieweeObject.JobTitleId);
     }
     resetForm = () => {
         this.setState({
@@ -86,6 +70,15 @@ class AddInterviewees extends React.Component {
             SessionwiseJobId: 0,
             JobTitleId: "0",
             ExamSetId: "0",
+            IntervieweeId: '',
+            FirstName: '',
+            MiddleName: '',
+            LastName: '',
+            FullName: '',
+            EmailAddress: '',
+            ContactNumber: '',
+            Address: '',
+            JobTitle: ''
         });
     }
 
@@ -112,9 +105,9 @@ class AddInterviewees extends React.Component {
         } else {
             this.setState({
                 [e.target.name]: e.target.value
-            },()=>{
-                this.setState({ 
-                    FullName: this.state.FirstName +' '+ this.state.MiddleName +' '+this.state.LastName 
+            }, () => {
+                this.setState({
+                    FullName: this.state.FirstName + ' ' + this.state.MiddleName + ' ' + this.state.LastName
                 });
             });
         }
@@ -128,7 +121,32 @@ class AddInterviewees extends React.Component {
 
             this.setState({
                 [e.target.name]: e.target.value,
-                   [e.target.title]: e.target[index].text,
+                [e.target.title]: e.target[index].text,
+                errors
+            });
+        } else {
+
+
+            this.props.fetchExamSetsByJobId(e.target.value);
+
+            console.log('select change event called', this.state)
+            this.setState({
+
+                [e.target.name]: e.target.value,
+                [e.target.title]: e.target[index].text,
+            });
+        }
+    }
+
+    handleExamSetSelectChange = (e) => {
+        var index = e.nativeEvent.target.selectedIndex;
+        if (!!this.state.errors[e.target.name]) {
+            let errors = Object.assign({}, this.state.errors);
+            delete errors[e.target.name];
+
+            this.setState({
+                [e.target.name]: e.target.value,
+                [e.target.title]: e.target[index].text,
                 errors
             });
         } else {
@@ -139,9 +157,6 @@ class AddInterviewees extends React.Component {
         }
     }
 
-
-
-
     handleFormSubmit = (e) => {
         e.preventDefault();
 
@@ -149,20 +164,23 @@ class AddInterviewees extends React.Component {
 
         let errors = {};
         if (this.state.FirstName == '') {
-            errors.ExamSetId = 'First Name is required';
+            errors.FirstName = 'First Name is required';
         }
         if (this.state.LastName == '') {
-            errors.ExamSetId = 'Last Name is required';
+            errors.LastName = 'Last Name is required';
         }
         if (this.state.EmailAddress == '') {
-            errors.ExamSetId = 'Email Address is required';
+            errors.EmailAddress = 'Email Address is required';
         }
         if (this.state.ContactNumber == '') {
-            errors.ExamSetId = 'Contact Number is required';
+            errors.ContactNumber = 'Contact Number is required';
         }
 
         if (this.state.JobTitleId === '0') {
             errors.JobTitleId = 'Please select Job';
+        }
+        if (this.state.ExamSetId === '0') {
+            errors.ExamSetId = 'Please select Exam Set';
         }
 
         this.setState({
@@ -171,29 +189,31 @@ class AddInterviewees extends React.Component {
 
 
         const isValid = Object.keys(errors).length === 0;
-       
-        if (isValid) {
 
-            const { IntervieweeId, InterviewSessionId,FirstName ,MiddleName,LastName,JobTitleId, EmailAddress,ContactNumber,Address, CreatedBy ,JobTitle,FullName } = this.state;
-         
+        if (isValid) {
+            console.log('what is in state',this.state)
+            const { IntervieweeId, InterviewSessionId, FirstName, MiddleName, LastName, JobTitleId, EmailAddress, ContactNumber, Address, CreatedBy, JobTitle, FullName, ExamSetId,ExamSetTitle } = this.state;
+
             this.setState({ loading: true });
-           
-           
+
+
 
             if (IntervieweeId) {
-                this.props.updateInterviewee({ IntervieweeId, InterviewSessionId,FirstName ,MiddleName,LastName,JobTitleId, EmailAddress,ContactNumber,Address, CreatedBy,JobTitle,FullName })
+                this.props.updateInterviewee({ IntervieweeId, InterviewSessionId, FirstName, MiddleName, LastName, JobTitleId, EmailAddress, ContactNumber, Address, CreatedBy, JobTitle, FullName, ExamSetId,ExamSetTitle })
                     .then((res) => {
                         this.setState({ loading: false });
                         this.setState({ done: true });
+                        this.resetForm();
                     },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                     );
             }
             else {
-                this.props.saveInterviewee({ InterviewSessionId,FirstName ,MiddleName,LastName,JobTitleId, EmailAddress,ContactNumber,Address, CreatedBy ,JobTitle,FullName})
+                this.props.saveInterviewee({ InterviewSessionId, FirstName, MiddleName, LastName, JobTitleId, EmailAddress, ContactNumber, Address, CreatedBy, JobTitle, FullName, ExamSetId,ExamSetTitle })
                     .then((res) => {
                         this.setState({ done: true });
-                        this.setState({ loading: false })
+                        this.setState({ loading: false });
+                        this.resetForm();
                     },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                     );
@@ -228,7 +248,7 @@ class AddInterviewees extends React.Component {
 
 
     renderForm() {
-        { console.log('title', this.state) }
+        { console.log('title', this.p) }
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
                 <div className="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -254,7 +274,7 @@ class AddInterviewees extends React.Component {
                                 value={this.state.MiddleName}
                                 onChange={this.handleChange}
                                 className="form-control" />
-                           
+
                         </div>
                     </div>
 
@@ -277,7 +297,7 @@ class AddInterviewees extends React.Component {
                         <div className={classnames('field', { errors: !!this.state.errors.EmailAddress })}>
                             <label>Email Address </label>
                             <input
-                                type="text"
+                                type="email"
                                 name="EmailAddress"
                                 value={this.state.EmailAddress}
                                 onChange={this.handleChange}
@@ -290,7 +310,7 @@ class AddInterviewees extends React.Component {
                         <div className={classnames('field', { errors: !!this.state.errors.ContactNumber })}>
                             <label>Contact Number</label>
                             <input
-                                type="text"
+                                type="number"
                                 name="ContactNumber"
                                 value={this.state.ContactNumber}
                                 onChange={this.handleChange}
@@ -326,6 +346,18 @@ class AddInterviewees extends React.Component {
                             <span className="form-error">{this.state.errors.Address}</span>
                         </div>
                     </div>
+                    <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        <div className={classnames('field', { errors: !!this.state.errors.JobTitleId })}>
+                            <label>Exam Set Title</label>
+                            <select name="ExamSetId" title="ExamSetTitle" className="form-control" onChange={this.handleExamSetSelectChange.bind(this)}>
+                                <option value="0">--Select ExamSet--</option>
+                                {this.props.examsetList.map((examSet, idx) => (
+                                    <option selected={examSet.ExamSetId === this.state.ExamSetId ? true : false} value={examSet.ExamSetId}>{examSet.Title}</option>
+                                ))}
+                            </select>
+                            <span className="form-error">{this.state.errors.ExamSetId}</span>
+                        </div>
+                    </div>
 
 
 
@@ -345,7 +377,7 @@ class AddInterviewees extends React.Component {
     render() {
         let intervieweeListComponent;
         if (this.props.intervieweeList) {
-            intervieweeListComponent = <IntervieweeList interviewees={this.props.intervieweeList} editInterviewee={this.editInterviewee} deleteInterviewee= {this.deleteInterviewee}  />
+            intervieweeListComponent = <IntervieweeList interviewees={this.props.intervieweeList} editInterviewee={this.editInterviewee} deleteInterviewee={this.deleteInterviewee} />
         } else {
             intervieweeListComponent = this.EmptyMessage()
         }
@@ -382,16 +414,19 @@ const mapStateToProps = (state, props) => {
         return {
             intervieweeList: state.intervieweeReducer.intervieweeList,
             jobs: state.jobTypes,
-            user: state.authReducer.user
-            
+            user: state.authReducer.user,
+            examsetList: state.examsets.examsetList
+
         }
     }
     return {
         intervieweeList: null,
         jobs: state.jobTypes,
-        user: state.authReducer.user
+        user: state.authReducer.user,
+        examsetList: state.examsets.examsetList
+
     }
 }
 
 
-export default connect(mapStateToProps, { fetchJobTypes, fetchIntervieweesBySessionId, updateInterviewee, saveInterviewee, deleteInterviewee })(AddInterviewees);
+export default connect(mapStateToProps, { fetchJobTypes, fetchExamSetsByJobId, fetchIntervieweesBySessionId, updateInterviewee, saveInterviewee, deleteInterviewee })(AddInterviewees);

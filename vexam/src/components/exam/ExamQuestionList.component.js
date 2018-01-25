@@ -16,7 +16,7 @@ import { setAnswersToStore } from '../../actions/answers.action'
 import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
 
 
-import Question from './question.component'
+import Question from './Question.component'
 import AnswerOption from './AnswerOption.component'
 
 

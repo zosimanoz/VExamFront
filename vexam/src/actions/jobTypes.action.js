@@ -85,8 +85,6 @@ export const fetchJobTypes = () => {
     }
 }
 
-
-
 // Save department
 export function saveJobType(data) {
     return dispatch => {

@@ -29,7 +29,7 @@ const AdminLayout = ({ component: Component, ...rest }) => {
       <DefaultLayout {...rest} component={matchProps => (
         <div>
           <HeaderNavBar />
-          <Grid bsClass="container main-container">
+          <Grid bsClass="container-fluid main-container">
             <Col xs={2} md={2} className="sidebar">
               <SideBar />
             </Col>

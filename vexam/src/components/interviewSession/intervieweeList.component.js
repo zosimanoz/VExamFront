@@ -24,6 +24,7 @@ const IntervieweeList = (props) => {
                             <th>Email Address</th>
                             <th>Contact Number</th>
                             <th>Job</th>
+                            <th>Exam Set</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@ const IntervieweeList = (props) => {
                                 <td>{item.EmailAddress}</td>
                                  <td>{item.ContactNumber}</td>
                                  <td>{item.JobTitle}</td>
+                                 <td>{item.ExamSetTitle}</td>
                                 <td>
                                     <a title="Edit" className="btn btn-default btn-sm "onClick={()=>props.editInterviewee(item)} > <i className="glyphicon glyphicon-edit text-primary" ></i> </a>
                                      <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({

@@ -275,6 +275,17 @@ export function isInExamSet(state, props) {
     return state.examsets.setQuestions.indexOf(props.QuestionId) !== -1;
 }
 
+export function fetchExamSetsByJobId(jobTitleId){
+        return dispatch => {
+        dispatch(setLoader(true));
+        fetch(`${API_URL}/api/v1/examset/by-jobtitle/${jobTitleId}`)
+            .then(res => res.json())
+            .then(data => {
+                dispatch(setLoader(false));
+                dispatch(setExamSets(data.Data));
+            })
+    }
+}
 
 // export function allAddedInExamSet(state,props){
 //      var result = state.questions.filter(function(fs) {

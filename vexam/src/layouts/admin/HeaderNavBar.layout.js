@@ -15,21 +15,16 @@ class HeaderNavBar extends Component {
     }
 
 
-    render() {
+    render() { 
         return (
-            <Navbar>
+            <Navbar fluid>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <a href="#">Verscend Exams</a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav className="navbar-right">
-                    <NavDropdown title="User" id="basic-nav-dropdown">
-                        <MenuItem>Settings</MenuItem>
-                        <MenuItem divider />
-                        <MenuItem><NavLink to='/admin/logout'>Logout</NavLink></MenuItem>
-
-                    </NavDropdown>
+                  <MenuItem><NavLink to='/admin/logout'>Logout</NavLink></MenuItem>
                 </Nav>
             </Navbar>
         )
