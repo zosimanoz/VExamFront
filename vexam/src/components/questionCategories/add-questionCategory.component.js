@@ -13,16 +13,19 @@ import { saveQuestionCategory, fetchQuestionCategoryById, updateQuestionCategory
 
 class AddQuestionCategory extends React.Component {
 
-
-    state = {
-        QuestionCategoryId: this.props.questionCategories ? this.props.questionCategories.QuestionCategoryId : null,
-        CategoryCode: this.props.questionCategories ? this.props.questionCategories.CategoryCode : '',
-        CategoryName: this.props.questionCategories ? this.props.questionCategories.CategoryName : '',
-        Description: this.props.questionCategories ? this.props.questionCategories.Description : '',
-        errors: {},
-        loading: false,
-        done: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            QuestionCategoryId: this.props.questionCategories ? this.props.questionCategories.QuestionCategoryId : null,
+            CategoryCode: this.props.questionCategories ? this.props.questionCategories.CategoryCode : '',
+            CategoryName: this.props.questionCategories ? this.props.questionCategories.CategoryName : '',
+            Description: this.props.questionCategories ? this.props.questionCategories.Description : '',
+            errors: {},
+            loading: false,
+            done: false
+        }
     }
+
 
 
     // after new props are received from store, the ui must be aware of the new props 
@@ -39,7 +42,6 @@ class AddQuestionCategory extends React.Component {
 
     // this lifecycle event works when we first load component
     componentDidMount = (props) => {
-        console.log(this.props)
         if (this.props.match.params.id) {
             this.props.fetchQuestionCategoryById(this.props.match.params.id);
         }
@@ -64,7 +66,7 @@ class AddQuestionCategory extends React.Component {
     }
 
     handleFormSubmit = (e) => {
-       
+
         e.preventDefault();
 
         // validate the form here
@@ -91,21 +93,21 @@ class AddQuestionCategory extends React.Component {
             this.setState({ loading: true });
 
             if (QuestionCategoryId > 0) {
-                this.props.updateQuestionCategory({ QuestionCategoryId, CategoryCode, CategoryName,Description  })
+                this.props.updateQuestionCategory({ QuestionCategoryId, CategoryCode, CategoryName, Description })
                     .then(() => {
                         this.setState({ done: true });
                         this.setState({ loading: false });
                     },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                     );
-            }else{
-            this.props.saveQuestionCategory({ CategoryCode, CategoryName, Description  })
-                .then(() => {
-                    this.setState({ done: true });
-                    this.setState({ loading: false })
-                },
-                (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
-                );
+            } else {
+                this.props.saveQuestionCategory({ CategoryCode, CategoryName, Description })
+                    .then(() => {
+                        this.setState({ done: true });
+                        this.setState({ loading: false })
+                    },
+                    (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
+                    );
             }
 
 
@@ -117,7 +119,7 @@ class AddQuestionCategory extends React.Component {
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.Message })}>
+                    <div className={classnames('field', { errors: !!this.state.errors.CategoryCode })}>
                         <label>Category Code </label>
                         <input type="text"
                             name="CategoryCode"
@@ -127,11 +129,11 @@ class AddQuestionCategory extends React.Component {
 
                         />
 
-                        <span className="form-error">{this.state.errors.Message}</span>
+                        <span className="form-error">{this.state.errors.CategoryCode}</span>
                     </div>
                 </div>
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.Message })}>
+                    <div className={classnames('field', { errors: !!this.state.errors.CategoryName })}>
                         <label>Category Name </label>
                         <input type="text"
                             name="CategoryName"
@@ -141,7 +143,7 @@ class AddQuestionCategory extends React.Component {
 
                         />
 
-                        <span className="form-error">{this.state.errors.Message}</span>
+                        <span className="form-error">{this.state.errors.CategoryName}</span>
                     </div>
                 </div>
                 <div className="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">

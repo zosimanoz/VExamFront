@@ -70,9 +70,9 @@ class AddInterviewSession extends React.Component {
 
     handleFormSubmit = (e) => {
 
-         this.setState({ 
-                CreatedBy: this.props.user.UserId
-            });
+        this.setState({
+            CreatedBy: this.props.user.UserId
+        });
 
         e.preventDefault();
 
@@ -90,20 +90,21 @@ class AddInterviewSession extends React.Component {
             errors.SessionEndDate = 'Session Expiration Date is required';
         }
 
+        if ((new Date(this.state.SessionEndDate).getTime() < new Date(this.state.SessionStartDate).getTime())) {
+            errors.DateComparisonException = "Start date should not exceed end date."
+        }
 
         this.setState({
             errors
         });
 
-
         const isValid = Object.keys(errors).length === 0;
 
         if (isValid) {
-            debugger;
 
             const { InterviewSessionId, Title, SessionStartDate, SessionEndDate, CreatedBy } = this.state;
 
-            this.setState({ 
+            this.setState({
                 loading: true
             });
 
@@ -134,7 +135,6 @@ class AddInterviewSession extends React.Component {
 
 
 
-
     renderForm() {
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
@@ -160,21 +160,24 @@ class AddInterviewSession extends React.Component {
                             name="SessionStartDate"
                             value={this.state.SessionStartDate}
                             onChange={this.handleChange}
+                            placeholder="yyyy/mm/dd"
                             className="form-control" />
                         <span className="form-error">{this.state.errors.SessionStartDate}</span>
                     </div>
                 </div>
 
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.SessionEndDate })}>
+                    <div className={classnames('field', { errors: !!this.state.errors.SessionEndDate || !!this.state.errors.DateComparisonException })}>
                         <label>End Date</label>
                         <input
                             type="text"
                             name="SessionEndDate"
-                            value={this.state.SessionEndDate}
+                            value={this.state.SessionStartDate}
                             onChange={this.handleChange}
-                            className="form-control" />
-                        <span className="form-error">{this.state.errors.SessionEndDate}</span>
+                            placeholder="yyyy/mm/dd"
+                            className="form-control"
+                        />
+                        <span className="form-error">{this.state.errors.SessionEndDate || this.state.errors.DateComparisonException}</span>
                     </div>
                 </div>
                 <div className="clearfix"></div>

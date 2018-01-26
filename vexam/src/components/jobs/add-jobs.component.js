@@ -111,7 +111,7 @@ class AddJob extends React.Component {
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
                 <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.Message })}>
+                    <div className={classnames('field', { errors: !!this.state.errors.JobTitle })}>
                         <label>Job Title </label>
                         <input type="text"
                             name="JobTitle"
@@ -121,7 +121,7 @@ class AddJob extends React.Component {
 
                         />
 
-                        <span className="form-error">{this.state.errors.Message}</span>
+                        <span className="form-error">{this.state.errors.JobTitle}</span>
                     </div>
                 </div>
                 <div className="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">

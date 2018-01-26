@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_URL } from '../utils/url';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import qs from 'qs';
-        import { setLoader } from './loader.action';
+import { setLoader } from './loader.action';
 
 
 export const SET_INTERVIEW_SESSION = 'SET_INTERVIEW_SESSION'
@@ -15,13 +15,13 @@ export const INTERVIEW_SESSION_ERROR = 'INTERVIEW_SESSION_ERROR'
 
 // handle the post response
 function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+    if (response.ok) {
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
 }
 
 
@@ -34,7 +34,7 @@ function handleResponse(response) {
 export const setInterviewSessions = (interviewSessions) => {
     return {
         type: SET_INTERVIEW_SESSION,
-       payload: {
+        payload: {
             interviewSessions: interviewSessions
         }
     }
@@ -49,12 +49,13 @@ export function interviewSessionError(error) {
 }
 
 export const addInterviewSession = (interviewSession) => {
+    console.log('add session', interviewSession)
     return {
         type: ADD_INTERVIEW_SESSION,
-          payload: {
+        payload: {
             interviewSession: interviewSession
         }
-        
+
     }
 }
 
@@ -72,7 +73,7 @@ export const setUpdatedInterviewSession = (interviewSession) => {
 export const setInterviewSessionById = (interviewSession) => {
     return {
         type: GET_INTERVIEW_SESSION_BYID,
-       payload: {
+        payload: {
             interviewSession: interviewSession
         }
     }
@@ -82,7 +83,7 @@ export const setInterviewSessionById = (interviewSession) => {
 export const deleteInterviewSessionById = (interviewSessionId) => {
     return {
         type: DELETE_INTERVIEW_SESSION,
-          payload: {
+        payload: {
             interviewSessionId: interviewSessionId
         }
     }
@@ -90,8 +91,8 @@ export const deleteInterviewSessionById = (interviewSessionId) => {
 
 
 export const fetchInterviewSessionHistory = () => {
-       return dispatch => {
-           dispatch(setLoader(true));
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/history`)
             .then(res => {
                 dispatch(setLoader(false));
@@ -105,8 +106,8 @@ export const fetchInterviewSessionHistory = () => {
 
 
 export const fetchActiveInterviewSessions = () => {
-       return dispatch => {
-           dispatch(setLoader(true));
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/active`)
             .then(res => {
                 dispatch(setLoader(false));
@@ -119,8 +120,8 @@ export const fetchActiveInterviewSessions = () => {
 }
 
 export const fetchAllInterviewSessions = () => {
-       return dispatch => {
-           dispatch(setLoader(true));
+    return dispatch => {
+        dispatch(setLoader(true));
         axios.get(`${API_URL}/api/v1/interviewsession/get`)
             .then(res => {
                 dispatch(setLoader(false));
@@ -138,8 +139,7 @@ export const fetchAllInterviewSessions = () => {
 
 // Save department
 export function saveInterviewSession(data) {
-    
-    return dispatch => {
+  return dispatch => {
         return fetch(`${API_URL}/api/v1/interviewsession/new`, {
             method: 'post',
             dataType: 'json',
@@ -171,8 +171,8 @@ export const fetchInterviewSessionById = (id) => {
 }
 
 
-export function updateInterviewSession(data){
-     return dispatch => {
+export function updateInterviewSession(data) {
+    return dispatch => {
         return fetch(`${API_URL}/api/v1/interviewsession/update`, {
             method: 'put',
             dataType: 'json',
@@ -182,7 +182,7 @@ export function updateInterviewSession(data){
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(setUpdatedInterviewSession(data.Data)));
+            .then(data => dispatch(setUpdatedInterviewSession(data.Data)));
     }
 }
 
@@ -196,12 +196,12 @@ export function deleteInterviewSession(id) {
                 "Accept": "application/json"
             }
         })
-        .then((res) =>{
-                 dispatch(deleteInterviewSessionById(id))
-                console.log("response here...",res)
-        })
-            // .catch((err) => {
-            //     dispatch(interviewSessionError(err.data.Message))
-            // });
+            .then((res) => {
+                dispatch(deleteInterviewSessionById(id))
+                console.log("response here...", res)
+            })
+        // .catch((err) => {
+        //     dispatch(interviewSessionError(err.data.Message))
+        // });
     }
 }

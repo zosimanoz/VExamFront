@@ -34,10 +34,12 @@ export const setUpdateQuestionCategory = (questionCategory) => {
 }
 
 
-export const setQuestionCategoryById = (questionCategories) => {
+export const setQuestionCategoryById = (questionCategory) => {
     return {
         type: GET_QUESTION_CATEGORY_BYID,
-        questionCategories
+        payload: {
+            questionCategory: questionCategory
+        }
     }
 }
 
@@ -88,7 +90,10 @@ export function saveQuestionCategory(data) {
 export function fetchQuestionCategoryById(id) {
     return dispatch => {
         axios.get(`${API_URL}/api/v1/question/category/get/${id}`)
-            .then(res => dispatch(setQuestionCategoryById(res.data.Data)))
+            .then(res => {
+                console.log(res.data.Data)
+                dispatch(setQuestionCategoryById(res.data.Data))
+            })
     }
 }
 

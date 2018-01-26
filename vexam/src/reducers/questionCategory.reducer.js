@@ -38,11 +38,12 @@ export default function questionCategories(state = [], action = {}) {
         }
 
         case GET_QUESTION_CATEGORY_BYID: {
-            const index = state.findIndex(item => item.QuestionCategoryId === action.questionCategory.QuestionCategoryId);
+            const index = state.findIndex(item => item.QuestionCategoryId === action.payload.questionCategory.QuestionCategoryId);
+            
             if (index > -1) {
                 return state.map(item => {
-                    if (item.QuestionCategoryId === action.questionCategory.QuestionCategoryId) {
-                        return action.questionCategory;
+                    if (item.QuestionCategoryId === action.payload.questionCategory.QuestionCategoryId) {
+                        return action.payload.questionCategory;
                     } else {
                         return item;
                     }
@@ -50,7 +51,7 @@ export default function questionCategories(state = [], action = {}) {
             } else {
                 return [
                     ...state,
-                    action.questionCategory
+                    action.payload.questionCategory
                 ]
             }
             break;

@@ -34,12 +34,12 @@ const ActiveInterviewSessionList = (props) => {
                                 <td>{item.Title}</td>
                                 <td><Moment format="YYYY/MM/DD">{item.SessionStartDate}</Moment></td>
                                 <td><Moment format="YYYY/MM/DD">{item.SessionEndDate}</Moment></td>
+                               
                                 <td>
-                                    <NavLink title="Manage Job Vacancies" to={`/admin/interviewsession/${item.InterviewSessionId}/jobs`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-plus text-success"></i></NavLink>
-                                    <NavLink title="Add Interviewees" to={`/admin/interviewSession/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i></NavLink>
-                                </td>
-                                <td>
+                                    <NavLink title="Add Interviewees" to={`/admin/interviewSession/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i>&nbsp;&nbsp;Add Interviewee</NavLink>
+                                    &nbsp;&nbsp;
                                     <NavLink title="Edit Session" to={`/admin/interviewSession/${item.InterviewSessionId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
+                                    &nbsp;&nbsp;
                                     <a title="Delete" className="btn btn-default btn-sm " onClick={() => confirmAlert({
                                         title: 'Confirm.',                       
                                         message: 'Are you sure to delete?',        
@@ -48,6 +48,7 @@ const ActiveInterviewSessionList = (props) => {
                                         onConfirm: () => props.deleteInterviewSession(item.InterviewSessionId) 
                                         
                                     })}> <i className="glyphicon glyphicon-trash text-danger"></i> </a>
+                                
                                 </td>
                             </tr>
                         )
