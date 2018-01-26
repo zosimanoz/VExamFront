@@ -51,7 +51,7 @@ class QuestionComponent extends React.Component {
                 });
 
 
-                const newOptions = this.props.listQuestions.map((item, qid) => {
+                const newOptions = this.props.listSubjectiveQuestions.map((item, qid) => {
                     if (setQuestionId !== item.Question.SetQuestionId) {
                         return item
                     } else {
@@ -61,7 +61,7 @@ class QuestionComponent extends React.Component {
                     }
                 });
                 console.log('new options', newOptions);
-                this.setState({ listQuestions: newOptions });
+                this.setState({ listSubjectiveQuestions: newOptions });
             }
         } else {
             this.setState({
@@ -88,27 +88,7 @@ class QuestionComponent extends React.Component {
         //     })
         // }
 
-
-
-
     }
-
-
-
-    // handleIsAnswerCheckBox = (setQuestionId) => (e) => {
-    //     // store.dispatch(assignMarks(setQuestionId,evt.target.value));
-
-    //     const newOptions = this.props.listQuestions.map((item, qid) => {
-    //         if (setQuestionId !== item.Question.SetQuestionId) {
-    //             return item
-    //         } else {
-    //             item.Question.MarksObtained = e.target.value;
-    //             item.Question.ExaminerId = this.props.user.UserId;
-    //             return item
-    //         }
-    //     });
-    //     this.setState({ listQuestions: newOptions });
-    // }
 
     render() {
         return (
@@ -142,11 +122,6 @@ class QuestionComponent extends React.Component {
     }
 
 }
-
-
-//export default QuestionComponent;
-
-
 
 const mapStateToProps = (state, props) => {
     return {

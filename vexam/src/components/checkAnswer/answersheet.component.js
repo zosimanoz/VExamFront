@@ -31,7 +31,24 @@ class AnswerSheetContainer extends React.Component {
 
     componentWillReceiveProps = (newProps) => {
         this.setState({
-            listQuestions : newProps.questionList
+            listQuestions: newProps.questionList
+        });
+        let subjectiveArray = newProps.questionList.filter((item) => {
+            if (item.Question.QuestionTypeId == 1) {
+                return item;
+            }
+        });
+        this.setState({
+            listSubjectiveQuestions: subjectiveArray
+        });
+
+        let objectiveArray = newProps.questionList.filter((item) => {
+            if (item.Question.QuestionTypeId == 2) {
+                return item;
+            }
+        });
+        this.setState({
+            listObjectiveQuestions: objectiveArray
         });
     }
 
@@ -50,12 +67,8 @@ class AnswerSheetContainer extends React.Component {
     //     });
     // }
 
-    // test() {
-    //     alert('test')
-    // }
-
     // closeLightbox() {
-  
+
     //     this.setState({
     //         currentImage: 0,
     //         lightboxIsOpen: false
@@ -64,31 +77,6 @@ class AnswerSheetContainer extends React.Component {
 
     handleSelect(key) {
         this.setState({ key: key });
-        this.setState({ key: key }, () => {
-            if (this.state.key == 1) {
-                this.setState({
-                    listQuestions: this.props.questionList
-                });
-            } else if (this.state.key == 2) {
-                let arr = this.props.questionList.filter((item) => {
-                    if (item.Question.QuestionTypeId == 1) {
-                        return item;
-                    }
-                });
-                this.setState({
-                    listQuestions: arr
-                });
-            } else {
-                let arr = this.props.questionList.filter((item) => {
-                    if (item.Question.QuestionTypeId == 2) {
-                        return item;
-                    }
-                });
-                this.setState({
-                    listQuestions: arr
-                });
-            }
-        });
     }
 
     TabAllQuestions() {
@@ -100,9 +88,10 @@ class AnswerSheetContainer extends React.Component {
     }
 
     TabSubjectiveQuestions() {
+        { console.log('subjective active tab state', this.state) }
         return (
             <div>
-                <SubjectiveQuestions {...this.props} {...this.state} />
+                <SubjectiveQuestions {...this.props} {...this.state}  />
             </div>
         )
     }
@@ -111,7 +100,7 @@ class AnswerSheetContainer extends React.Component {
         return (
             <div>
                 <ObjectiveQuestions {...this.props} {...this.state} />
-            </div> 
+            </div>
         )
     }
 
@@ -127,7 +116,7 @@ class AnswerSheetContainer extends React.Component {
     }
 
     render() {
-        console.log('answersheet to view all props',this.state )
+        console.log('answersheet to view all props', this.props)
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">

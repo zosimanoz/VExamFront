@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import Loader from '../loader/loader.component';
-
+import Moment from 'react-moment';
 
 import { fetchAllInterviewSessions } from '../../actions/interviewSession.action';
 
@@ -71,8 +71,8 @@ class AllInterviewSessions extends React.Component {
                             <tr key={i}>
                                 <td>{i + 1}</td>
                                 <td>{item.Title}</td>
-                                <td>{item.SessionStartDate}</td>
-                                <td>{item.SessionEndDate}</td>
+                                <td><Moment format="YYYY/MM/DD">{item.SessionStartDate}</Moment></td>
+                                <td><Moment format="YYYY/MM/DD">{item.SessionEndDate}</Moment></td>
                                 <td>
                                     <NavLink title="Interviewees" to={`/admin/interviewSessions/${item.InterviewSessionId}/attended/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i></NavLink>
                                 </td>

@@ -64,7 +64,7 @@ class ObjectiveQuestions extends React.Component {
                     <strong>Note!</strong> Objective Questions are automatically checked and marked by the system.
                 </div>
                 {
-                    this.props.listQuestions.map((item, i) =>
+                    this.props.listObjectiveQuestions.map((item, i) =>
                         <div className="panel panel-default" key={i}>
                             <div className="panel-body">
                                 <div className="div-subjective-question-detail">
@@ -91,7 +91,7 @@ class ObjectiveQuestions extends React.Component {
         }
 
         let questionListComponent;
-        if (this.props.listQuestions && this.props.listQuestions.length > 0) {
+        if (this.props.listObjectiveQuestions && this.props.listObjectiveQuestions.length > 0) {
             questionListComponent = this.RenderAnswersheetTable()
         } else {
             questionListComponent = this.RenderEmptyMessage()

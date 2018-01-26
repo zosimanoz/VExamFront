@@ -56,8 +56,8 @@ class ExamAttendedInterviewee extends React.Component {
                             <th>Email Address</th>
                             <th>Contact Number</th>
                             <th>Job</th>
+                            <th>Exam Set</th>
                             <th>Total Marks Obtained</th>
-                            <th>Answersheet</th>
                         </tr>
                     </thead>
                     <tbody id="form-list-client-body">
@@ -69,7 +69,9 @@ class ExamAttendedInterviewee extends React.Component {
                                     <td>{item.EmailAddress}</td>
                                     <td>{item.ContactNumber}</td>
                                     <td>{item.JobTitle}</td>
+                                      <td>{item.ExamSetTitle}</td>
                                     <td>{item.TotalMarksObtained}</td>
+                                    
                                     <td>
                                         <NavLink title="Answersheet" to={`/admin/interviewSessions/interviewees/${item.IntervieweeId}/answersheet`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list text-primary"></i></NavLink>
                                     </td>

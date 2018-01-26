@@ -204,7 +204,6 @@ export function assignMarks(setQuestionId, marks)  {
 
 
 export function saveMarks(data) {
-    console.log('data to save->',data);
     return dispatch => {
         return axios.post(`${API_URL}/api/v1/checkanswer/check/subjectiveanswer`, JSON.stringify(data), {
             headers: {
@@ -212,7 +211,7 @@ export function saveMarks(data) {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res =>alert(3))
+        .then()
         .catch((err) => {
                 console.log('errror', err)
         });
@@ -220,14 +219,14 @@ export function saveMarks(data) {
 }
 
 export function autoCheckObjectiveQuestions(intervieweeId) {
-   alert(intervieweeId);
+  
   return dispatch => {
   return  axios.get(`${API_URL}/api/v1/checkanswer/check/objectiveanswer/${intervieweeId}`)
-      .then((res) => {
-       alert('checked objective answers');
-      }).catch((err) => {
-        alert('error');
-      });
+    //   .then((res) => {
+    //    alert('checked objective answers');
+    //   }).catch((err) => {
+    //     alert('error');
+    //   });
   }
 }
 

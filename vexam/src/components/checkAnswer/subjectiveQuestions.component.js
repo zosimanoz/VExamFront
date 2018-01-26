@@ -11,7 +11,7 @@ import Loader from '../loader/loader.component';
 import QuestionComponent from './question-detail.component';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
-import { fetchSubjectiveAnswersheetByIntervieweeId, saveMarks,autoCheckObjectiveQuestions } from '../../actions/checkAnswer.action';
+import { fetchSubjectiveAnswersheetByIntervieweeId, fetchAllAnswersheetByIntervieweeId, saveMarks, autoCheckObjectiveQuestions } from '../../actions/checkAnswer.action';
 
 
 class SubjectiveQuestions extends React.Component {
@@ -29,24 +29,30 @@ class SubjectiveQuestions extends React.Component {
     }
 
     submitMarks() {
+
         var result = [];
-        this.props.listQuestions.map((item, i) =>{
+        this.props.listSubjectiveQuestions.map((item, i) => {
             item.Question.ExaminerId = this.props.user.UserId;
             result.push(item.Question)
         });
         this.props.saveMarks(result);
-        this.props.autoCheckObjectiveQuestions(result[0].IntervieweeId);
+        this.props.autoCheckObjectiveQuestions(result[0].IntervieweeId)
+            .then((res) => {
+                this.props.fetchAllAnswersheetByIntervieweeId(result[0].IntervieweeId);
+            }).catch((err) => {
+                alert('error');
+            });
     }
 
     RenderAnswersheetTable() {
         return (
             <div className="clearfix ScrollStyle">
                 <div className="alert alert-info fade in">
-                    <strong>Note!</strong> 
+                    <strong>Note!</strong>
                     <p>On clicking submit button, subjective answers are marked with the marks provided and objective questions are automatically marked by the system.</p>
-                    </div>
+                </div>
                 {
-                    this.props.listQuestions.map((item, i) =>
+                    this.props.listSubjectiveQuestions.map((item, i) =>
                         <QuestionComponent {...this.props} questionInfo={item} />
                     )
                 }
@@ -54,8 +60,8 @@ class SubjectiveQuestions extends React.Component {
         )
     }
 
-
     render() {
+        console.log('props in subjective questions', this.props)
         if (this.props.loader.loading) {
             return (
                 <Loader loading={this.props.loader.loading} />
@@ -63,7 +69,7 @@ class SubjectiveQuestions extends React.Component {
         }
 
         let questionListComponent;
-        if (this.props.listQuestions && this.props.listQuestions.length > 0) {
+        if (this.props.listSubjectiveQuestions && this.props.listSubjectiveQuestions.length > 0) {
             questionListComponent = this.RenderAnswersheetTable()
         } else {
             questionListComponent = this.EmptyMessage()
@@ -85,17 +91,16 @@ class SubjectiveQuestions extends React.Component {
 const mapStateToProps = (state, props) => {
     if (props.match.params.id) {
         return {
-            //  questionList: state.answersheetReducer.answersheet,
             loader: state.loaderReducer,
             user: state.authReducer.user
         }
     }
     return {
-        //    questionList: null,
         loader: state.loaderReducer
     }
 }
 
 
-export default connect(mapStateToProps, { fetchSubjectiveAnswersheetByIntervieweeId, saveMarks,autoCheckObjectiveQuestions })(SubjectiveQuestions
-);
+export default connect(mapStateToProps, 
+{ fetchSubjectiveAnswersheetByIntervieweeId, fetchAllAnswersheetByIntervieweeId, saveMarks, autoCheckObjectiveQuestions })
+(SubjectiveQuestions);
