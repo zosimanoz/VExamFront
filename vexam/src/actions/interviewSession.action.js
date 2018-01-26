@@ -139,7 +139,7 @@ export const fetchAllInterviewSessions = () => {
 
 // Save department
 export function saveInterviewSession(data) {
-  return dispatch => {
+    return dispatch => {
         return fetch(`${API_URL}/api/v1/interviewsession/new`, {
             method: 'post',
             dataType: 'json',
@@ -149,7 +149,7 @@ export function saveInterviewSession(data) {
                 "Accept": "application/json"
             }
         }).then(handleResponse)
-        .then(data => dispatch(addInterviewSession(data.Data)));;
+            .then(data => dispatch(addInterviewSession(data.Data)));;
     }
 }
 
@@ -173,16 +173,23 @@ export const fetchInterviewSessionById = (id) => {
 
 export function updateInterviewSession(data) {
     return dispatch => {
-        return fetch(`${API_URL}/api/v1/interviewsession/update`, {
-            method: 'put',
-            dataType: 'json',
-            body: JSON.stringify(data),
+        return axios({
+            method: 'PUT',
+            url: `${API_URL}/api/v1/interviewsession/update`,
+            data: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json"
             }
-        }).then(handleResponse)
-            .then(data => dispatch(setUpdatedInterviewSession(data.Data)));
+        }).then((res) => {
+            dispatch(setUpdatedInterviewSession(data))
+            alert('Interview session updated');
+        })
+            .catch((err) => {
+                dispatch(interviewSessionError(err.response.Message))
+            });
+
+
     }
 }
 

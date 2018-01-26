@@ -36,7 +36,7 @@ const ActiveInterviewSessionList = (props) => {
                                 <td><Moment format="YYYY/MM/DD">{item.SessionEndDate}</Moment></td>
                                
                                 <td>
-                                    <NavLink title="Add Interviewees" to={`/admin/interviewSession/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i>&nbsp;&nbsp;Add Interviewee</NavLink>
+                                    <NavLink title="Interviewees" to={`/admin/interviewSession/${item.InterviewSessionId}/interviewees`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-user text-primary"></i>&nbsp;&nbsp;Interviewee</NavLink>
                                     &nbsp;&nbsp;
                                     <NavLink title="Edit Session" to={`/admin/interviewSession/${item.InterviewSessionId}`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-edit text-primary"></i></NavLink>
                                     &nbsp;&nbsp;

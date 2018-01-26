@@ -68,8 +68,8 @@ class AddInterviewees extends React.Component {
         this.setState({
             InterviewSessionId: this.props.match.params.id,
             SessionwiseJobId: 0,
-            JobTitleId: "0",
-            ExamSetId: "0",
+            JobTitleId: '0',
+            ExamSetId: '0',
             IntervieweeId: '',
             FirstName: '',
             MiddleName: '',
@@ -129,9 +129,8 @@ class AddInterviewees extends React.Component {
 
             this.props.fetchExamSetsByJobId(e.target.value);
 
-            console.log('select change event called', this.state)
             this.setState({
-
+                ExamSetId: '0',
                 [e.target.name]: e.target.value,
                 [e.target.title]: e.target[index].text,
             });
@@ -322,10 +321,16 @@ class AddInterviewees extends React.Component {
                     <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                         <div className={classnames('field', { errors: !!this.state.errors.JobTitleId })}>
                             <label>Job Title</label>
-                            <select name="JobTitleId" title="JobTitle" className="form-control" onChange={this.handleSelectChange.bind(this)}>
+                            <select 
+                                name="JobTitleId" 
+                                title="JobTitle" 
+                                className="form-control" 
+                                onChange={this.handleSelectChange.bind(this)}
+                                value={this.state.JobTitleId}
+                                >
                                 <option value="0">--Select Job Title--</option>
                                 {this.props.jobs.map((job, idx) => (
-                                    <option selected={job.JobTitleId === this.state.JobTitleId ? true : false} value={job.JobTitleId}>{job.JobTitle}</option>
+                                    <option  value={job.JobTitleId}>{job.JobTitle}</option>
                                 ))}
                             </select>
                             <span className="form-error">{this.state.errors.JobTitleId}</span>
@@ -349,7 +354,13 @@ class AddInterviewees extends React.Component {
                     <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                         <div className={classnames('field', { errors: !!this.state.errors.JobTitleId })}>
                             <label>Exam Set Title</label>
-                            <select name="ExamSetId" title="ExamSetTitle" className="form-control" onChange={this.handleExamSetSelectChange.bind(this)}>
+                            <select 
+                                name="ExamSetId" 
+                                title="ExamSetTitle" 
+                                className="form-control" 
+                                onChange={this.handleExamSetSelectChange.bind(this)}
+                                value={this.state.ExamSetId}
+                                >
                                 <option value="0">--Select ExamSet--</option>
                                 {this.props.examsetList.map((examSet, idx) => (
                                     <option selected={examSet.ExamSetId === this.state.ExamSetId ? true : false} value={examSet.ExamSetId}>{examSet.Title}</option>

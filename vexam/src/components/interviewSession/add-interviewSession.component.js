@@ -107,10 +107,11 @@ class AddInterviewSession extends React.Component {
             this.setState({
                 loading: true
             });
-
+            debugger;
             if (InterviewSessionId) {
                 this.props.updateInterviewSession({ InterviewSessionId, Title, SessionStartDate, SessionEndDate, CreatedBy })
                     .then((res) => {
+                         debugger;
                         this.setState({ loading: false });
                         this.setState({ done: true });
                     },
@@ -126,9 +127,6 @@ class AddInterviewSession extends React.Component {
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                     );
             }
-
-
-
         }
 
     }
@@ -138,46 +136,48 @@ class AddInterviewSession extends React.Component {
     renderForm() {
         return (
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
-
-                <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.Title })}>
-                        <label>Interview Session title</label>
-                        <input
-                            type="text"
-                            name="Title"
-                            value={this.state.Title}
-                            onChange={this.handleChange}
-                            className="form-control" />
-                        <span className="form-error">{this.state.errors.Title}</span>
+                <div className="form-group col-xs-12 col-sm-6 col-md-12 col-lg-12">
+                    <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                        <div className={classnames('field', { errors: !!this.state.errors.Title })}>
+                            <label>Interview Session title</label>
+                            <input
+                                type="text"
+                                name="Title"
+                                value={this.state.Title}
+                                onChange={this.handleChange}
+                                className="form-control" />
+                            <span className="form-error">{this.state.errors.Title}</span>
+                        </div>
                     </div>
                 </div>
-
-                <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.SessionStartDate })}>
-                        <label>Start Date</label>
-                        <input
-                            type="text"
-                            name="SessionStartDate"
-                            value={this.state.SessionStartDate}
-                            onChange={this.handleChange}
-                            placeholder="yyyy/mm/dd"
-                            className="form-control" />
-                        <span className="form-error">{this.state.errors.SessionStartDate}</span>
+                <div className="form-group col-xs-12 col-sm-6 col-md-12 col-lg-12">
+                    <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                        <div className={classnames('field', { errors: !!this.state.errors.SessionStartDate })}>
+                            <label>Start Date</label>
+                            <input
+                                type="text"
+                                name="SessionStartDate"
+                                value={this.state.SessionStartDate}
+                                onChange={this.handleChange}
+                                placeholder="yyyy/mm/dd"
+                                className="form-control" />
+                            <span className="form-error">{this.state.errors.SessionStartDate}</span>
+                        </div>
                     </div>
-                </div>
 
-                <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                    <div className={classnames('field', { errors: !!this.state.errors.SessionEndDate || !!this.state.errors.DateComparisonException })}>
-                        <label>End Date</label>
-                        <input
-                            type="text"
-                            name="SessionEndDate"
-                            value={this.state.SessionStartDate}
-                            onChange={this.handleChange}
-                            placeholder="yyyy/mm/dd"
-                            className="form-control"
-                        />
-                        <span className="form-error">{this.state.errors.SessionEndDate || this.state.errors.DateComparisonException}</span>
+                    <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                        <div className={classnames('field', { errors: !!this.state.errors.SessionEndDate || !!this.state.errors.DateComparisonException })}>
+                            <label>End Date</label>
+                            <input
+                                type="text"
+                                name="SessionEndDate"
+                                value={this.state.SessionEndDate}
+                                onChange={this.handleChange}
+                                placeholder="yyyy/mm/dd"
+                                className="form-control"
+                            />
+                            <span className="form-error">{this.state.errors.SessionEndDate || this.state.errors.DateComparisonException}</span>
+                        </div>
                     </div>
                 </div>
                 <div className="clearfix"></div>
