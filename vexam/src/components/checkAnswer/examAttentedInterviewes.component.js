@@ -46,6 +46,7 @@ class ExamAttendedInterviewee extends React.Component {
     }
 
     RenderIntervieweeTable() {
+        console.log('users details --->', this.props)
         return (
             <div className="clearfix">
                 <table className="table table-bordered table-condensed table-hover">

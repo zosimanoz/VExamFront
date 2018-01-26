@@ -71,7 +71,7 @@ class AddQuestionComplexity extends React.Component {
 
         let errors = {};
         if (this.state.ComplexityCode === '') {
-            errors.ComplexityCode = 'complexity Code cannot be empty';
+            errors.ComplexityCode = 'Complexity Code cannot be empty';
         }
         if (this.state.ComplexityTitle === '') {
             errors.ComplexityTitle = 'Complexity Titlee cannot empty.';
@@ -117,7 +117,7 @@ class AddQuestionComplexity extends React.Component {
             <form className={classnames('ui', 'form', { loading: this.state.loading })} onSubmit={this.handleFormSubmit}>
                 <div className="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                        <div className={classnames('field', { errors: !!this.state.errors.Message })}>
+                        <div className={classnames('field', { errors: !!this.state.errors.ComplexityCode })}>
                             <label>Complexity Code </label>
                             <input type="text"
                                 name="ComplexityCode"
@@ -127,11 +127,11 @@ class AddQuestionComplexity extends React.Component {
 
                             />
 
-                            <span className="form-error">{this.state.errors.Message}</span>
+                            <span className="form-error">{this.state.errors.ComplexityCode}</span>
                         </div>
                     </div>
-                                        <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
-                        <div className={classnames('field', { errors: !!this.state.errors.Message })}>
+                    <div className="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                        <div className={classnames('field', { errors: !!this.state.errors.ComplexityTitle })}>
                             <label>Marks</label>
                             <input type="text"
                                 name="Marks"
@@ -139,7 +139,7 @@ class AddQuestionComplexity extends React.Component {
                                 value={this.state.Marks}
                                 onChange={this.handleChange}
                             />
-                            <span className="form-error">{this.state.errors.Message}</span>
+                            <span className="form-error">{this.state.errors.ComplexityTitle}</span>
                         </div>
                     </div>
                 </div>

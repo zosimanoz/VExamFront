@@ -13,7 +13,6 @@ export default function interviewSessionReducer(state = [], action = {}) {
         }
 
         case ADD_INTERVIEW_SESSION: {
-            console.log("added ", action.interviewSession);
             return {
                 ...state,
                 interviewSessions: state.interviewSessions.concat(action.payload.interviewSession)
