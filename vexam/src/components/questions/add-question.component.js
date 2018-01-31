@@ -23,78 +23,140 @@ import { API_URL } from '../../utils/url';
 
 class AddQuestion extends React.Component {
 
-    state = {
-        QuestionId: this.props.question ? this.props.question.QuestionId : 0,
-        QuestionTypeId: this.props.question ? this.props.question.QuestionTypeId : '1',
-        QuestionCategoryId: this.props.question ? this.props.question.QuestionCategoryId : '',
-        Attachment: this.props.question ? this.props.question.Attachment : '',
-        QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : '',
-        Question: this.props.question ? this.props.question.Question : '',
-        Marks: this.props.question ? this.props.question.Marks : '',
-        PreparedBy: this.props.user.UserId,
-        errors: {},
-        loading: false,
-        done: false,
-        subjectiveAnswer: this.props.question ? this.props.question.SubjectiveAnswer : '',
-        defaultQuestionType: '2',
-        Options: [
-            {
-                ObjectiveQuestionOptionId: 0,
-                AnswerOption: '',
-                IsAnswer: false,
-                Attachment: ''
-            }, {
-                ObjectiveQuestionOptionId: 0,
-                AnswerOption: '',
-                IsAnswer: false,
-                Attachment: ''
-            }, {
-                ObjectiveQuestionOptionId: 0,
-                AnswerOption: '',
-                IsAnswer: false,
-                Attachment: ''
-            }, {
-                ObjectiveQuestionOptionId: 0,
-                AnswerOption: '',
-                IsAnswer: false,
-                Attachment: ''
-            }
-        ]
+    constructor(props) {
+        super(props);
+        this.state = {
+            QuestionId: this.props.question ? this.props.question.QuestionId : 0,
+            QuestionTypeId: this.props.question ? this.props.question.QuestionTypeId : '1',
+            QuestionCategoryId: this.props.question ? this.props.question.QuestionCategoryId : '',
+            Attachment: this.props.question ? this.props.question.Attachment : '',
+            QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : '',
+            Question: this.props.question ? this.props.question.Question : '',
+            Marks: this.props.question ? this.props.question.Marks : '',
+            PreparedBy: this.props.user.UserId,
+            errors: {},
+            loading: false,
+            done: false,
+            subjectiveAnswer: this.props.question ? this.props.question.SubjectiveAnswer : '',
+            defaultQuestionType: '2',
+            Options: [
+                {
+                    ObjectiveQuestionOptionId: 0,
+                    AnswerOption: '',
+                    IsAnswer: false,
+                    Attachment: ''
+                }, {
+                    ObjectiveQuestionOptionId: 0,
+                    AnswerOption: '',
+                    IsAnswer: false,
+                    Attachment: ''
+                }, {
+                    ObjectiveQuestionOptionId: 0,
+                    AnswerOption: '',
+                    IsAnswer: false,
+                    Attachment: ''
+                }, {
+                    ObjectiveQuestionOptionId: 0,
+                    AnswerOption: '',
+                    IsAnswer: false,
+                    Attachment: ''
+                }
+            ]
+        }
     }
+
+    // state = {
+    //     QuestionId: this.props.question ? this.props.question.QuestionId : 0,
+    //     QuestionTypeId: this.props.question ? this.props.question.QuestionTypeId : '1',
+    //     QuestionCategoryId: this.props.question ? this.props.question.QuestionCategoryId : '',
+    //     Attachment: this.props.question ? this.props.question.Attachment : '',
+    //     QuestionComplexityId: this.props.question ? this.props.question.QuestionComplexityId : '',
+    //     Question: this.props.question ? this.props.question.Question : '',
+    //     Marks: this.props.question ? this.props.question.Marks : '',
+    //     PreparedBy: this.props.user.UserId,
+    //     errors: {},
+    //     loading: false,
+    //     done: false,
+    //     subjectiveAnswer: this.props.question ? this.props.question.SubjectiveAnswer : '',
+    //     defaultQuestionType: '2',
+    //     Options: [
+    //         {
+    //             ObjectiveQuestionOptionId: 0,
+    //             AnswerOption: '',
+    //             IsAnswer: false,
+    //             Attachment: ''
+    //         }, {
+    //             ObjectiveQuestionOptionId: 0,
+    //             AnswerOption: '',
+    //             IsAnswer: false,
+    //             Attachment: ''
+    //         }, {
+    //             ObjectiveQuestionOptionId: 0,
+    //             AnswerOption: '',
+    //             IsAnswer: false,
+    //             Attachment: ''
+    //         }, {
+    //             ObjectiveQuestionOptionId: 0,
+    //             AnswerOption: '',
+    //             IsAnswer: false,
+    //             Attachment: ''
+    //         }
+    //     ]
+    // }
 
 
 
     // after new props are received from store, the ui must be aware of the new props 
     // and show the data into the form using this lifecycle event
 
-    componentWillReceiveProps = (new_props) => {
-        if (this.props.match.params.id) {
-            this.setState({
-                QuestionId: new_props.questions ? new_props.questions.Question.QuestionId : null,
-                QuestionTypeId: new_props.questions ? new_props.questions.Question.QuestionTypeId : '1',
-                QuestionCategoryId: new_props.questions ? new_props.questions.Question.QuestionCategoryId : '',
-                Attachment: new_props.questions ? new_props.questions.Question.Attachment : '',
-                QuestionComplexityId: new_props.questions ? new_props.questions.Question.QuestionComplexityId : '',
-                Question: new_props.questions ? new_props.questions.Question.Question : '',
-                Marks: new_props.questions ? new_props.questions.Question.Marks : '',
-                PreparedBy: new_props.user.UserId,
-                errors: {},
-                loading: false,
-                done: false,
-                subjectiveAnswer: new_props.questions ? new_props.questions.Question.SubjectiveAnswer : '',
-                defaultQuestionType: '1',
-                Options: new_props.questions.Options
-            });
-        }
+   // componentWillReceiveProps = (new_props) => {
+       // if (this.props.match.params.id) {
+            // alert(new_props.questions.Question.QuestionId)
 
-    }
+            // this.setState({
+            //     QuestionId: new_props.questions.Question.QuestionId,
+            //     QuestionTypeId: new_props.questions ? new_props.questions.Question.QuestionTypeId : '1',
+            //     QuestionCategoryId: new_props.questions ? new_props.questions.Question.QuestionCategoryId : '',
+            //     Attachment: new_props.questions ? new_props.questions.Question.Attachment : '',
+            //     QuestionComplexityId: new_props.questions ? new_props.questions.Question.QuestionComplexityId : '',
+            //     Question: new_props.questions ? new_props.questions.Question.Question : '',
+            //     Marks: new_props.questions ? new_props.questions.Question.Marks : '',
+            //     PreparedBy: new_props.user.UserId,
+            //     errors: {},
+            //     loading: false,
+            //     done: false,
+            //     subjectiveAnswer: new_props.questions ? new_props.questions.Question.SubjectiveAnswer : '',
+            //     defaultQuestionType: '1',
+            //     Options: new_props.questions.Options
+            // });
+
+       // }
+
+    //}
 
     // this lifecycle event works when we first load component
     componentDidMount = (props) => {
         this.props.fetchQuestionCategoryList();
         this.props.fetchQuestionComplexityList();
         if (this.props.match.params.id) {
-            this.props.fetchQuestionById(this.props.match.params.id);
+            this.props.fetchQuestionById(this.props.match.params.id).then(res=>{
+                 this.setState({
+                    QuestionId: this.props.questions.Question.QuestionId,
+                    QuestionTypeId: this.props.questions ? this.props.questions.Question.QuestionTypeId : '1',
+                    QuestionCategoryId: this.props.questions ? this.props.questions.Question.QuestionCategoryId : '',
+                    Attachment: this.props.questions ? this.props.questions.Question.Attachment : '',
+                    QuestionComplexityId: this.props.questions ? this.props.questions.Question.QuestionComplexityId : '',
+                    Question: this.props.questions ? this.props.questions.Question.Question : '',
+                    Marks: this.props.questions ? this.props.questions.Question.Marks : '',
+                    PreparedBy: this.props.user.UserId,
+                    errors: {},
+                    loading: false,
+                    done: false,
+                    subjectiveAnswer: this.props.questions ? this.props.questions.Question.SubjectiveAnswer : '',
+                    defaultQuestionType: '1',
+                    Options: this.props.questions.Options
+                });
+            });
         }
     }
 
@@ -149,16 +211,26 @@ class AddQuestion extends React.Component {
             errors.Question = 'Question is required.';
         }
 
+        // console.log('options in question',this.state.Options)
+
+
         this.setState({
             errors
         });
 
+        let isValid = Object.keys(errors).length === 0;
 
+        if (this.state.QuestionTypeId == '2') {
+            var res = this.state.Options.filter(item => item.IsAnswer === true);
 
+            if (res.length > 0) {
+                isValid = true;
 
-        const isValid = Object.keys(errors).length === 0;
-
-
+            } else {
+                isValid = false;
+                alert('Please mark atleast one answer.');
+            }
+        }
 
         if (isValid) {
             const { QuestionId, QuestionTypeId, QuestionComplexityId, QuestionCategoryId, Question, Marks, Attachment, Options, JobTitleId, PreparedBy } = this.state;
@@ -186,7 +258,7 @@ class AddQuestion extends React.Component {
                         alert("Question Updated Successfully");
                         this.setState({ done: true });
                         this.setState({ loading: false });
-                       
+
                     },
                     (err) => err.response.json().then(({ errors }) => this.setState({ errors, loading: false }))
                     );
@@ -195,10 +267,10 @@ class AddQuestion extends React.Component {
 
                 this.props.saveQuestion(model)
                     .then(() => {
-                         alert("Question Saved Successfully");
+                        alert("Question Saved Successfully");
                         this.setState({ done: true });
                         this.setState({ loading: false });
-                     
+
 
 
                     },
@@ -253,7 +325,7 @@ class AddQuestion extends React.Component {
 
 
     handleAddOption = () => {
-        this.setState({ Options: this.state.Options.concat([{ AnswerOption: '', IsAnswer: false }]) }); 
+        this.setState({ Options: this.state.Options.concat([{ AnswerOption: '', IsAnswer: false }]) });
     }
 
 
@@ -264,7 +336,7 @@ class AddQuestion extends React.Component {
 
 
     renderOptions = () => {
-        if (this.state.QuestionTypeId !=  '1') {
+        if (this.state.QuestionTypeId != '1') {
             return (
                 <tbody>
                     {this.state.Options.map((option, idx) => (
@@ -275,8 +347,10 @@ class AddQuestion extends React.Component {
                                     placeholder={`option #${idx + 1}`}
                                     value={option.AnswerOption}
                                     className="form-control"
+                                    required="required"
                                     onChange={this.handleOptionValueChange(idx)}
                                 />
+                                {/*<span>{this.state.errors.OptionsError ? this.state.errors.OptionsError : ''} </span>*/}
                             </td>
                             <td>
                                 <img src={option.Attachment ? (API_URL + option.Attachment) : ""} width={100} style={{ float: 'right' }} />
@@ -401,7 +475,7 @@ class AddQuestion extends React.Component {
 
                 {!!this.state.errors.global && <div className="ui negative message"><p>{this.state.errors.global}</p></div>}
                 {this.state.done ? <Redirect to="/admin/questions" /> : this.renderForm()}
-               
+
 
             </Panel>
         )

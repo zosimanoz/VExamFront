@@ -86,7 +86,7 @@ export function getExamQuestions(intervieweeId) {
 // }
 
 export function submitFinalAnswers(questions,intervieweeId) {
-  console.log('submitting answer here-->',questions);
+  
   return dispatch => {
     dispatch(saveAnswersStart());
     return axios.post(`${API_URL}/api/v1/answer/save`, JSON.stringify(questions), {

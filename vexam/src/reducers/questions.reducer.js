@@ -54,9 +54,9 @@ export default function questions(state = initialState, action = {}) {
         }
 
         case GET_QUESTIONBYID: {
-
+            console.log('get question by id', state)
             return {
-                ...state,
+               ...state,
                 QuestionWithOptions: action.payload.question
             }
             break;

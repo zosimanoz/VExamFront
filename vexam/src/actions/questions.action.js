@@ -53,6 +53,7 @@ export const setUpdatedQuestion = (question) => {
 
 
 export const setQuestionById = (question) => {
+    console.log('question to edit',question)
     return {
         type: GET_QUESTIONBYID,
         payload: {
@@ -119,7 +120,7 @@ export function saveQuestion(data) {
 
 export function fetchQuestionById(id) {
     return dispatch => {
-        axios.get(`${API_URL}/api/v1/questionbank/get/${id}`)
+        return axios.get(`${API_URL}/api/v1/questionbank/get/${id}`)
             .then(res => dispatch(setQuestionById(res.data.Data)))
             .catch((err) => {
                 dispatch(questionBankError(err.response.data))

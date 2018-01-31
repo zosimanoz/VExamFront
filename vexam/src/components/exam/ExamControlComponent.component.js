@@ -78,6 +78,7 @@ class ExamControlComponent extends Component {
 
 
     formatFinalAnswers() {
+        alert('formatFinalAnswers');
         var optionsArr = this.formatAnswersByQuestionId();
         var subjectiveArr = this.props.subjectiveAnswers;
 
@@ -90,12 +91,27 @@ class ExamControlComponent extends Component {
 
     submitAnswers() {
         // get the question list and pass it to the api
+
+        this.props.questionsList.map((item,val) => {
+            if(item.Answers == null) {
+                  let objectForAnswer = {
+                    IntervieweeId: this.props.user.IntervieweeId,
+                    SetQuestionId: item.Question.SetQuestionId,
+                    subjectiveAnswer: '',
+                    ObjectiveAnswer: '',
+                    AnsweredBy: this.props.user.IntervieweeId
+                }
+                item.Answers = objectForAnswer;
+            }
+        })
+
+
         this.props.submitFinalAnswers(this.props.questionsList,this.props.user.IntervieweeId);
         this.props.logout();
 
-        return (
-            <Redirect to="/" />
-        )
+       return (
+           <Redirect to="/" />
+       )
     }
 
 
@@ -139,7 +155,8 @@ const mapStateToProps = (state, props) => {
     return {
         questionsList: state.quizReducer.questions,
         user: state.authReducer.user,
-        auth: state.authReducer
+        auth: state.authReducer,
+        examset: state.quizReducer.questions
     }
 }
 

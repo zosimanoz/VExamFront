@@ -20,6 +20,9 @@ class SetQuestions extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            sum: 0
+        }
     }
 
 
@@ -39,6 +42,11 @@ class SetQuestions extends React.Component {
 
 
     renderSetQuestionList() {
+        var sum = 0;
+        this.props.setquestions.map((item, i) => 
+            sum += parseInt(item.Marks)
+        )
+
         return (
             <div>
 
@@ -69,7 +77,15 @@ class SetQuestions extends React.Component {
                                     <td>{item.Marks}</td>
                                 </tr>
                             )
+                            
                         }
+                        <tr>       
+                            <td colSpan="4"></td>
+                            <td colSpan="2">
+                                <b>Total : {sum}</b>
+                            </td>
+
+                        </tr>
                     </tbody>
                 </table>
             </div>

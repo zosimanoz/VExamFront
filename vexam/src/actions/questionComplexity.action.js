@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { API_URL } from '../utils/url';
 import { setLoader } from './loader.action';
 
@@ -73,11 +74,12 @@ export const fetchQuestionComplexityList = () => {
 
     return dispatch => {
         dispatch(setLoader(true));
-        fetch(`${API_URL}/api/v1/question/complexity/get/all`)
-            .then(res => res.json())
-            .then(data => {
+        return axios.get(`${API_URL}/api/v1/question/complexity/get/all`)
+           // .then(res => res.json())
+            .then(res => {
+                console.log(res.data.Data)
                 dispatch(setLoader(false))
-                dispatch(setQuestionComplexity(data.Data))
+                dispatch(setQuestionComplexity(res.data.Data))
             })
     }
 }
