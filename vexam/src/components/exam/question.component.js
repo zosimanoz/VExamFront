@@ -3,6 +3,9 @@ import React from 'react';
 import RawHtml from "react-raw-html";
 
 import Lightbox from 'react-images';
+
+import ReactHtmlParser from 'react-html-parser';
+
 import { API_URL } from '../../utils/url';
 
 
@@ -79,7 +82,13 @@ class Question extends React.Component {
     render() {
         return (
             <div>
-                <span className="span-question-index"><b>{this.props.sn}. &nbsp; </b></span><RawHtml.span>{this.props.content}</RawHtml.span>
+                <span className="span-question-index">
+                    <b>{this.props.sn}. &nbsp; </b>
+                </span>
+                <div style={{"display":"flex"}}> 
+                    <div className="col-md-10">{ ReactHtmlParser(this.props.content) } </div>
+                    <div className="col-md-2"><span className="label label-primary pull-right">{this.props.category_name}</span></div>
+                </div>
                 {this.props.attachment == null || this.props.attachment == "" ? "" : this.renderAttachment(this.props.attachment)}
             </div>
         )

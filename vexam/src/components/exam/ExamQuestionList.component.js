@@ -16,7 +16,7 @@ import { setAnswersToStore } from '../../actions/answers.action'
 import { setSubjectiveAnswerToStore } from '../../actions/answers.action'
 
 
-import Question from './Question.component'
+import Question from './question.component'
 import AnswerOption from './AnswerOption.component'
 
 
@@ -46,6 +46,7 @@ class ExamQuestionList extends React.Component {
     }
 
     saveObjectiveAnswer = (e) => {
+        
 
         // get the current question from question id
         var questionId = e.target.getAttribute('data-questionId');
@@ -72,6 +73,52 @@ class ExamQuestionList extends React.Component {
         }
 
         arr[0].Answers = objectForAnswer;
+
+
+        console.log(arr)
+        
+        this.setState({
+            questionsList: this.props.questionsList
+        }, () => {
+            this.props.setAnswersToStore(this.state);
+        });
+    }
+
+
+    saveObjectiveAnswerSingle = (e) => {
+        
+
+        // get the current question from question id
+        var questionId = e.target.getAttribute('data-questionId');
+
+        // get the current option
+        var optionId = e.target.value;
+
+        console.log('event on single ans', this.props.isChecked)
+
+        var arr = this.props.questionsList.filter((key) => {
+            return key.Question.QuestionId == questionId
+        });
+
+        arr[0].Options.map((key, value) => {
+            key.AnswerByInterviewees = false;
+            if (key.ObjectiveQuestionOptionId == optionId) {
+                key.AnswerByInterviewees = key.AnswerByInterviewees ? false: true;
+            }
+        });
+
+        let objectForAnswer = {
+            IntervieweeId: this.props.user.IntervieweeId,
+            SetQuestionId: arr[0].Question.SetQuestionId,
+            subjectiveAnswer: '',
+            ObjectiveAnswer: '',
+            AnsweredBy: this.props.user.IntervieweeId
+        }
+
+        arr[0].Answers = objectForAnswer;
+
+
+        console.log(arr)
         
         this.setState({
             questionsList: this.props.questionsList
@@ -107,9 +154,11 @@ class ExamQuestionList extends React.Component {
     }
 
 
-    renderQuestionOptionsList = (option) => {
+    renderQuestionOptionsList = (question,option) => {
         // var array = this.props.objectiveAnswers;
         // var index = array.findIndex(o => o.optionId == option.ObjectiveQuestionOptionId);
+
+        var controlType = question.AnsCount > 1 ? "checkbox" : "radio";
 
         return (
             <AnswerOption
@@ -120,7 +169,9 @@ class ExamQuestionList extends React.Component {
                 questionId={option.QuestionId}
                 attachment={option.Attachment}
                 saveObjectiveAnswer={this.saveObjectiveAnswer}
+                saveObjectiveAnswerSingle = {this.saveObjectiveAnswerSingle}
                 isChecked={option.AnswerByInterviewees}
+                control = {controlType}
             />
         )
 
@@ -146,10 +197,10 @@ class ExamQuestionList extends React.Component {
         let i = 0;
         return (
             <div className="quiz-question-detail" key={key.Question.SetQuestionId}>
-                <Question index={this.state.index} content={key.Question.Question} key={key.Question.SetQuestionId} sn={key.Question.SN} attachment={key.Question.Attachment}/>
-
+                <Question index={this.state.index} content={key.Question.Question} key={key.Question.SetQuestionId} sn={key.Question.SN} attachment={key.Question.Attachment} category_name = {key.Question.QuestionCategoryName}/>
+               
                 <div className="options clear">
-                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList) : this.renderSubjectiveField(key)}
+                    {key.Question.QuestionTypeId === 2 ? key.Options.map(this.renderQuestionOptionsList.bind(this,key.Question)) : this.renderSubjectiveField(key)}
                 </div>
             </div>
         );

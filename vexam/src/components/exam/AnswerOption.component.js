@@ -50,9 +50,9 @@ class AnswerOption extends React.Component {
         </div>)
     }
 
-    render() {
+
+    renderCheckBoxAnswers = () => {
         return (
-            <li className="answerOption">
                 <input
                     type="checkbox"
                     className="quizcheckBox"
@@ -65,6 +65,33 @@ class AnswerOption extends React.Component {
                     onChange={this.props.saveObjectiveAnswer}
                     checked={this.props.isChecked}
                 />
+        )
+    }
+
+    renderRadioButtonAnswers = () => {
+        console.log('props in radio => ', this.props )
+        return (
+            <input
+                type="radio"
+                className="quizcheckBox"
+                name={"radio_"+this.props.questionId}
+                id={"radio_"+this.props.optionId}
+                data-optionId={this.props.optionId}
+                data-questionId={this.props.questionId}
+                value={this.props.optionId}
+                disabled={this.props.answer}
+                onChange={this.props.saveObjectiveAnswerSingle}
+                checked={this.props.isChecked }
+            />
+    )
+    }
+
+    render() {
+        console.log('props for radio', this.props.control)
+        return (
+            <li className="answerOption">
+                
+                { this.props.control == "checkbox" ? this.renderCheckBoxAnswers() : this.renderRadioButtonAnswers() }
 
                 {this.props.answerContent ? this.props.answerContent : ''}
                 {this.props.attachment ? this.renderAttachment() : ''}
