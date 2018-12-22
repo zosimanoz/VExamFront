@@ -69,7 +69,6 @@ class AnswerOption extends React.Component {
     }
 
     renderRadioButtonAnswers = () => {
-        console.log('props in radio => ', this.props )
         return (
             <input
                 type="radio"
@@ -87,7 +86,6 @@ class AnswerOption extends React.Component {
     }
 
     render() {
-        console.log('props for radio', this.props.control)
         return (
             <li className="answerOption">
                 

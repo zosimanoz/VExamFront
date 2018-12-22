@@ -69,11 +69,6 @@ class QuestionComponent extends React.Component {
             });
         }
 
-
-        console.log('test result', regTestResult);
-        console.log(e.target.value);
-        console.log(this.props.questionInfo.Question.Marks)
-
         // if (e.target.value > this.props.questionInfo.Question.Marks) {
         //     this.setState({
         //         error: "You can't give marks more than the full marks of the question."

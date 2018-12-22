@@ -215,7 +215,6 @@ class ExamMainPage extends React.Component {
 
 
     renderQuizset() {
-        console.log("this state pager",this.state)
         return (
             <div>
                 <div className="col-md-8">

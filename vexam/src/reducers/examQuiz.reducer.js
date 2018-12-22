@@ -19,13 +19,13 @@ export default function quizReducer(state = initialState, action = {}) {
             return { ...state, questions: action.payload.questions }; 
         case FETCH_EXAM_QUESTIONS_FAILURE:
             return { ...state, errors: action.payload.errors };
-        case SET_QUESTIONS_WITH_ANSWER:
+        case SET_QUESTIONS_WITH_ANSWER: 
             return { ...state, questions: action.payload.question_state.questionsList }; 
-        
         case SUBMIT_ASWERS_START:
             return state; 
-         case SUBMIT_ASWERS_START_SUCCESS:
+        case SUBMIT_ASWERS_START_SUCCESS: {
             return {...state,message: action.payload.data}; 
+        }
 
         default: return state;
     }

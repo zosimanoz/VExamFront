@@ -29,7 +29,6 @@ class ExamWrapper extends React.Component {
     
 
     componentWillReceiveProps = (new_props) => {
-        console.log('examwrapper prop revieved ->' ,new_props)
         this.setState({
             questions: new_props.quizQuestions,
             ExamDuration:new_props.quizQuestions.length >0 ? new_props.quizQuestions[0].ExamSet.ExamDuration : 90,

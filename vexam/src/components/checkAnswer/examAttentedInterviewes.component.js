@@ -12,10 +12,16 @@ import { fetchExamAttendedIntervieweesBySessionId } from '../../actions/intervie
 class ExamAttendedInterviewee extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            sessionid: ''
+        }
     }
 
     componentDidMount = (props) => {
         if (this.props.match.params.id) {
+            this.setState({
+                sessionid: this.props.match.params.id
+            })
             this.props.fetchExamAttendedIntervieweesBySessionId(this.props.match.params.id);
         }
     }
@@ -74,7 +80,7 @@ class ExamAttendedInterviewee extends React.Component {
                                     <td>{item.TotalMarksObtained}</td>
                                     
                                     <td>
-                                        <NavLink title="Answersheet" to={`/admin/interviewSessions/interviewees/${item.IntervieweeId}/answersheet`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list text-primary"></i></NavLink>
+                                        <NavLink title="Answersheet" to={`/admin/interviewSessions/interviewees/${this.state.sessionid}/${item.IntervieweeId}/answersheet`} className="btn btn-default btn-sm"><i className="glyphicon glyphicon-list text-primary"></i></NavLink>
                                     </td>
                                 </tr>
                             )

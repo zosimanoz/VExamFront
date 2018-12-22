@@ -46,24 +46,19 @@ class ExamQuestionList extends React.Component {
     }
 
     saveObjectiveAnswer = (e) => {
-        
-
+ 
         // get the current question from question id
         var questionId = e.target.getAttribute('data-questionId');
-
         // get the current option
         var optionId = e.target.value;
-
         var arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == questionId
         });
-
         arr[0].Options.map((key, value) => {
             if (key.ObjectiveQuestionOptionId == optionId) {
                 key.AnswerByInterviewees = key.AnswerByInterviewees ? false: true;
             }
         });
-
         let objectForAnswer = {
             IntervieweeId: this.props.user.IntervieweeId,
             SetQuestionId: arr[0].Question.SetQuestionId,
@@ -71,12 +66,7 @@ class ExamQuestionList extends React.Component {
             ObjectiveAnswer: '',
             AnsweredBy: this.props.user.IntervieweeId
         }
-
         arr[0].Answers = objectForAnswer;
-
-
-        console.log(arr)
-        
         this.setState({
             questionsList: this.props.questionsList
         }, () => {
@@ -86,27 +76,19 @@ class ExamQuestionList extends React.Component {
 
 
     saveObjectiveAnswerSingle = (e) => {
-        
-
         // get the current question from question id
         var questionId = e.target.getAttribute('data-questionId');
-
         // get the current option
         var optionId = e.target.value;
-
-        console.log('event on single ans', this.props.isChecked)
-
         var arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == questionId
         });
-
         arr[0].Options.map((key, value) => {
             key.AnswerByInterviewees = false;
             if (key.ObjectiveQuestionOptionId == optionId) {
                 key.AnswerByInterviewees = key.AnswerByInterviewees ? false: true;
             }
         });
-
         let objectForAnswer = {
             IntervieweeId: this.props.user.IntervieweeId,
             SetQuestionId: arr[0].Question.SetQuestionId,
@@ -114,12 +96,7 @@ class ExamQuestionList extends React.Component {
             ObjectiveAnswer: '',
             AnsweredBy: this.props.user.IntervieweeId
         }
-
         arr[0].Answers = objectForAnswer;
-
-
-        console.log(arr)
-        
         this.setState({
             questionsList: this.props.questionsList
         }, () => {
@@ -129,22 +106,18 @@ class ExamQuestionList extends React.Component {
 
 
 
-    onAddSubjectiveAnswer(question, answer) {
-
+    onAddSubjectiveAnswer = (question, answer) => {
         let arr = this.props.questionsList.filter((key) => {
             return key.Question.QuestionId == question.Question.QuestionId
         });
-
         let objectForAnswer = {
             IntervieweeId: this.props.user.IntervieweeId,
             SetQuestionId: question.Question.SetQuestionId,
-            subjectiveAnswer: answer,
+            subjectiveAnswer: answer.editor.getData(),
             ObjectiveAnswer: '',
             AnsweredBy: this.props.user.IntervieweeId
         }
-
         arr[0].Answers = objectForAnswer;
-        
         /* set the state to the new variable */
         this.setState({
             questionsList: this.props.questionsList
@@ -186,8 +159,14 @@ class ExamQuestionList extends React.Component {
     renderSubjectiveField = (question) => {
         return (
             <div className="subjectiveAnswer" id={question.QuestionId}>
-                 <ReactQuill value={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />
-                {/*<CKEditor activeClass={question.QuestionId} content={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} />*/}
+                 {/* <ReactQuill value={question.Answers == null ? '': question.Answers.subjectiveAnswer} onChange={this.onAddSubjectiveAnswer.bind(this, question)} /> */}
+                <CKEditor 
+                    activeClass={question.QuestionId} 
+                    content={question.Answers == null ? '': question.Answers.subjectiveAnswer} 
+                    events={{
+                        "change": this.onAddSubjectiveAnswer.bind(this, question)
+                    }} 
+                />
             </div>
         )
     }

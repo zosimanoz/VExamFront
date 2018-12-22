@@ -9,7 +9,12 @@ import theme from 'react-quill/dist/quill.snow.css';
 
 import Loader from '../loader/loader.component';
 
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+
 import { fetchSubjectiveAnswersheetByIntervieweeId } from '../../actions/checkAnswer.action';
+import { autoCheckObjectiveQuestions } from '../../actions/checkAnswer.action';
+
 
 
 class ObjectiveQuestions extends React.Component {
@@ -60,8 +65,17 @@ class ObjectiveQuestions extends React.Component {
     RenderAnswersheetTable() {
         return (
             <div className="clearfix ScrollStyle">
-                <div className="alert alert-info fade in">
-                    <strong>Note!</strong> Objective Questions are automatically checked and marked by the system.
+                <div>
+                    {/* <strong>Note!</strong> Objective Questions are automatically checked and marked by the system. */}
+                    <div style={{margin:'10px 0'}}><a title="Auto calcuate objective answers" className="btn btn-success btnSubmitScore" onClick={() => confirmAlert({
+                    message: 'Are you sure to auto calculate objective marks?',
+                    confirmLabel: 'Yes',
+                    cancelLabel: 'No',
+                    title: 'Auto calculate objective marks',
+                    onConfirm: () => this.submitObjectiveMarks()
+                })}> Auto calcuate objective answers</a>
+                </div>
+
                 </div>
                 {
                     this.props.listObjectiveQuestions.map((item, i) =>
@@ -80,6 +94,23 @@ class ObjectiveQuestions extends React.Component {
 
             </div>
         )
+    }
+
+
+    
+    submitObjectiveMarks() {
+
+        var result = [];
+        this.props.listObjectiveQuestions.map((item, i) => {
+            item.Question.ExaminerId = this.props.user.UserId;
+            result.push(item.Question)
+        });
+        this.props.autoCheckObjectiveQuestions(result[0].IntervieweeId)
+            .then((res) => {
+                this.props.fetchAllAnswersheetByIntervieweeId(result[0].IntervieweeId);
+            }).catch((err) => {
+                alert('error');
+            });
     }
 
 
@@ -108,7 +139,8 @@ class ObjectiveQuestions extends React.Component {
 const mapStateToProps = (state, props) => {
     if (props.match.params.id) {
         return {
-            loader: state.loaderReducer
+            loader: state.loaderReducer,
+            user: state.authReducer.user
         }
     }
     return {
@@ -117,5 +149,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, {})(ObjectiveQuestions
+export default connect(mapStateToProps, {autoCheckObjectiveQuestions})(ObjectiveQuestions
 );

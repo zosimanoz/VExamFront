@@ -157,7 +157,7 @@ const VexamRoutes = (props) => (
             <AdminLayout exact path="/admin/interviewSessionHistory/:id/interviewees" component={Interviewees} {...props} authed={props.authed} heading="Interviewees" />
             <AdminLayout exact path="/admin/checkanswers" component={AllInterviewSessions} authed={props.authed} heading="Interview Sessions" />
             <AdminLayout exact path="/admin/interviewSessions/:id/attended/interviewees" component={ExamAttendedInterviewee} {...props} authed={props.authed} heading="Interviewees" />
-            <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/answersheet" component={AnswerSheetContainer} {...props} authed={props.authed} heading="Answersheet" />
+            <AdminLayout exact path="/admin/interviewSessions/interviewees/:sessionid/:id/answersheet" component={AnswerSheetContainer} {...props} authed={props.authed} heading="Answersheet" />
             <AdminLayout exact path="/admin/interviewSessions/interviewees/:id/all/answersheet" component={AllQuestions} {...props} authed={props.authed} heading="All Answers" />
             
             <AdminLayout exact path="/admin/users" component={UsersIndex} {...props} heading="User Management" authed={props.authed} />

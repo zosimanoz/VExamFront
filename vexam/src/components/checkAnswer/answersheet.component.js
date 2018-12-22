@@ -21,7 +21,8 @@ class AnswerSheetContainer extends React.Component {
             answerType: null,
             allQuestions: null,
             lightboxIsOpen: false,
-            currentImage: 0
+            currentImage: 0,
+            sessionId : ''
         }
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -56,6 +57,11 @@ class AnswerSheetContainer extends React.Component {
         if (this.props.match.params.id) {
             this.props.fetchAllAnswersheetByIntervieweeId(this.props.match.params.id);
         }
+        if(this.props.match.params.sessionid){
+            this.setState({
+                sessionId: this.props.match.params.sessionid
+            })
+        }
     }
 
 
@@ -88,7 +94,6 @@ class AnswerSheetContainer extends React.Component {
     }
 
     TabSubjectiveQuestions() {
-        { console.log('subjective active tab state', this.state) }
         return (
             <div>
                 <SubjectiveQuestions {...this.props} {...this.state}  />
@@ -108,19 +113,19 @@ class AnswerSheetContainer extends React.Component {
     QuestionTabs() {
         return (
             <Tabs activeKey={this.state.key} onSelect={this.handleSelect} defaultActiveKey="1" id="uncontrolled-tab-example">
-                <Tab eventKey={1} title="All Questions">{this.TabAllQuestions()}</Tab>
-                <Tab eventKey={2} title="Subjective Questions">{this.TabSubjectiveQuestions()}</Tab>
-                <Tab eventKey={3} title="Objective Questions">{this.TabObjectiveQuestions()}</Tab>
+                <Tab eventKey={1} title="Subjective Questions">{this.TabSubjectiveQuestions()}</Tab>
+                <Tab eventKey={2} title="Objective Questions">{this.TabObjectiveQuestions()}</Tab>
+                <Tab eventKey={3} title="All Questions">{this.TabAllQuestions()}</Tab>
             </Tabs>
         )
     }
 
     render() {
-        console.log('answersheet to view all props', this.props)
+        console.log(this.props.questionList)
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
-                    <NavLink to={`/admin/checkanswers`} ><span>&larr; Back &nbsp;</span></NavLink>
+                    <NavLink to={`/admin/interviewSessions/${this.state.sessionId}/attended/interviewees`} ><span>&larr; Back &nbsp;</span></NavLink>
                     <span> {this.props.heading}</span>
                 </div>
                 <div className="panel-body">

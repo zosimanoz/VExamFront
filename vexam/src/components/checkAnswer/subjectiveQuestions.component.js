@@ -36,12 +36,12 @@ class SubjectiveQuestions extends React.Component {
             result.push(item.Question)
         });
         this.props.saveMarks(result);
-        this.props.autoCheckObjectiveQuestions(result[0].IntervieweeId)
-            .then((res) => {
-                this.props.fetchAllAnswersheetByIntervieweeId(result[0].IntervieweeId);
-            }).catch((err) => {
-                alert('error');
-            });
+        // this.props.autoCheckObjectiveQuestions(result[0].IntervieweeId)
+        //     .then((res) => {
+        //         this.props.fetchAllAnswersheetByIntervieweeId(result[0].IntervieweeId);
+        //     }).catch((err) => {
+        //         alert('error');
+        //     });
     }
 
     RenderAnswersheetTable() {
@@ -61,7 +61,6 @@ class SubjectiveQuestions extends React.Component {
     }
 
     render() {
-        console.log('props in subjective questions', this.props)
         if (this.props.loader.loading) {
             return (
                 <Loader loading={this.props.loader.loading} />
@@ -81,6 +80,7 @@ class SubjectiveQuestions extends React.Component {
                     message: 'Are you sure to submit answersheet?',
                     confirmLabel: 'Yes',
                     cancelLabel: 'No',
+                    title: 'Submit Subjective Marks',
                     onConfirm: () => this.submitMarks()
                 })}> Submit</a>
             </div>

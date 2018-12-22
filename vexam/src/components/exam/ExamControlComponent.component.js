@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import decode from 'jwt-decode';
 
 import { Redirect } from 'react-router';
 
@@ -87,11 +87,21 @@ class ExamControlComponent extends Component {
         }
     }
 
+    checkJWTTokenExpiration() {
+        var isExpired = false;
+        
+        const token = localStorage.getItem('access_token');
+        var decodedToken=decode(token, {complete: true});
+        var dateNow = new Date();
 
+        if(decodedToken.exp < dateNow.getTime())
+            isExpired = true;
+
+        return isExpired;
+    }
 
     submitAnswers() {
         // get the question list and pass it to the api
-
         this.props.questionsList.map((item,val) => {
             if(item.Answers == null) {
                   let objectForAnswer = {
@@ -103,15 +113,27 @@ class ExamControlComponent extends Component {
                 }
                 item.Answers = objectForAnswer;
             }
-        })
-
-
+        });
         this.props.submitFinalAnswers(this.props.questionsList,this.props.user.IntervieweeId);
-        this.props.logout();
 
-       return (
-           <Redirect to="/" />
-       )
+        var isExpired = false;
+        
+        const token = localStorage.getItem('access_token');
+        var decodedToken=decode(token, {complete: true});
+        var dateNow = new Date();
+
+        if(decodedToken.exp < dateNow.getTime())
+            isExpired = true;
+
+
+        if(!isExpired){
+            this.props.logout();
+        }
+
+        localStorage.clear();
+        
+        window.onbeforeunload = null;
+        window.location.href = '/';
     }
 
 
@@ -120,6 +142,7 @@ class ExamControlComponent extends Component {
             message: 'Are you sure logout?',
             confirmLabel: 'Yes',
             cancelLabel: 'No',
+            title: '',
             onConfirm: () => this.props.logout()
         })
     }
@@ -129,14 +152,15 @@ class ExamControlComponent extends Component {
             return (
                 <div className="pull-right">
                     <a title="Submit" className="btn btn-success btnSubmitScore" onClick={() => confirmAlert({
-                        message: 'Are you sure to submit answersheet?',              
+                        message: 'Are you done with all questions? If yes, you are good to submit your answersheet otherwise hit NEXT or right navigation pager to proceed to other questions and try to solve all questions. NOTE: Please remember you will be locked once submitted.',              
                         confirmLabel: 'Yes',                           
-                        cancelLabel: 'No',                             
+                        cancelLabel: 'No',  
+                        title: "Submit Answers",                           
                         onConfirm: () => this.submitAnswers()  
                     })}> Submit</a>
 
 
-                    <button type="submit" className="btn btn-danger btnLogout" onClick={this.logout.bind(this)}>Logout</button>
+                    <button type="submit" className="btn btn-danger btnLogout" onClick={this.logout.bind(this)}>Drop Exam</button>
                 </div>
             );
         } else {
@@ -156,7 +180,8 @@ const mapStateToProps = (state, props) => {
         questionsList: state.quizReducer.questions,
         user: state.authReducer.user,
         auth: state.authReducer,
-        examset: state.quizReducer.questions
+        examset: state.quizReducer.questions,
+        currentState: state.quizReducer
     }
 }
 
