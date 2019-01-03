@@ -20,7 +20,7 @@ class HeaderNavBar extends Component {
             <Navbar fluid>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#">Verscend Exams</a>
+                        <a href="#">Cotiviti Exams</a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav className="navbar-right">
